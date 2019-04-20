@@ -1,0 +1,916 @@
+:root{
+  --red: #F56462;
+  --dark_red: rgb(219, 64, 62);
+  --green: #2FE29B;
+  --blue: #00C3E5;
+  --yellow: #FDD835;
+  --dark_yellow: #da881e;
+  --black: #4D4D4D;
+  --grey: #616161;
+  --white: #F2F2F2;
+
+  --background_game: #4db6ac;
+
+  --card_width: 140px;
+  --card_height: 200px;
+
+  --back_circle: calc(var(--card_width) * 0.7);
+
+  --bench_height: 100px;
+  --bench_width: 450px;
+
+  --bench_color: #616161;
+  --bench_color_active: #03a9f4;
+}
+
+body{margin: 0px; padding: 0px; user-select: none;}
+
+#game{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow: hidden;
+  background-color: var(--background_game);
+}
+
+#game::before{
+  content: "";
+  position: absolute;
+  height: 100vmin;
+  width: 100vmin;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--black);
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+  }
+}
+
+.card{
+  position: absolute;
+  width: var(--card_width);
+  height: var(--card_height);
+  background: var(--black);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 1s cubic-bezier(.25,.8,.25,1);
+  overflow: hidden;
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  margin-right: 30px;
+  z-index: 1;
+  scale: 0.65;
+  opacity: 1;
+}
+
+.card.desactivePlay{
+  filter: brightness(60%);
+}
+
+.card.activePlay{
+  opacity: 1;
+}
+
+.card.desactiveCart{
+  scale: 0.62;
+  filter: brightness(70%);
+}
+
+.card.main.activeCart:hover {
+  scale: 0.7 !important;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.card:not(.back)[color="red"] {
+  background: var(--red);
+  color: var(--red);
+}
+
+.card:not(.back)[color="green"] {
+  background: var(--green);
+  color: var(--green);
+}
+
+.card:not(.back)[color="blue"] {
+  background: var(--blue);
+  color: var(--blue);
+}
+
+.card:not(.back)[color="yellow"] {
+  background: var(--yellow);
+  color: var(--yellow);
+}
+
+.card:not(.back)[color="black"] {
+  background: var(--black);
+  color: var(--black);
+}
+
+.card:not(.back)::before, .card:not(.back)::after{
+  content: attr(value);
+  position: absolute;
+  font-size: 20px;
+  color: var(--white);
+}
+
+.card:not(.back)::before{
+  top: 8px;
+  left: 13px;
+}
+
+.card:not(.back)::after{
+  bottom: 8px;
+  right: 13px;
+  transform: rotate(180deg);
+}
+
+.card:not(.back)[value="B"]::before, .card:not(.back)[value="B"]::after{
+  content: "🛇";
+}
+.card:not(.back)[value="R"]::before, .card:not(.back)[value="R"]::after{
+  content: "⇋";
+  transform: rotate(-45deg);
+}
+
+.card:not(.back)[value="C"]::before, .card:not(.back)[value="C"]::after{
+  content: "";
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: solid 4px;
+  border-top-color: var(--red);
+  border-left-color: var(--yellow);
+  border-right-color: var(--green);
+  border-bottom-color: var(--blue);
+  box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.3), inset 0px 0px 6px 0px rgba(0,0,0,0.3);
+}
+
+.card:not(.back) > div{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.card:not(.back) > div:after{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  content: attr(value);
+  font-size: calc(var(--card_width) * 0.8);
+}
+
+.card:not(.back) > div::before{
+  content: '';
+  position: absolute;
+  transform: rotate(45deg);
+  transform-origin: center center;
+  background: var(--white);
+  top: -50%;
+  bottom: -50%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  box-sizing: inherit;
+}
+
+.card:not(.back) > div[value="+4"]::after, .card:not(.back) > div[value="C"]::after{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: var(--back_circle);
+  width: var(--back_circle);
+  height: var(--back_circle);
+  border-radius: 50%;
+  border: solid 7px;
+  border-top-color: var(--red);
+  border-left-color: var(--yellow);
+  border-right-color: var(--green);
+  border-bottom-color: var(--blue);
+  z-index: 2;
+}
+
+.card:not(.back) > div[value^="+"]::after {
+  font-size: calc(var(--card_width) * 0.4);
+}
+
+.card:not(.back) > div[value="B"]::after {
+  content: "🛇";
+}
+.card:not(.back) > div[value="R"]::after {
+  content: "⇋";
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.card:not(.back) > div[value="+4"]::after {
+  content: attr(value);
+}
+
+.card:not(.back) > div[value="C"]::after {
+  content: "";
+}
+
+.card.back{
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.card.back::before{
+  content: 'UNO';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--white);
+  font-size: calc(var(--card_width) * 0.20);
+}
+.card.back::after{
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--back_circle);
+  height: var(--back_circle);
+  border-radius: 50%;
+  border: solid 7px;
+  border-top-color: var(--red);
+  border-left-color: var(--yellow);
+  border-right-color: var(--green);
+  border-bottom-color: var(--blue);
+}
+
+.bench{
+  position: absolute;
+  background-color: var(--bench_color);
+  opacity: 0;
+}
+
+.bench.active{
+  background-color: var(--bench_color_active);
+}
+
+.bench[player="1"], .bench[player="3"]{
+  left: 50%;
+  transform: translateX(-50%);
+  height: var(--bench_height);
+  width: 90%;
+  max-width: var(--bench_width);
+}
+
+.bench[player="2"], .bench[player="4"]{
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--bench_height);
+  height: 90%;
+  max-height: var(--bench_width);
+}
+
+.bench[player="1"]{
+  bottom: 0px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.bench[player="2"]{
+  left: 0px;
+  border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+}
+
+.bench[player="3"]{
+  top: 0px;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+}
+
+.bench[player="4"]{
+  right: 0px;
+  border-radius: 100% 0 0 100% / 50% 0 0 50%;
+}
+
+.direction{
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  height: calc(var(--card_height) * 1.2);
+  width: calc(var(--card_height) * 1.2);
+  background: transparent;
+  border: solid 5px var(--black);
+  border-radius: 50%;
+  opacity: 0.2;
+}
+
+.direction[direction="l"]{
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: directionLInit 1.5s ease-in-out, directionL 60s linear 1.5s infinite;
+}
+
+.direction[direction="r"]{
+  transform: translate(-50%, -50%) rotate(225deg);
+  animation: directionRInit 1.5s ease-in-out, directionR 60s linear 1.5s infinite;
+}
+
+@keyframes directionLInit{
+  0% {transform: translate(-50%, -50%) rotate(45deg) scale(1);}
+  50% {transform: translate(-50%, -50%) rotate(165deg) scale(1.3);}
+  100% {transform: translate(-50%, -50%) rotate(405deg) scale(1);}
+}
+
+@keyframes directionL{
+  from {transform: translate(-50%, -50%) rotate(45deg);}
+  to {transform: translate(-50%, -50%) rotate(405deg);}
+}
+
+@keyframes directionRInit{
+  0% {transform: translate(-50%, -50%) rotate(405deg) scale(1);}
+  50% {transform: translate(-50%, -50%) rotate(165deg) scale(1.3);}
+  100% {transform: translate(-50%, -50%) rotate(45deg) scale(1);}
+}
+
+@keyframes directionR{
+  from {transform: translate(-50%, -50%) rotate(405deg);}
+  to {transform: translate(-50%, -50%) rotate(45deg);}
+}
+
+.direction::before, .direction::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 0; 
+  height: 0; 
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+}
+
+.direction[direction="l"]::before{
+  transform: translate(-50%, -50%);
+  left: -2px;
+  border-bottom: 20px solid var(--black);
+}
+
+.direction[direction="l"]::after{
+  transform: translate(50%, -50%);
+  right: -2px;
+  border-top: 20px solid var(--black);
+}
+
+.direction[direction="r"]::before{
+  transform: translate(-50%, -50%);
+  left: -2px;
+  border-top: 20px solid var(--black);
+}
+
+.direction[direction="r"]::after{
+  transform: translate(50%, -50%);
+  right: -2px;
+  border-bottom: 20px solid var(--black);
+}
+
+.bttUno{
+  position: absolute;
+  bottom: 50px;
+  right: 10%;
+  height: 70px;
+  width: 70px;
+  background-color: var(--red);
+  background-image: linear-gradient(hsla(0,0%,100%,.05), hsla(0,0%,0%,.05));
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.1), inset 0 2px 0 hsla(0,0%,100%,.05), inset 0 1.2em 0 hsla(0,0%,100%,0.05), inset 0 -.2em 0 hsla(0,0%,100%,.05), inset 0 -.25em 0 hsla(0,0%,0%,.25), 0 .25em .25em hsla(0,0%,0%,.05);
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.bttUno.active{
+  opacity: 1;
+  cursor: pointer;
+  z-index: 999999999;
+}
+
+.bttUno.active > .selecting{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 70px;
+  width: 70px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(transparent, var(--red) 95%);
+  z-index: 0;
+  animation: UnoBttActive 1s ease-in-out infinite;
+}
+
+@keyframes UnoBttActive{
+  0% {height: 0%; width: 0%; opacity: 1;}
+  50% {opacity: 1;}
+  100% {height: 170%; width: 170%; opacity: 0;}
+}
+
+.bttUno::after{
+  content: attr(value);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.bttUno.active:hover, .bttUno.active:focus {
+    box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.1), inset 0 2px 0 hsla(0,0%,100%,.05), inset 0 1.2em 0 hsla(0,0%,100%,.05), inset 0 -.2em 0 hsla(0,0%,100%,.05), inset 0 -.25em 0 hsla(0,0%,0%,.25), inset 0 0 0 3em hsla(0,0%,100%,.1), 0 .25em .25em hsla(0,0%,0%,.05);
+}
+
+.bttUno.active:active {
+  box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.2), inset 0 2px 0 hsla(0,0%,100%,.1), inset 0 1.2em 0 hsla(0,0%,100%,.1), inset 0 0 0 3em hsla(0,0%,100%,.2), inset 0 .25em .5em hsla(0,0%,0%,.05), 0 -1px 1px hsla(0,0%,0%,.1), 0 1px 1px hsla(0,0%,100%,.25);
+  transform: translateY(5px);
+}
+
+.colorChange{
+  position: absolute;
+  bottom: -200px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  text-align: center;
+  padding: 5px 15px;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  border-radius: 10px;
+  z-index: 9999999;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  transition: all 0.3s ease-in;
+  opacity: 0;
+}
+
+.colorChange.block{
+  opacity: 1;
+  bottom: 50px;
+}
+
+.colorChange > div > div{
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: var(--black);
+  display: inline-block;
+  margin: 0px 3px;
+  border-radius: 50%;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  cursor: pointer;
+  transition: all 1s cubic-bezier(.25,.8,.25,1);
+}
+
+.colorChange > div > div:hover{
+  transform: scale(0.8);
+}
+
+.colorChange > div > div[color="red"]{
+  background: var(--red);
+}
+
+.colorChange > div > div[color="blue"]{
+  background: var(--blue);
+}
+
+.colorChange > div > div[color="green"]{
+  background: var(--green);
+}
+
+.colorChange > div > div[color="yellow"]{
+  background: var(--yellow);
+}
+
+.bloquedPlayer{
+  position: absolute;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 70px;
+  z-index: 9999999;
+  font-weight: bold;
+  color: var(--white);
+  text-shadow: 3px 3px 0px var(--black);
+  transition: all 0.2s ease-in;
+  opacity: 0;
+}
+
+.bloquedPlayer[player="1"]{
+  left: 50%;
+  bottom: -70px;
+  transform: translate(-50%, 0px);
+  opacity: 0;
+}
+
+.bloquedPlayer[player="1"].active{
+  bottom: 130px;
+  opacity: 1;
+}
+
+.bloquedPlayer[player="2"]{
+  left: -70px;
+  bottom: 50%;
+  transform: translate(0px, 50%) rotate(90deg);
+  opacity: 0;
+}
+
+.bloquedPlayer[player="2"].active{
+  left: 100px;
+  opacity: 1;
+}
+
+.bloquedPlayer[player="3"]{
+  left: 50%;
+  top: -70px;
+  transform: translate(-50%, 0px) rotate(180deg);
+  opacity: 0;
+}
+
+.bloquedPlayer[player="3"].active{
+  top: 90px;
+  opacity: 1;
+}
+
+.bloquedPlayer[player="4"]{
+  right: -70px;
+  bottom: 50%;
+  transform: translate(0px, 50%) rotate(270deg);
+  opacity: 0;
+}
+
+.bloquedPlayer[player="4"].active{
+  right: 100px;
+  opacity: 1;
+}
+
+.unoShout{
+  position: absolute;
+  z-index: 1;
+  background: radial-gradient(transparent, var(--yellow) 95%);
+  opacity: 0.6;
+  border-radius: 50%;
+  display: none;
+}
+
+.unoShout.active{
+  animation: unoShout 1s ease-in-out infinite;
+  display: block;
+}
+
+@keyframes unoShout{
+  0% {height: 0%; width: 0%; opacity: 1;}
+  50% {opacity: 1;}
+  100% {height: 400px; width: 400px; opacity: 0;}
+}
+
+.unoShout[player="1"].active{
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+.unoShout[player="2"].active{
+  bottom: 50%;
+  left: 0px;
+  transform: translate(-50%, 50%);
+}
+
+.unoShout[player="3"].active{
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.unoShout[player="4"].active{
+  bottom: 50%;
+  right: 0px;
+  transform: translate(50%, 50%);
+}
+
+.mainUnoShout{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-360deg) scale(0.3);
+  transition: all 0.2s ease-in;
+  z-index: 0;
+  opacity: 0;
+}
+
+.mainUnoShout.active{
+  transform: translate(-50%, -50%) rotate(-20deg) scale(1);
+  opacity: 1;
+  z-index: 9999999;
+}
+
+.mainUnoShout::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 150px;
+  width: 200px;
+  background: var(--red);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) skewX(-20deg);
+  box-shadow: -3px 3px 0px var(--black);
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.mainUnoShout::after{
+  content: attr(value);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 80px;
+  font-weight: bold;
+  color: var(--yellow);
+  text-shadow: -3px 3px 0px var(--black);
+  text-shadow: 0px 0px 0 var(--black),-1px 1px 0 var(--black),-2px 2px 0 var(--black),-3px 3px 0 var(--black), -4px 4px 0 var(--black),-5px 5px 4px var(--black),-5px 5px 1px var(--black),0px 0px 4px var(--black);
+}
+
+.playerIndicator{
+  position: absolute;
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 22px solid var(--white);
+  animation: playerIndicator 1s ease-in-out infinite;
+}
+
+@keyframes playerIndicator{
+  0% {opacity: 0.3;}
+  50% {opacity: 0;}
+  100% {opacity: 0.3;}
+}
+
+.playerIndicator[player="1"]{
+  left: 50%;
+  bottom: 150px;
+  transform: translate(-50%, 0px) rotate(0deg);
+}
+
+.playerIndicator[player="2"]{
+  top: 50%;
+  left: 120px;
+  transform: translate(0px, -50%) rotate(90deg);
+}
+
+.playerIndicator[player="3"]{
+  top: 120px;
+  left: 50%;
+  transform: translate(-50%, 0px) rotate(180deg);
+}
+
+.playerIndicator[player="4"]{
+  top: 50%;
+  right: 120px;
+  transform: translate(0px, -50%) rotate(270deg);
+}
+
+.GameOver, .HomeGame{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: auto;
+  height: auto;
+  z-index: 999999999999;
+  opacity: 0;
+  perspective: 500px;
+  transition: all 0.3s ease-in;
+}
+
+.HomeGame{
+  background: var(--black);
+}
+
+.GameOver.active, .HomeGame.active{
+  opacity: 1;
+}
+
+.GameOver::before, .HomeGame::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  background-image: url(../img/background_01.jpg);
+  z-index: 0;
+}
+
+.GameOver::after, .HomeGame::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8), transparent);
+  z-index: 1;
+}
+
+.GameOver > div:not(.card), .HomeGame > div:not(.card){
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  perspective: 100px;
+  z-index: 2;
+}
+
+.HomeGame > div > .title{
+  position: relative;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  /*border: solid 10px;
+  border-top-color: var(--red);
+  border-left-color: var(--yellow);
+  border-right-color: var(--green);
+  border-bottom-color: var(--blue);
+  background: rgba(255, 255, 255, 0.1);*/
+  text-align: center;
+  margin: 0px auto;
+  transform: rotate(-10deg);
+  margin-bottom: 3%;
+}
+
+.HomeGame > div > .title::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 170px;
+  width: 220px;
+  background: var(--red);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) skewX(-20deg);
+  box-shadow: -3px 3px 0px var(--dark_red);
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.HomeGame > div > .title::after{
+  content: attr(value);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  text-align: center;
+  color: var(--yellow);
+  font-size: calc(150px * 0.7);
+  text-shadow: -1px 1px 0px var(--black), -2px 2px 0px var(--black), -3px 3px 0px var(--black), -4px 4px 0px var(--black), -5px 5px 0px var(--black);
+}
+
+.GameOver > div > h1{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 60px;
+  font-weight: bold;
+  color: var(--yellow);
+  text-shadow: -3px 3px 0px var(--black);
+  text-shadow:0px 0px 0 var(--dark_yellow), 0px 1px 0 var(--dark_yellow),0px 2px 0 var(--dark_yellow),0px 3px 0 var(--dark_yellow), 0px 4px 0 var(--dark_yellow),0px 5px 0px var(--dark_yellow);
+  transform-style: preserve-3d;
+  transform: rotateX(10deg);
+  margin: 0px 0px 4%;
+}
+
+.GameOver > div > h2{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 25px;
+  color: var(--white);
+  margin: 3% 0px 0px;
+}
+
+.GameOver > div > .bttNewGame, .HomeGame > div > .bttNewGame{
+  position: relative;
+  margin: 4% auto 0;
+  width: auto;
+  display: inline-block;
+  padding: 15px 25px;
+  background-color: #00c853;
+  background-image: linear-gradient(hsla(0,0%,100%,.05), hsla(0,0%,0%,.05));
+  border-radius: 15px;
+  box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.1), inset 0 2px 0 hsla(0,0%,100%,.05), inset 0 1.2em 0 hsla(0,0%,100%,0.05), inset 0 -.2em 0 hsla(0,0%,100%,.05), inset 0 -.25em 0 hsla(0,0%,0%,.25), 0 .25em .25em hsla(0,0%,0%,.05);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.GameOver > div > .bttNewGame:hover, .GameOver > div > .bttNewGame:focus, .HomeGame > div > .bttNewGame:hover, .HomeGame > div > .bttNewGame:focus{
+  box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.1), inset 0 2px 0 hsla(0,0%,100%,.05), inset 0 1.2em 0 hsla(0,0%,100%,.05), inset 0 -.2em 0 hsla(0,0%,100%,.05), inset 0 -.25em 0 hsla(0,0%,0%,.25), inset 0 0 0 3em hsla(0,0%,100%,.1), 0 .25em .25em hsla(0,0%,0%,.05);
+}
+
+.GameOver > div > .bttNewGame:active, .HomeGame > div > .bttNewGame:active{
+box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.2), inset 0 2px 0 hsla(0,0%,100%,.1), inset 0 1.2em 0 hsla(0,0%,100%,.1), inset 0 0 0 3em hsla(0,0%,100%,.2), inset 0 .25em .5em hsla(0,0%,0%,.05), 0 -1px 1px hsla(0,0%,0%,.1), 0 1px 1px hsla(0,0%,100%,.25);
+transform: translateY(5px);
+}
+
+.GameOver > .card, .HomeGame > .card{
+  bottom: -170px;
+  z-index: 0;
+  position: absolute;
+}
+
+.GameOver > .card:nth-child(1), .HomeGame > .card:nth-child(1){
+  left: 5%;
+  animation: AnimateCardsA 45s linear infinite -30s;
+}
+
+.GameOver > .card:nth-child(2), .HomeGame > .card:nth-child(2){
+  left: 8%;
+  animation: AnimateCardsC 50s linear infinite -10s;
+}
+
+.GameOver > .card:nth-child(3), .HomeGame > .card:nth-child(3){
+  left: 10%;
+  animation: AnimateCardsB 50s linear infinite -20s;
+}
+
+.GameOver > .card:nth-child(4), .HomeGame > .card:nth-child(4){
+  left: 15%;
+  animation: AnimateCardsA 40s linear infinite -5s;
+}
+
+.GameOver > .card:nth-child(5), .HomeGame > .card:nth-child(5){
+  right: 5%;
+  animation: AnimateCardsC 30s linear infinite -15s;
+}
+
+.GameOver > .card:nth-child(6), .HomeGame > .card:nth-child(6){
+  right: 8%;
+  animation: AnimateCardsA 50s linear infinite -15s;
+}
+
+.GameOver > .card:nth-child(7), .HomeGame > .card:nth-child(7){
+  right: 10%;
+  animation: AnimateCardsC 45s linear infinite 5s;
+}
+
+.GameOver > .card:nth-child(8), .HomeGame > .card:nth-child(8){
+  right: 15%;
+  animation: AnimateCardsB 35s linear infinite -5s;
+}
+
+@keyframes AnimateCardsA{
+  0% {
+    bottom: -50%;
+    transform: rotateZ(-10deg);
+  }
+  100% {
+    bottom: 150%;
+    transform: rotateZ(20deg);
+  }
+}
+
+@keyframes AnimateCardsB{
+  0% {
+    bottom: -50%;
+    transform: rotateZ(30deg);
+  }
+  100% {
+    bottom: 150%;
+    transform: rotateZ(-20deg);
+  }
+}
+
+@keyframes AnimateCardsC{
+  0% {
+    bottom: -50%;
+    transform: rotateZ(60deg);
+  }
+  100% {
+    bottom: 150%;
+    transform: rotateZ(-10deg);
+  }
+}
