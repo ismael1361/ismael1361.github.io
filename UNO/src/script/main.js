@@ -165,7 +165,7 @@ var UNO = (function(main){
       "box-shadow": "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
       "cursor": "pointer",
       "z-index": "9000",
-      "scale": "0.5"
+      "scale": "0.8"
     });
 
     var r = this;
@@ -286,7 +286,7 @@ var UNO = (function(main){
           }
         }
         
-        var l = cards.length, d = j-(l/2), deg = 30;
+        var l = cards.length, d = j-(l/2), deg = 25;
 
         var f = function(x){
           x = x*5;
@@ -300,14 +300,14 @@ var UNO = (function(main){
         var s = self.element.width()*0.5;
         s = s > 300 ? 300 : s;
         s = s/l;
-        s = s < 20 ? s : 20;
-        var left = (d*s)+(-60);
+        s = s < 30 ? s : 30;
+        var left = (d*s)+(-50);
 
         s = self.element.height()*0.5;
         s = s > 200 ? 200 : s;
         s = s/l;
-        s = s < 20 ? s : 20;
-        var top = (d*s)+(-70);
+        s = s < 30 ? s : 30;
+        var top = (d*s)+(-50);
 
         var r = (j*((deg*2)/l))-deg*0.8;
 
@@ -329,30 +329,30 @@ var UNO = (function(main){
 
           card.css({
             "left": "50%",
-            "bottom": activePlay ? isActive ? "-30px" : "-40px" : "-80px",
-            "transform": "translate("+(left)+"%, "+(f(d/(l/2)))+"%) rotate("+(r)+"deg)",
+            "bottom": activePlay ? isActive ? "0px" : "-10px" : "-50px",
+            "transform": "translate("+(left)+"%, "+(f(d/(l/2)))+"%) rotate("+(activePlay ? r*0.3 : r)+"deg)",
             "z-index": (j*(i+2)+100),
             "cursor": activePlay && isActive ? "pointer" : "auto"
           });
         }else if(i == 1){
           card.css({
             "top": "50%",
-            "left": activePlay ? "-40px" : "-90px",
-            "bottom": "0%",
+            "left": activePlay ? "-20px" : "-50px",
+            "bottom": "0px",
             "transform": "translate(-"+(f(d/(l/2)))+"%, "+(top)+"%) rotate("+(r+90)+"deg)",
             "z-index": (j*(i+2)+100)
           });
         }else if(i == 2){
           card.css({
             "left": "50%",
-            "bottom": activePlay ? "calc(100% - 130px)" : "calc(100% - 80px)",
+            "bottom": activePlay ? "calc(100% - 90px)" : "calc(100% - 60px)",
             "transform": "translate("+(left)+"%, -"+(f(d/(l/2)))+"%) rotate("+(r*(-1)+(-180))+"deg)",
             "z-index": (j*(i+2)+100)
           });
         }else if(i == 3){
           card.css({
             "top": "50%",
-            "left": activePlay ? "calc(100% - 100px)" : "calc(100% - 50px)",
+            "left": activePlay ? "calc(100% - 70px)" : "calc(100% - 40px)",
             "bottom": "0px",
             "transform": "translate("+(f(d/(l/2)))+"%, "+(top)+"%) rotate("+(r*(-1)+270)+"deg)",
             "z-index": (j*(i+2)+100)
@@ -360,10 +360,10 @@ var UNO = (function(main){
         }else if(i == 4){
           card.__memoryRandom = !card.__memoryRandom ? Math.random() : card.__memoryRandom;
           var r = Math.round(card.__memoryRandom*180)-90, 
-              l = -70-(Math.round(card.__memoryRandom*20)-10), 
+              l = -50-(Math.round(card.__memoryRandom*20)-10), 
               t = -50-(Math.round(card.__memoryRandom*20)-10);
           card.css({
-            "top": "45%",
+            "top": "50%",
             "left": "50%",
             "transform": "translate("+l+"%, "+t+"%) rotate("+(r)+"deg) scale(0.9)",
             "z-index": j

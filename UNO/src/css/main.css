@@ -11,8 +11,8 @@
 
   --background_game: #4db6ac;
 
-  --card_width: 140px;
-  --card_height: 200px;
+  --card_width: 90px;
+  --card_height: 128px;
 
   --back_circle: calc(var(--card_width) * 0.7);
 
@@ -26,10 +26,13 @@
 @font-face {
   font-family: "Icons";
   font-style: normal;
-  font-weight: 200;
-  font-display: auto;
-  src: url(../fonts/fontawesome/fa-solid-900.eot);
-  src: url(../fonts/fontawesome/fa-solid-900.eot?#iefix) format("embedded-opentype"), url(../fonts/fontawesome/fa-solid-900.woff2) format("woff2"), url(../fonts/fontawesome/fa-solid-900.woff) format("woff"), url(../fonts/fontawesome/fa-solid-900.ttf) format("truetype"), url(../fonts/fontawesome/fa-solid-900.svg#fontawesome) format("svg")
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+       url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+       url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 
 body{margin: 0px; padding: 0px; user-select: none;}
@@ -66,14 +69,13 @@ body{margin: 0px; padding: 0px; user-select: none;}
   background: var(--black);
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 1s cubic-bezier(.25,.8,.25,1);
+  transition: all 0.6s cubic-bezier(.25,.8,.25,1);
   overflow: hidden;
   display: inline-block;
   font-family: 'Montserrat', sans-serif;
   text-align: center;
   margin-right: 30px;
   z-index: 1;
-  scale: 0.65;
   opacity: 1;
 }
 
@@ -86,12 +88,10 @@ body{margin: 0px; padding: 0px; user-select: none;}
 }
 
 .card.desactiveCart{
-  scale: 0.62;
   filter: brightness(70%);
 }
 
 .card.main.activeCart:hover {
-  scale: 0.7 !important;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
@@ -123,41 +123,40 @@ body{margin: 0px; padding: 0px; user-select: none;}
 .card:not(.back)::before, .card:not(.back)::after{
   content: attr(value);
   position: absolute;
-  font-size: 20px;
+  font-size: calc(var(--card_width) * 0.15);
   color: var(--white);
 }
 
 .card:not(.back)::before{
-  top: 8px;
-  left: 13px;
+  top: 10%;
+  left: 15%;
+  transform: translate(-50%, -50%);
 }
 
 .card:not(.back)::after{
-  bottom: 8px;
-  right: 13px;
-  transform: rotate(180deg);
+  bottom: 10%;
+  right: 15%;
+  transform: translate(50%, 50%) rotate(180deg);
 }
 
 .card:not(.back)[value="B"]::before, .card:not(.back)[value="B"]::after{
   font-family: Icons !important;
   /*content: "🛇";*/
-  content: "\f05e";
-  font-size: 16px;
+  content: "\e033";
 }
 .card:not(.back)[value="R"]::before, .card:not(.back)[value="R"]::after{
   font-family: Icons !important;
   /*content: "⇋";*/
-  content: "\f021";
-  font-size: 16px;
+  content: "\e86a";
   /*transform: rotate(-45deg);*/
 }
 
 .card:not(.back)[value="C"]::before, .card:not(.back)[value="C"]::after{
   content: "";
-  width: 15px;
-  height: 15px;
+  width: calc(var(--card_width) * 0.1);
+  height: calc(var(--card_width) * 0.1);
   border-radius: 50%;
-  border: solid 4px;
+  border: solid 3px;
   border-top-color: var(--red);
   border-left-color: var(--yellow);
   border-right-color: var(--green);
@@ -222,15 +221,13 @@ body{margin: 0px; padding: 0px; user-select: none;}
 
 .card:not(.back) > div[value="B"]::after {
   font-family: Icons !important;
-  font-size: calc(var(--card_width) * 0.6);
   /*content: "🛇";*/
-  content: "\f05e";
+  content: "\e033";
 }
 .card:not(.back) > div[value="R"]::after {
   font-family: Icons !important;
-  font-size: calc(var(--card_width) * 0.6);
   /*content: "⇋";*/
-  content: "\f021";
+  content: "\e86a";
   /*transform: translate(-50%, -50%) rotate(-45deg);*/
 }
 
@@ -278,8 +275,8 @@ body{margin: 0px; padding: 0px; user-select: none;}
   z-index: 0;
   top: 50%;
   left: 50%;
-  height: calc(var(--card_height) * 1.2);
-  width: calc(var(--card_height) * 1.2);
+  height: calc(var(--card_height) * 2);
+  width: calc(var(--card_height) * 2);
   background: transparent;
   border: solid 5px var(--black);
   border-radius: 50%;
@@ -482,7 +479,7 @@ body{margin: 0px; padding: 0px; user-select: none;}
 
 .bloquedPlayer span.iconCode::after{
   font-family: Icons !important;
-  content: "\f05e";
+  content: "\e033";
 }
 
 .bloquedPlayer[player="1"]{
