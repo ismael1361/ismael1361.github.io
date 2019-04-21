@@ -23,6 +23,15 @@
   --bench_color_active: #03a9f4;
 }
 
+@font-face {
+  font-family: "Icons";
+  font-style: normal;
+  font-weight: 200;
+  font-display: auto;
+  src: url(../fonts/fontawesome/fa-solid-900.eot);
+  src: url(../fonts/fontawesome/fa-solid-900.eot?#iefix) format("embedded-opentype"), url(../fonts/fontawesome/fa-solid-900.woff2) format("woff2"), url(../fonts/fontawesome/fa-solid-900.woff) format("woff"), url(../fonts/fontawesome/fa-solid-900.ttf) format("truetype"), url(../fonts/fontawesome/fa-solid-900.svg#fontawesome) format("svg")
+}
+
 body{margin: 0px; padding: 0px; user-select: none;}
 
 #game{
@@ -48,11 +57,6 @@ body{margin: 0px; padding: 0px; user-select: none;}
   background-color: var(--black);
   border-radius: 50%;
   opacity: 0.1;
-}
-
-@media only screen and (max-width: 600px) {
-  body {
-  }
 }
 
 .card{
@@ -135,11 +139,17 @@ body{margin: 0px; padding: 0px; user-select: none;}
 }
 
 .card:not(.back)[value="B"]::before, .card:not(.back)[value="B"]::after{
-  content: "🛇";
+  font-family: Icons !important;
+  /*content: "🛇";*/
+  content: "\f05e";
+  font-size: 16px;
 }
 .card:not(.back)[value="R"]::before, .card:not(.back)[value="R"]::after{
-  content: "⇋";
-  transform: rotate(-45deg);
+  font-family: Icons !important;
+  /*content: "⇋";*/
+  content: "\f021";
+  font-size: 16px;
+  /*transform: rotate(-45deg);*/
 }
 
 .card:not(.back)[value="C"]::before, .card:not(.back)[value="C"]::after{
@@ -211,11 +221,17 @@ body{margin: 0px; padding: 0px; user-select: none;}
 }
 
 .card:not(.back) > div[value="B"]::after {
-  content: "🛇";
+  font-family: Icons !important;
+  font-size: calc(var(--card_width) * 0.6);
+  /*content: "🛇";*/
+  content: "\f05e";
 }
 .card:not(.back) > div[value="R"]::after {
-  content: "⇋";
-  transform: translate(-50%, -50%) rotate(-45deg);
+  font-family: Icons !important;
+  font-size: calc(var(--card_width) * 0.6);
+  /*content: "⇋";*/
+  content: "\f021";
+  /*transform: translate(-50%, -50%) rotate(-45deg);*/
 }
 
 .card:not(.back) > div[value="+4"]::after {
@@ -255,52 +271,6 @@ body{margin: 0px; padding: 0px; user-select: none;}
   border-left-color: var(--yellow);
   border-right-color: var(--green);
   border-bottom-color: var(--blue);
-}
-
-.bench{
-  position: absolute;
-  background-color: var(--bench_color);
-  opacity: 0;
-}
-
-.bench.active{
-  background-color: var(--bench_color_active);
-}
-
-.bench[player="1"], .bench[player="3"]{
-  left: 50%;
-  transform: translateX(-50%);
-  height: var(--bench_height);
-  width: 90%;
-  max-width: var(--bench_width);
-}
-
-.bench[player="2"], .bench[player="4"]{
-  top: 50%;
-  transform: translateY(-50%);
-  width: var(--bench_height);
-  height: 90%;
-  max-height: var(--bench_width);
-}
-
-.bench[player="1"]{
-  bottom: 0px;
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-}
-
-.bench[player="2"]{
-  left: 0px;
-  border-radius: 0 100% 100% 0 / 0 50% 50% 0;
-}
-
-.bench[player="3"]{
-  top: 0px;
-  border-radius: 0 0 50% 50% / 0 0 100% 100%;
-}
-
-.bench[player="4"]{
-  right: 0px;
-  border-radius: 100% 0 0 100% / 50% 0 0 50%;
 }
 
 .direction{
@@ -508,6 +478,11 @@ body{margin: 0px; padding: 0px; user-select: none;}
   text-shadow: 3px 3px 0px var(--black);
   transition: all 0.2s ease-in;
   opacity: 0;
+}
+
+.bloquedPlayer span.iconCode::after{
+  font-family: Icons !important;
+  content: "\f05e";
 }
 
 .bloquedPlayer[player="1"]{

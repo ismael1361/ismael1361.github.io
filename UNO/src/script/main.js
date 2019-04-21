@@ -207,9 +207,9 @@ var UNO = (function(main){
     this.element.append(self.colorChangeDom);
 
     for(var i=0; i<4; i++){
-      self.PLAYERS[i].bloqued = js('<div class="bloquedPlayer" player="'+(i+1)+'">🛇</div>');
+      self.PLAYERS[i].bloqued = js('<div class="bloquedPlayer" player="'+(i+1)+'"><span class="iconCode"></span></div>');
       self.PLAYERS[i].displayBloqued = function(){
-        this.bloqued.html(self.CountChargeCard > 0 ? '+'+self.CountChargeCard : '🛇');
+        this.bloqued.html(self.CountChargeCard > 0 ? '+'+self.CountChargeCard : '<span class="iconCode"></span>');
         this.bloqued.addClass("active");
         var s = this;
         setTimeout(function(){
