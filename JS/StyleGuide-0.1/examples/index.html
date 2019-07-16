@@ -210,6 +210,21 @@
         <input type="radio" label="Radio button - 3" name="radioBtn" disabled checked/>
       </div>
     </section>
+    <section>
+      <h6>Slider</h6>
+      <div>
+        <h6 class="subheader">Sample Slider:</h6>
+        <input type="range" min="-5" max="10" value="2" valuelabeldisplay="auto">
+        <h6 class="subheader">Steps Slider:</h6>
+        <input type="range" min="0" max="100" value="20" step="10" valuelabeldisplay="auto">
+        <h6 class="subheader">Custom marks:</h6>
+        <input type="range" min="0" max="100" value="20" step="10" valuelabeldisplay="auto" marks="0, 20, 33, 100" valuetext="{value}ºC">
+        <h6 class="subheader">Restricted values:</h6>
+        <input type="range" min="0" max="100" value="20" step="mark" valuelabeldisplay="auto" marks="0, 20, 33, 100" valuetext="{value}ºC">
+        <h6 class="subheader">Always visible:</h6>
+        <input type="range" min="0" max="100" value="80" step="10" valuelabeldisplay="on" marks="0, 20, 33, 100" valuetext="{value}ºC">
+      </div>
+    </section>
     <section class="badges">
       <h6>Badges</h6>
       <span class="badge status-primary">Received</span>

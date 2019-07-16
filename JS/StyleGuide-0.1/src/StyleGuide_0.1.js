@@ -258,13 +258,13 @@ limitações sob a licença.
 
     styleCSS = styleCSS.concat([
       'div.__input{position: relative; margin: 25px 0 0;}',
-      'div.__input > input, div.__input > textarea{background: none; color: var(--neutralShade800); font-size: 18px; padding: 0px 10px 5px 5px; display: block; width: 100%; border: none; border-radius: 0; border-bottom: 1px solid var(--neutralShade800); box-sizing: border-box;}',
+      'div.__input > input, div.__input > textarea{background: none; color: var(--neutralShade800); font-size: 18px; padding: 6px 10px 5px 8px; display: block; width: 100%; border: none; border-radius: 0; border-bottom: 1px solid var(--neutralShade800); box-sizing: border-box; background: rgba(0, 0, 0, .05); border-radius: 5px 5px 0 0;}',
       'div.__input > input:focus, div.__input > textarea:focus{outline: none;}',
       'div.__input > input[type="password"]{letter-spacing: 0.3em;}',
-      'div.__input > label{color: var(--neutralShade800); font-size: 16px; font-weight: normal; position: absolute; pointer-events: none; left: 5px; top: 6px; transition: 300ms ease all;}',
-      'div.__input > .bar{height: 2px; width: auto; bottom: 0px; position: absolute; background: var(--primaryColor); transition: 300ms ease all; left: 0; right: 100%;}',
+      'div.__input > label{color: var(--neutralShade800); font-size: 16px; font-weight: normal; position: absolute; pointer-events: none; left: 8px; top: 9px; transition: 300ms ease all;}',
+      'div.__input > .bar{height: 2px; width: auto; bottom: 0px; position: absolute; background: var(--primaryColor); transition: 400ms ease all; left: 0; right: 100%;}',
       'div.__input > input:disabled, div.__input > textarea:disabled, div.__input > input:disabled ~ label, div.__input > textarea:disabled ~ label, div.__input > input:disabled ~ .bar, div.__input > textarea:disabled ~ .bar{opacity: 0.4;}',
-      'div.__input.active > label{top: -15px; font-size: 12px; color: var(--primaryColor);}',
+      'div.__input.active > label{top: -15px; left: 5px; font-size: 12px; color: var(--primaryColor);}',
       'div.__input.active > .bar{right: 0%;}',
       'div.__input > input:invalid, div.__input > textarea:invalid{border-bottom: 1px solid var(--accent3Shade400);}',
       'div.__input > input:invalid ~ label, div.__input > textarea:invalid ~ label{color: var(--accent3Color);}',
@@ -311,13 +311,16 @@ limitações sob a licença.
     styleCSS = styleCSS.concat([
       'div.__select{position: relative; margin: 25px 0 0;}',
       'div.__select > select{display: none;}',
-      'div.__select > .selected > .value{background: none; color: var(--neutralShade800); font-size: 18px; padding: 0px 25px 5px 5px; display: block; width: 100%; border: none; border-radius: 0; border-bottom: 1px solid var(--neutralShade800); box-sizing: border-box; user-select: none; cursor: pointer; height: 27px;}',
-      'div.__select > .selected > .value::before{content: ""; position: absolute; top: 50%; transform: translate(0, -50%); right: 6px; width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 7px solid var(--neutralShade800);}',
-      'div.__select > label{color: var(--neutralShade800); font-size: 16px; font-weight: normal; position: absolute; pointer-events: none; left: 5px; top: 6px; transition: 300ms ease all;}',
-      'div.__select > .bar{height: 2px; width: auto; bottom: 0px; position: absolute; background: var(--primaryColor); transition: 300ms ease all; left: 0; right: 100%;}',
-      'div.__select.active > label{top: -15px; font-size: 12px; color: var(--primaryColor);}',
+      'div.__select > .selected > .value{background: none; color: var(--neutralShade800); font-size: 18px; padding: 6px 10px 5px 8px; display: block; width: 100%; border: none; border-radius: 0; border-bottom: 1px solid var(--neutralShade800); box-sizing: border-box; user-select: none; cursor: pointer; height: 33px; background: rgba(0, 0, 0, .05); border-radius: 5px 5px 0 0;}',
+      'div.__select > .selected > .value::before{content: ""; position: absolute; top: 50%; transform: translate(0, -50%); right: 6px; width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 7px solid var(--neutralShade800); display: none;}',
+      'div.__select > .selected > .indicatorContainer{position: absolute; top: 50%; transform: translate(0, -50%); right: 6px; width: 20px; height: 20px;}',
+      'div.__select > .selected > .indicatorContainer > svg{fill: var(--neutralShade600);}',
+      'div.__select > label{color: var(--neutralShade800); font-size: 16px; font-weight: normal; position: absolute; pointer-events: none; left: 8px; top: 9px; transition: 300ms ease all;}',
+      'div.__select > .bar{height: 2px; width: auto; bottom: 0px; position: absolute; background: var(--primaryColor); transition: 400ms ease all; left: 0; right: 100%;}',
+      'div.__select.active > label{top: -15px; left: 5px; font-size: 12px; color: var(--primaryColor);}',
       'div.__select.active > .bar{right: 0%;}',
       'div.__select.active > .selected > .value::before{border-top-color: var(--primaryColor);}',
+      'div.__select.active > .selected > .indicatorContainer > svg{fill: var(--neutralShade800);}',
       'div.__select > .selected > .options{position: absolute; z-index: 10; margin: 0; padding: 4px 0; box-shadow: var(--win6dp); border-radius: 0 0 15px 15px; background: #ffffff; text-align: left; width: 100%; margin-bottom: 15px; height: 0; opacity: 0; overflow: hidden; pointer-events: none; transition: 300ms ease all;}',
       'div.__select > .selected > .options.active{height: auto; max-height: 20em; opacity: 1; pointer-events: all;}',
       'div.__select > .selected > .options > div{position: relative; margin: 0 4px; padding: 4px 10px; border-radius: 15px; white-space: pre; cursor: pointer; min-height: 24px; box-sizing: border-box;}',
@@ -336,7 +339,9 @@ limitações sob a licença.
         div.append(this.dom);
         var label = this.dom.attr("label");
         label = typeof label == "string" ? label : "";
-        div.append('<div class="selected"><span class="value"></span><div class="options"></div></div><div class="bar"></div><label>'+label+'</label>');
+        div.append('<div class="selected"><span class="value"></span><div class="indicatorContainer"></div><div class="options"></div></div><div class="bar"></div><label>'+label+'</label>');
+
+        div.find('div.selected > div.indicatorContainer').html('<svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-19bqh2r"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg>');
 
         var self = this;
         var validValue = function(){
@@ -524,6 +529,202 @@ limitações sob a licença.
 
       var prototype = fn.prototype = {};
       prototype.isValid = function(){return String(this.dom[0].tagName).toLocaleLowerCase() === "input" && String(this.dom.attr('type')).toLocaleLowerCase() == "switch"}
+
+      return function(d){return new fn(d);};
+    }());
+
+    styleCSS = styleCSS.concat([
+      '.__sliderRange{position: relative; font-size: 14px; color: var(--neutralShade800); user-select: none; padding: 0px;}',
+      '.__sliderRange input{display: none;}',
+      '.__sliderRange > .root{position: relative; cursor: pointer; padding: 11px 0;}',
+      '.__sliderRange > .root.marked{margin-bottom: 20px;}',
+      '.__sliderRange > .root > .rail{position: relative; width: 100%; height: 2px; background-color: var(--primaryShade100);}',
+      '.__sliderRange > .root > .rail > .track{height: 2px; display: block; position: absolute; top: 0px; border-radius: 1px; background: var(--primaryColor);}',
+      '.__sliderRange > .root > .rail > .thumb{width: 12px; height: 12px; display: flex; outline: none; position: absolute; box-sizing: border-box; margin-top: -5px; align-items: center; margin-left: -6px; border-radius: 50%; justify-content: center; background-color: var(--primaryShade500); z-index: 1;}',
+      '.__sliderRange > .root > .rail > .thumb *{transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}',
+      '.__sliderRange > .root > .rail > .thumb > .ripple{position: absolute; width: 0px; height: 0px; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: var(--primaryShade500); opacity: 0; border-radius: 50%;}',
+      '.__sliderRange > .root > .rail > .thumb:hover > .ripple{width: 28px; height: 28px; opacity: .2;}',
+      '.__sliderRange > .root.active > .rail > .thumb > .ripple{width: 35px; height: 35px; opacity: .2;}',
+      '.__sliderRange > .root > .rail > .thumb > .valueLabel{top: -34px; left: calc(-50% + -4px); z-index: 3; position: absolute; font-size: 0.75rem; transform: scale(0) translateY(-0%); font-weight: 400; line-height: 1.2; letter-spacing: 0.01071em; transform-origin: bottom center;}',
+      '.__sliderRange > .root > .rail > .thumb > .valueLabel > .background{width: 32px; height: 32px; display: flex; transform: rotate(-45deg); align-items: center; border-radius: 50% 50% 50% 0; justify-content: center; background-color: var(--primaryShade500);}',
+      '.__sliderRange > .root > .rail > .thumb > .valueLabel > .background > .label{color: #fff; transform: rotate(45deg);}',
+      '.__sliderRange > .root.active > .rail > .thumb > .valueLabel, .__sliderRange > .root > .rail > .thumb > .valueLabel.activePermanent, .__sliderRange > .root > .rail > .thumb:hover > .valueLabel{transform: scale(1) translateY(-10px);}',
+      '.__sliderRange > .root > .rail > .markIndicador{width: 2px; height: 2px; position: absolute; top: 0px; border-radius: 1px; background-color: var(--primaryShade500); z-index: 0;}',
+      '.__sliderRange > .root > .rail > .markIndicador.active{background-color: var(--primaryShade100);}',
+      '.__sliderRange > .root > .rail > .markLabel{top: 8px; color: var(--neutralShade800); opacity: .7; position: absolute; font-size: 0.875rem; transform: translateX(-50%); font-family: "Roboto", "Helvetica", "Arial", sans-serif; font-weight: 400; line-height: 1.43; white-space: nowrap; letter-spacing: 0.01071em;}',
+      '.__sliderRange > .root > .rail > .markLabel.active{opacity: 1;}'
+    ]);
+
+    components.slider = (function(){
+      var fn = function(d){
+        this.dom = js(d);
+        if(this.isValid() == false || this.dom.parent()[0].isSlider == true){return;}
+
+        var div = js('<div class="__sliderRange"></div>');
+        div[0].isSlider = true;
+        div.insertAfter(this.dom);
+        div.append(this.dom);
+
+        var isValueLabelDisplay = typeof this.dom.attr("valuelabeldisplay") == "string" ? String(this.dom.attr("valuelabeldisplay")).toLocaleLowerCase() : '';
+
+        var min = typeof this.dom.attr("min") == "string" ? Number(this.dom.attr("min")) : 0;
+        var max = typeof this.dom.attr("max") == "string" ? Number(this.dom.attr("max")) : 100;
+
+        if(min > max){var temp = max; max = min; min = temp;}
+
+        var value = typeof this.dom.attr("value") == "string" ? Number(this.dom.attr("value")) : min;
+
+        var step = typeof this.dom.attr("step") == "string" ? String(this.dom.attr("step")).toLocaleLowerCase() == "mark" ? 'mark' : Number(this.dom.attr("step")) : null;
+
+        var marks = typeof this.dom.attr("marks") == "string" ? this.dom.attr("marks") : null;
+        if(marks != null){
+          marks = String(marks).split(',');
+          marks.forEach(function(a, b){marks[b] = Number(String(a).replace(/[a-z]/gi, '').replace(/^\s+/gi, '').replace(/\s+$/gi, ''))});
+        }
+
+        var valuetext = typeof this.dom.attr("valuetext") == "string" ? this.dom.attr("valuetext") : '{value}';
+
+        var valueToPercent = function(val){
+          val = typeof val == "number" ? val < min ? min : val > max ? max : val : min;
+          var total = min < 0 ? Math.abs(min)+max : max-min;
+          val = min < 0 ? Math.abs(min)+val : val-min;
+          return val/total*100;
+        }
+
+        div.append('<div class="root'+(marks != null?' marked':'')+'"><div class="rail"><div class="track"></div><span class="thumb">'+(isValueLabelDisplay == "auto" || isValueLabelDisplay == "on" ? '<span class="valueLabel'+(isValueLabelDisplay == "on"?' activePermanent':'')+'"><span class="background"><span class="label">0</span></span></span>' : '')+'<span class="ripple"></span></span></div></div>');
+
+        if(marks != null){
+          for(var i=0; i<marks.length; i++){
+            var val = marks[i], p = valueToPercent(val), label = valuetext.replace(/\{value\}/gi, val);
+            div.find('.root > .rail').append('<span class="markIndicador" style="left:'+p+'%"></span><div class="markLabel" style="left:'+p+'%">'+label+'</div>');
+
+            marks[i] = {
+              percentage: p,
+              val: val,
+              markIndicador: div.find('.root > .rail > .markIndicador').getItem(i),
+              markLabel:  div.find('.root > .rail > .markLabel').getItem(i)
+            };
+          }
+        }
+
+        var self = this, a = self.dom[0];
+
+        div.find('.root')[0].min = min;
+        div.find('.root')[0].max = max;
+
+        div.find('.root')[0].active = function(t){
+          var b = div.find('.root');
+          t = typeof t == "boolean" ? t : b.hasClass("active") == true ? false : true;
+          if(t){
+            b.addClass("active");
+          }else{
+            b.removeClass("active");
+          }
+        }
+
+        div.find('.root')[0].moveTo = function(start, end){
+          start = typeof start == "number" ? start : this.min;
+          end = typeof end == "number" ? end : this.max;
+
+          var total = this.min < 0 ? Math.abs(this.min)+this.max : this.max-this.min;
+
+          var _self = this, toFixed = function(a, b){b = typeof b == "number" ? b : 1; a = a.toFixed(b); return Number(a.split('.')[1] == '0' ? a.split('.')[0] : a);},
+          toValue = function(a, b){a = total*(a/100); a = _self.min < 0 ? a - Math.abs(_self.min) : a + _self.min; return toFixed(a, b);}
+
+          var valStart = toValue(start), valEnd = toValue(end);
+
+          end = 100 - end;
+
+          div.find('.root > .rail > .thumb').css({"right": end+"%"});
+          div.find('.root > .rail > .track').css({"left": start+"%", "right": end+"%"});
+
+          if(isValueLabelDisplay){
+            div.find('.root > .rail > .thumb > .valueLabel > .background > .label').html(valEnd);
+          }
+          self.dom.val(valEnd);
+        }
+
+        div.find('.root')[0].value = function(valStart, valEnd){
+          valStart = typeof valStart == "number" ? valStart < this.min ? this.min : valStart > this.max ? this.max : valStart : this.min;
+          valEnd = typeof valEnd == "number" ? valEnd < this.min ? this.min : valEnd > this.max ? this.max : valEnd : this.min;
+
+          if(typeof step == "number"){
+            valEnd = valEnd%step >= step/2 ? valEnd+(step-(valEnd%step)) : valEnd-(valEnd%step);
+          }else if(step == 'mark' && marks != null){
+              for(var i=0; i<marks.length-1; i++){
+                var s = marks[i], e = marks[i+1];
+                if(valEnd < e.val && valEnd >= s.val){
+                  var sp = (e.val-s.val);
+                  valEnd = (valEnd-s.val) >= sp/2 ? valEnd+(sp-(valEnd-s.val)) : valEnd-(valEnd-s.val);
+                  break;
+                }
+              }
+          }
+
+          if(isValueLabelDisplay){
+            div.find('.root > .rail > .thumb > .valueLabel > .background > .label').html(valEnd);
+          }
+          self.dom.val(valEnd);
+
+          var total = this.min < 0 ? Math.abs(this.min)+this.max : this.max-this.min;
+
+          var start = (this.min < 0 ? Math.abs(this.min)+valStart : valStart-this.min)/total*100;
+          var end = (this.min < 0 ? Math.abs(this.min)+valEnd : valEnd-this.min)/total*100;
+
+          div.find('.root > .rail > .thumb').css({"left": end+"%"});
+          div.find('.root > .rail > .track').css({"left": start+"%", "right": (100 - end)+"%"});
+
+          if(marks != null){
+            for(var i=0; i<marks.length; i++){
+              var s = marks[i];
+              if(s.percentage <= end && s.percentage >= start){
+                s.markIndicador.addClass('active');
+                s.markLabel.addClass('active');
+              }else{
+                s.markIndicador.removeClass('active');
+                s.markLabel.removeClass('active');
+              }
+            }
+          }
+        }
+
+        div.find('.root')[0].value(div.find('.root')[0].min, value);
+
+        div.find('.root')[0].percentToValue = function(start, end){
+          start = typeof start == "number" ? start > 100 ? 100 : start < 0 ? 0 : start : 0;
+          end = typeof end == "number" ? end > 100 ? 100 : end < 0 ? 0 : end : 100;
+
+          var total = this.min < 0 ? Math.abs(this.min)+this.max : this.max-this.min;
+
+          var _self = this, toFixed = function(a, b){b = typeof b == "number" ? b : 1; a = a.toFixed(b); return Number(a.split('.')[1] == '0' ? a.split('.')[0] : a);},
+          toValue = function(a, b){a = total*(a/100); a = _self.min < 0 ? a - Math.abs(_self.min) : a + _self.min; return toFixed(a, b);}
+
+          this.value(toValue(start), toValue(end));
+        }
+
+        div.find('.root')[0].mutation = function(e){
+          if(a.disabled || this.ranged != true){return;}
+          var b = div.offset(), d = div.getSize(), c = e.pageX-b.left;
+          c = (c > d.width ? d.width : c < 0 ? 0 : c);
+          this.percentToValue(0, Math.round((c/d.width)*100));
+          var out = Math.round(e.pageY - b.top);
+          if(out >= d.height || out < 0){this.ranged = false;}
+        }
+
+        var move = function(e){this.mutation(e);},
+            down = function(e){this.ranged = true; this.mutation(e); this.active(true);},
+            up = function(){this.ranged = false; this.active(false);};
+
+        div.find('.root').on("mousemove", move);
+        div.find('.root').on("touchmove", move);
+        div.find('.root').on("mousedown", down);
+        div.find('.root').on("touchstart", down);
+        div.find('.root').on("mouseup", up);
+        div.find('.root').on("touchend", up);
+      }
+
+      var prototype = fn.prototype = {};
+      prototype.isValid = function(){return String(this.dom[0].tagName).toLocaleLowerCase() === "input" && String(this.dom.attr('type')).toLocaleLowerCase() == "range"}
 
       return function(d){return new fn(d);};
     }());
