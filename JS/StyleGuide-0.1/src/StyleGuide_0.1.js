@@ -534,10 +534,10 @@ limitações sob a licença.
     }());
 
     styleCSS = styleCSS.concat([
-      '.__sliderRange{position: relative; font-size: 14px; color: var(--neutralShade800); user-select: none; padding: 0px;}',
+      '.__sliderRange{position: relative; font-size: 14px; color: var(--neutralShade800); user-select: none; padding: 0px 20px;}',
       '.__sliderRange input{display: none;}',
-      '.__sliderRange > .root{position: relative; cursor: pointer; padding: 11px 0;}',
-      '.__sliderRange > .root.marked{margin-bottom: 20px;}',
+      '.__sliderRange > .root{position: relative; cursor: pointer; padding: 15px 0;}',
+      '.__sliderRange > .root.marked{margin-bottom: 24px;}',
       '.__sliderRange > .root > .rail{position: relative; width: 100%; height: 2px; background-color: var(--primaryShade100);}',
       '.__sliderRange > .root > .rail > .track{height: 2px; display: block; position: absolute; top: 0px; border-radius: 1px; background: var(--primaryColor);}',
       '.__sliderRange > .root > .rail > .thumb{width: 12px; height: 12px; display: flex; outline: none; position: absolute; box-sizing: border-box; margin-top: -5px; align-items: center; margin-left: -6px; border-radius: 50%; justify-content: center; background-color: var(--primaryShade500); z-index: 1;}',
@@ -555,13 +555,13 @@ limitações sob a licença.
       '.__sliderRange > .root > .rail > .markLabel.active{opacity: 1;}'
     ]);
 
-    components.slider = (function(){
+    components.range = (function(){
       var fn = function(d){
         this.dom = js(d);
-        if(this.isValid() == false || this.dom.parent()[0].isSlider == true){return;}
+        if(this.isValid() == false || this.dom.parent()[0].isRange == true){return;}
 
         var div = js('<div class="__sliderRange"></div>');
-        div[0].isSlider = true;
+        div[0].isRange = true;
         div.insertAfter(this.dom);
         div.append(this.dom);
 
@@ -648,6 +648,8 @@ limitações sob a licença.
           valStart = typeof valStart == "number" ? valStart < this.min ? this.min : valStart > this.max ? this.max : valStart : this.min;
           valEnd = typeof valEnd == "number" ? valEnd < this.min ? this.min : valEnd > this.max ? this.max : valEnd : this.min;
 
+          valStart = 0;
+
           if(typeof step == "number"){
             valEnd = valEnd%step >= step/2 ? valEnd+(step-(valEnd%step)) : valEnd-(valEnd%step);
           }else if(step == 'mark' && marks != null){
@@ -672,7 +674,12 @@ limitações sob a licença.
           var end = (this.min < 0 ? Math.abs(this.min)+valEnd : valEnd-this.min)/total*100;
 
           div.find('.root > .rail > .thumb').css({"left": end+"%"});
-          div.find('.root > .rail > .track').css({"left": start+"%", "right": (100 - end)+"%"});
+
+          if(valStart > valEnd){
+            div.find('.root > .rail > .track').css({"left": end+"%", "right": (100 - start)+"%"});
+          }else{
+            div.find('.root > .rail > .track').css({"left": start+"%", "right": (100 - end)+"%"});
+          }
 
           if(marks != null){
             for(var i=0; i<marks.length; i++){
@@ -688,7 +695,7 @@ limitações sob a licença.
           }
         }
 
-        div.find('.root')[0].value(div.find('.root')[0].min, value);
+        div.find('.root')[0].value(0, value);
 
         div.find('.root')[0].percentToValue = function(start, end){
           start = typeof start == "number" ? start > 100 ? 100 : start < 0 ? 0 : start : 0;
@@ -704,6 +711,7 @@ limitações sob a licença.
 
         div.find('.root')[0].mutation = function(e){
           if(a.disabled || this.ranged != true){return;}
+          if(e.type.search("touch") >= 0){e.pageX = e.touches[0].pageX; e.pageY = e.touches[0].pageY;};
           var b = div.offset(), d = div.getSize(), c = e.pageX-b.left;
           c = (c > d.width ? d.width : c < 0 ? 0 : c);
           this.percentToValue(0, Math.round((c/d.width)*100));
