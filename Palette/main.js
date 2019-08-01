@@ -163,6 +163,8 @@
       selectPalette = 2;
     }else if(selectPalette == 4){
       selectPalette = 3;
+      var c = selectBubble.color;
+      CW.setRGB(c[0], c[1], c[2]);
     }
     update();
   }
