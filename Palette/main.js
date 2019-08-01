@@ -137,8 +137,8 @@
     if(selectPalette == 4){
       PP.paints.remove(selectBubble.key);
       PP.update();
-      selectPalette = 2;
-      selectBubble = null;
+      selectPalette = 4;
+      selectBubble = PP.paints.root[0];
     }else{
       selectPalette = selectPalette == 1 ? 2 : 1;
     }
