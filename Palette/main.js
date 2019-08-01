@@ -39,7 +39,7 @@
       can[0].style.display = "none"; can[1].style.display = "block";
     }
 
-    if(isPickerBubble != false && selectPalette != 2){isPickerBubble = false;}
+    if(selectBubble != null){PP.focusPaint(selectBubble.key);}else{PP.focusPaint(null);}
 
     if(selectPalette == 1){
       bts[0].setAttribute("type", "paletteBubble");
@@ -47,7 +47,7 @@
       CW.setRGB(c[0], c[1], c[2]);
     }else if(selectPalette == 2){
       bts[0].setAttribute("type", "colorWheel");
-      bts[2].setAttribute("type", isPickerBubble == false ? "picker" : "pickerActive");
+      bts[2].setAttribute("type", "settings");
       //bts[3].setAttribute("type", "moveBubble");
 
     }else if(selectPalette == 3){
@@ -69,42 +69,54 @@
   can[1].isMove = false;
 
   can[1].onmousemove = function(e){
-    if(isPickerBubble){
+    if(!this.isMove){return;}
+    if(selectPalette == 2){
       PP.movePickerIdentifier(true, e.offsetX, e.offsetY);
-      return;
-    }
-
-    if(!this.isMove || this.objSelect == null){return;}
-
-    var d = dist(e.offsetX, e.offsetY, PP.r, PP.r);
-    if(this.isMove){
+      var c = PP.getPicker(e.offsetX, e.offsetY);
+      CW.setRGB(c[0], c[1], c[2]);
+      memoryColorSelect = c;
+      updateColorSelect();
+    }else if(selectPalette == 4 && this.objSelect != null){
+      var d = dist(e.offsetX, e.offsetY, PP.r, PP.r);
       if(d > PP.r){
         var ang = 180+Angle.pointsToDeg(e.offsetX, e.offsetY, PP.r, PP.r), p = Angle.findNewPoint(PP.r, PP.r, ang, PP.r);
         this.objSelect.move(p.x, p.y);
       }else{
         this.objSelect.move(e.offsetX, e.offsetY);
       }
+      PP.update();
     }
-    PP.update();
   }
 
   can[1].onmousedown = function(e){
     if(dist(e.offsetX, e.offsetY, PP.r, PP.r) > PP.r){return;}
-    if(isPickerBubble != false){
-      var c = PP.getPicker(e.offsetX, e.offsetY);
-      CW.setRGB(c[0], c[1], c[2]);
-      memoryColorSelect = c;
-      updateColorSelect();
-      isPickerBubble = false; 
-      PP.movePickerIdentifier(false);
-      update();
-    }
+
     this.objSelect = PP.selectPaint(e.offsetX, e.offsetY);
     this.isMove = true;
+    
+    if(selectBubble != null){
+      var checkBubble = PP.selectPaint(e.offsetX, e.offsetY);
+      if(checkBubble != null){
+        selectBubble = checkBubble;
+      }else{
+        selectBubble = null;
+        selectPalette = 2;
+      }
+      update();
+    }
   }
 
-  can[1].onmouseup = function(){this.objSelect = null; this.isMove = false;}
-  can[1].onmouseout = function(){this.objSelect = null; this.isMove = false;}
+  var __eventOut = function(e){
+    if(selectPalette == 2 && this.isMove){
+      PP.movePickerIdentifier(false, e.offsetX, e.offsetY);
+      update();
+    }
+    this.objSelect = null; 
+    this.isMove = false;
+  }
+
+  can[1].onmouseup = __eventOut;
+  can[1].onmouseout = __eventOut;
 
   can[1].ondblclick = function(e){
     if(dist(e.offsetX, e.offsetY, PP.r, PP.r) > PP.r){return;}
@@ -126,6 +138,7 @@
       PP.paints.remove(selectBubble.key);
       PP.update();
       selectPalette = 2;
+      selectBubble = null;
     }else{
       selectPalette = selectPalette == 1 ? 2 : 1;
     }
@@ -141,11 +154,13 @@
 
   bts[2].onmousedown = function(){
     if(selectPalette == 2){
-      isPickerBubble = isPickerBubble == false ? true : false;
+      selectBubble = PP.paints.root[0];
+      selectPalette = 4;
     }else if(selectPalette == 3){
       if(selectBubble == null){
-        selectPalette = 2;
+        selectPalette = 4;
         PP.addPaint(CW.value.rgb).move(selectNewbubble.x, selectNewbubble.y).ray(70);
+        selectBubble = PP.selectPaint(selectNewbubble.x, selectNewbubble.y);
       }else{
         selectPalette = 4;
         selectBubble.color = CW.value.rgb;
@@ -160,7 +175,11 @@
 
   bts[3].onmousedown = function(){
     if(selectPalette == 3){
-      selectPalette = 2;
+      if(selectBubble == null){
+        selectPalette = 2;
+      }else{
+        selectPalette = 4;
+      }
     }else if(selectPalette == 4){
       selectPalette = 3;
       var c = selectBubble.color;

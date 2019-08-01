@@ -29,7 +29,7 @@ var PlayfulPalette = (function(){
   blend.prototype.remove = function(k){
     if(typeof k != "number"){return;}
     k = k < 0 ? 0 : k >= this.root.length ? this.root.length-1 : k;
-    for(var i=0; i<this.root.length; i++){if(this.root[i].key == k){this.root.splice(i, 1); break;}}
+    this.root.splice(k, 1);
     for(var i=0; i<this.root.length; i++){this.root[i].key = i;}
   }
   
@@ -89,6 +89,7 @@ var PlayfulPalette = (function(){
     this.paints = new blend();
 
     this.pickerIdentifier = null;
+    this.focusedPaint = null;
     this.update();
   }
 
@@ -106,6 +107,7 @@ var PlayfulPalette = (function(){
 
   p.selectPaint = function(x, y){
     var p = this.paints.root,
+        k = [],
         dist = function(a, b, r){
           var r = typeof r == "number" ? r : 50,
               diff = function(a, b){if (a > b){return (a - b);}else{return (b - a);}},
@@ -115,13 +117,16 @@ var PlayfulPalette = (function(){
         };
     if(p.length < 1){return null;}
     
-    p.sort(function(a, b){
+    for(var i=0; i<p.length; i++){k.push(p[i].key);}
+
+    k.sort(function(a, b){
+      a = p[a]; b = p[b];
       var pt = {x: x, y: y};
       return dist(pt, a, a.r)-dist(pt, b, b.r);
     });
   
-    if(dist({x: x, y: y}, p[0], p[0].r) <= 0.25){
-      return p[0];
+    if(dist({x: x, y: y}, p[k[0]], p[k[0]].r) <= 0.25){
+      return p[k[0]];
     }
     return null;
   }
@@ -139,6 +144,11 @@ var PlayfulPalette = (function(){
     this.update();
   }
 
+  p.focusPaint = function(k){
+    this.focusedPaint = typeof k == "number" ? k < 0 ? null : k >= this.paints.root.length ? null : k : null;
+    this.update();
+  }
+
   p.draw = function(){
     this.ctx.clearRect(0, 0, this.w, this.h);
     this.bubblesCtx.clearRect(0, 0, this.w, this.h);
@@ -146,7 +156,7 @@ var PlayfulPalette = (function(){
 
     for(var y = 0; y < this.h; y++){
       for(var x = 0; x < this.w; x++){
-        var i = (y*this.w+x)*4, color = [255, 255, 255, 100], t = 0, maxT = 1.2, d;
+        var i = (y*this.w+x)*4, color = [255, 255, 255, 100], t = 0, maxT = 1.2, d, alp = 1;
         d = (dist(x, y, this.r, this.r)/this.r)*100;
         t = (100-d);
         t = t <= maxT ? (t/maxT) : 1;
@@ -158,16 +168,35 @@ var PlayfulPalette = (function(){
         img1.data[i+3] = Math.round(color[3]*(t));
 
         color = getFragColor(x, y, this.paints);
+
+        /*
+        if(this.focusedPaint != null){
+          var p = this.paints.root[this.focusedPaint];
+          alp = (dist(x, y, p.x, p.y)/(p.r/2))*100;
+          alp = (100-alp);
+          alp = alp <= maxT ? (alp/maxT) : 1;
+          alp = alp <= 0.7 ? 0.7 : alp > 1 ? 1 : alp;
+        }*/
+
         img2.data[i+0] = color[0];
         img2.data[i+1] = color[1];
         img2.data[i+2] = color[2];
-        img2.data[i+3] = Math.round(color[3]*(t));
+        img2.data[i+3] = Math.round(color[3]*(t)*alp);
       }
     }
 
     this.ctx.putImageData(img1, 0, 0);
     this.bubblesCtx.putImageData(img2, 0, 0);
     this.ctx.drawImage(this.bubblesCan, 0, 0, this.w, this.h);
+
+    if(this.focusedPaint != null){
+      var p = this.paints.root[this.focusedPaint];
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = "rgba(255, 255, 255 ,1)";
+      this.ctx.arc(p.x, p.y, p.r/2, 0, 2 * Math.PI);
+      this.ctx.stroke();
+    }
 
     if(this.pickerIdentifier != null){
       var x = this.pickerIdentifier.x, y = this.pickerIdentifier.y, color = getFragColor(x, y, this.paints), d;
