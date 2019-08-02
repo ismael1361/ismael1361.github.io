@@ -68,6 +68,7 @@ var ColorWheel = (function(){
   
     var eventMove = function(e){
       if(e.type.search("touch") >= 0){
+        e.preventDefault();
         var r = this.getBoundingClientRect();
         e.offsetX = e.touches[0].pageX - r.x; 
         e.offsetY = e.touches[0].pageY - r.y;
@@ -91,6 +92,7 @@ var ColorWheel = (function(){
 
     var eventStart = function(e){
       if(e.type.search("touch") >= 0){
+        e.preventDefault();
         var r = this.getBoundingClientRect();
         e.offsetX = e.touches[0].pageX - r.x; 
         e.offsetY = e.touches[0].pageY - r.y;
@@ -109,6 +111,9 @@ var ColorWheel = (function(){
     this.can.ontouchmove = eventMove;
 
     var eventOut = function(e){
+      if(e.type.search("touch") >= 0){
+        e.preventDefault();
+      }
       this.hoverHue = false; this.hoverDisc = false;
       window.requestAnimationFrame(function(){
         self.draw();
