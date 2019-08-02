@@ -66,7 +66,12 @@ var ColorWheel = (function(){
   
     var self = this;
   
-    var event = function(e){
+    var eventMove = function(e){
+      if(e.type.search("touch") >= 0){
+        var r = this.getBoundingClientRect();
+        e.offsetX = e.touches[0].pageX - r.x; 
+        e.offsetY = e.touches[0].pageY - r.y;
+      };
       var x = e.offsetX, y = e.offsetY;
       if(this.hoverHue == true){
         self.discHue = Math.floor((180+Angle.pointsToDeg(x, self.h-y, self.r, self.r)));
@@ -83,15 +88,25 @@ var ColorWheel = (function(){
         self.ondrag(self.updateValue());
       }
     }
-  
-    this.can.onmousedown = function(e){
+
+    var eventStart = function(e){
+      if(e.type.search("touch") >= 0){
+        var r = this.getBoundingClientRect();
+        e.offsetX = e.touches[0].pageX - r.x; 
+        e.offsetY = e.touches[0].pageY - r.y;
+      };
       this.hoverHue = false; this.hoverDisc = false;
       var x = e.offsetX, y = e.offsetY;
       var sW = 100-self.sizeWheel, sD = sW-self.marginDisc, d = (dist(x, y, self.r, self.r)/self.r)*100;
       if(d >= sW){this.hoverHue = true;}else if(d < sD){this.hoverDisc = true;}
-      event.call(this, e);
+      eventMove.call(this, e);
     }
-    this.can.onmousemove = event;
+  
+    this.can.onmousedown = eventStart;
+    this.can.ontouchstart = eventStart;
+
+    this.can.onmousemove = eventMove;
+    this.can.ontouchmove = eventMove;
 
     var eventOut = function(e){
       this.hoverHue = false; this.hoverDisc = false;
@@ -108,6 +123,8 @@ var ColorWheel = (function(){
 
     this.can.onmouseup = eventOut;
     this.can.onmouseout = eventOut;
+    this.can.ontouchend = eventOut;
+    this.can.ontouchleave = eventOut;
     
     this.draw();
   }

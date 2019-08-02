@@ -67,9 +67,16 @@
 
   can[1].objSelect = null;
   can[1].isMove = false;
+  can[1].pos = {x: 0, y: 0};
 
-  can[1].onmousemove = function(e){
+  var __eventMove = function(e){
     if(!this.isMove){return;}
+    if(e.type.search("touch") >= 0){
+      var r = this.getBoundingClientRect();
+      e.offsetX = e.touches[0].pageX - r.x; 
+      e.offsetY = e.touches[0].pageY - r.y;
+    };
+    this.pos = {x: e.offsetX, y: e.offsetY};
     if(selectPalette == 2){
       PP.movePickerIdentifier(true, e.offsetX, e.offsetY);
       var c = PP.getPicker(e.offsetX, e.offsetY);
@@ -88,7 +95,11 @@
     }
   }
 
-  can[1].onmousedown = function(e){
+  can[1].onmousemove = __eventMove;
+  can[1].ontouchmove = __eventMove;
+
+  var __eventStart = function(e){
+    this.pos = {x: e.offsetX, y: e.offsetY};
     if(dist(e.offsetX, e.offsetY, PP.r, PP.r) > PP.r){return;}
 
     this.objSelect = PP.selectPaint(e.offsetX, e.offsetY);
@@ -106,19 +117,9 @@
     }
   }
 
-  var __eventOut = function(e){
-    if(selectPalette == 2 && this.isMove){
-      PP.movePickerIdentifier(false, e.offsetX, e.offsetY);
-      update();
-    }
-    this.objSelect = null; 
-    this.isMove = false;
-  }
+  can[1].onmousedown = __eventStart;
 
-  can[1].onmouseup = __eventOut;
-  can[1].onmouseout = __eventOut;
-
-  can[1].ondblclick = function(e){
+  var __doubleClick = function(e){
     if(dist(e.offsetX, e.offsetY, PP.r, PP.r) > PP.r){return;}
     selectBubble = null;
     var checkBubble = PP.selectPaint(e.offsetX, e.offsetY);
@@ -132,6 +133,46 @@
     }
     update();
   }
+
+  can[1].ondblclick = __doubleClick;
+
+  can[1].clickTimer = null;
+  can[1].ontouchstart = function(e){
+    var r = this.getBoundingClientRect();
+    e.offsetX = e.touches[0].pageX - r.x; 
+    e.offsetY = e.touches[0].pageY - r.y;
+    var self = this;
+    if(this.clickTimer == null){
+      this.clickTimer = setTimeout(function(){
+        self.clickTimer = null;
+        __eventStart.call(self, e);
+      }, 300);
+    }else{
+        clearTimeout(this.clickTimer);
+        this.clickTimer = null;
+        setTimeout(function(){
+          __doubleClick.call(self, e);
+        }, 100);
+    }
+  };
+
+  var __eventOut = function(e){
+    if(selectPalette == 2 && this.isMove){
+      if(e.type.search("touch") >= 0){
+        e.offsetX = this.pos.x; 
+        e.offsetY = this.pos.y;
+      };
+      PP.movePickerIdentifier(false, e.offsetX, e.offsetY);
+      update();
+    }
+    this.objSelect = null; 
+    this.isMove = false;
+  }
+
+  can[1].onmouseup = __eventOut;
+  can[1].onmouseout = __eventOut;
+  can[1].ontouchend = __eventOut;
+  can[1].ontouchleave = __eventOut;
 
   bts[0].onmousedown = function(){
     if(selectPalette == 4){
