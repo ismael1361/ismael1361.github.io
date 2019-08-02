@@ -13,7 +13,7 @@ var PlayfulPalette = (function(){
     return this;
   };
 
-  bubble.prototype.ray = function(r){
+  bubble.prototype.radius = function(r){
     this.r = r;
     return this;
   };
@@ -90,15 +90,153 @@ var PlayfulPalette = (function(){
 
     this.pickerIdentifier = null;
     this.focusedPaint = null;
+
+    this.isSelectPicker = false;
+    this.isMoveBubbles = false;
+
+    this.selectBubble = null;
+
+    var self = this;
+
+    this.can.objSelect = null;
+    this.can.isMove = false;
+    this.can.pos = {x: 0, y: 0};
+
+    var __eventMove = function(e){
+      if(!this.isMove){return;}
+      if(e.type.search("touch") >= 0){
+        e.preventDefault();
+        var r = this.getBoundingClientRect();
+        e.offsetX = e.touches[0].pageX - r.x; 
+        e.offsetY = e.touches[0].pageY - r.y;
+      };
+      this.pos = {x: e.offsetX, y: e.offsetY};
+      if(self.isSelectPicker == true){
+        self.movePickerIdentifier(true, e.offsetX, e.offsetY);
+        var c = self.getPicker(e.offsetX, e.offsetY);
+        self.onpicker(c, e.offsetX, e.offsetY);
+      }else if(self.isMoveBubbles == true && this.objSelect != null){
+        var d = dist(e.offsetX, e.offsetY, PP.r, PP.r);
+        if(d > PP.r){
+          var ang = 180+Angle.pointsToDeg(e.offsetX, e.offsetY, PP.r, PP.r), p = Angle.findNewPoint(PP.r, PP.r, ang, PP.r);
+          this.objSelect.move(p.x, p.y);
+        }else{
+          this.objSelect.move(e.offsetX, e.offsetY);
+        }
+        self.update();
+      }
+    }
+
+    this.can.onmousemove = __eventMove;
+    this.can.ontouchmove = __eventMove;
+
+    var __eventStart = function(e){
+      this.pos = {x: e.offsetX, y: e.offsetY};
+      if(dist(e.offsetX, e.offsetY, self.r, self.r) > self.r){return;}
+  
+      this.objSelect = self.selectPaint(e.offsetX, e.offsetY);
+      this.isMove = true;
+      
+      if(self.selectBubble != null){
+        var checkBubble = self.selectPaint(e.offsetX, e.offsetY);
+        if(checkBubble != null){
+          self.selectBubble = checkBubble;
+        }else{
+          self.selectBubble = null;
+          self.toSelectPicker();
+        }
+        self.onselectbubble(self.selectBubble);
+      }
+    }
+  
+    this.can.onmousedown = __eventStart;
+
+    var __doubleClick = function(e){
+      if(dist(e.offsetX, e.offsetY, self.r, self.r) > self.r){return;}
+      self.selectBubble = null;
+      var checkBubble = self.selectPaint(e.offsetX, e.offsetY);
+      if(checkBubble != null){
+        self.toMoveBubbles();
+        self.onsetbubble(checkBubble);
+        self.selectBubble = checkBubble;
+      }else{
+        self.onselectnewbubble({x: e.offsetX, y: e.offsetY});
+      }
+    }
+
+    this.can.ondblclick = __doubleClick;
+    this.can.clickTimer = null;
+    this.can.ontouchstart = function(e){
+      e.preventDefault();
+      var r = this.getBoundingClientRect();
+      e.offsetX = e.touches[0].pageX - r.x; 
+      e.offsetY = e.touches[0].pageY - r.y;
+      var self = this;
+      if(this.clickTimer == null){
+        this.clickTimer = setTimeout(function(){
+          self.clickTimer = null;
+          __eventStart.call(self, e);
+        }, 300);
+      }else{
+          clearTimeout(this.clickTimer);
+          this.clickTimer = null;
+          setTimeout(function(){
+            __doubleClick.call(self, e);
+          }, 100);
+      }
+    };
+
+    var __eventOut = function(e){
+      if(self.isSelectPicker == true && this.isMove){
+        if(e.type.search("touch") >= 0){
+          e.preventDefault();
+          e.offsetX = this.pos.x; 
+          e.offsetY = this.pos.y;
+        };
+        self.movePickerIdentifier(false, e.offsetX, e.offsetY);
+        self.oneventout(e.offsetX, e.offsetY);
+      }
+      this.objSelect = null; 
+      this.isMove = false;
+    }
+
+    this.can.onmouseup = __eventOut;
+    this.can.onmouseout = __eventOut;
+    this.can.ontouchend = __eventOut;
+    this.can.ontouchleave = __eventOut;
+
+    this.onpicker = function(){return;};
+    this.onselectbubble = function(){return;};
+    this.onselectnewbubble = function(){return;};
+    this.onsetbubble = function(){return;};
+    this.oneventout = function(){return;};
+
     this.update();
   }
 
   var p = fn.prototype = {};
 
+  p.toSelectPicker = function(){
+    this.isSelectPicker = true;
+    this.isMoveBubbles = false;
+  }
+
+  p.toMoveBubbles = function(){
+    this.isSelectPicker = false;
+    this.isMoveBubbles = true;
+  }
+
   p.addPaint = function(c){
     var a = this.paints.add(c);
     this.update();
     return a;
+  }
+
+  p.removePaint = function(k){
+    this.paints.remove(k);
+    this.update();
+    this.selectBubble = PP.paints.root[0];
+    this.onselectbubble(this.selectBubble);
   }
 
   p.getPicker = function(x, y){

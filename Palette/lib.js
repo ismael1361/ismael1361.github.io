@@ -1,3 +1,38 @@
+var fileSave = function(sourceText, fileIdentity){
+  var workElement = document.createElement("a");
+  if('download' in workElement){
+    workElement.href = "data:" + 'text/plain' + "charset=utf-8," + escape(sourceText);
+    workElement.setAttribute("download", fileIdentity);
+    document.body.appendChild(workElement);
+    var eventMouse = document.createEvent("MouseEvents");
+    eventMouse.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    workElement.dispatchEvent(eventMouse);
+    document.body.removeChild(workElement);
+  }else{throw 'File saving not supported for this browser';}
+}
+
+var hex2ascii = function(value){
+  value = value.match(/[0-9A-Fa-f]{2}/g);
+  var len = hex.length;
+  if(len==0){return '';}
+  var txt='';
+  for(var i=0; i<len; i++){
+    txt += String.fromCharCode(parseInt(hex[i],16));
+  }
+  return txt;
+}
+
+var ascii2hex = function(value){
+  var len = value.length;
+  if(len==0){return '';}
+  var hex='';
+  for(var i=0; i<len; i++){
+    var h = value.charCodeAt(i).toString(16);
+    hex += (h.length==1 ? '0' : '')+h;
+  }
+  return hex;
+}
+
 var dist = function(x1, y1, x2, y2){
   var diff = function(a, b){return a > b ? a-b : b-a;},
       deltaX = diff(x1, x2), deltaY = diff(y1, y2);
