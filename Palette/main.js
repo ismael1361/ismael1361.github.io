@@ -72,6 +72,7 @@
   var __eventMove = function(e){
     if(!this.isMove){return;}
     if(e.type.search("touch") >= 0){
+      e.preventDefault();
       var r = this.getBoundingClientRect();
       e.offsetX = e.touches[0].pageX - r.x; 
       e.offsetY = e.touches[0].pageY - r.y;
@@ -138,6 +139,7 @@
 
   can[1].clickTimer = null;
   can[1].ontouchstart = function(e){
+    e.preventDefault();
     var r = this.getBoundingClientRect();
     e.offsetX = e.touches[0].pageX - r.x; 
     e.offsetY = e.touches[0].pageY - r.y;
@@ -159,6 +161,7 @@
   var __eventOut = function(e){
     if(selectPalette == 2 && this.isMove){
       if(e.type.search("touch") >= 0){
+        e.preventDefault();
         e.offsetX = this.pos.x; 
         e.offsetY = this.pos.y;
       };
