@@ -116,9 +116,9 @@ var PlayfulPalette = (function(){
         var c = self.getPicker(e.offsetX, e.offsetY);
         self.onpicker(c, e.offsetX, e.offsetY);
       }else if(self.isMoveBubbles == true && this.objSelect != null){
-        var d = dist(e.offsetX, e.offsetY, PP.r, PP.r);
-        if(d > PP.r){
-          var ang = 180+Angle.pointsToDeg(e.offsetX, e.offsetY, PP.r, PP.r), p = Angle.findNewPoint(PP.r, PP.r, ang, PP.r);
+        var d = dist(e.offsetX, e.offsetY, self.r, self.r);
+        if(d > self.r){
+          var ang = 180+Angle.pointsToDeg(e.offsetX, e.offsetY, self.r, self.r), p = Angle.findNewPoint(self.r, self.r, ang, self.r);
           this.objSelect.move(p.x, p.y);
         }else{
           this.objSelect.move(e.offsetX, e.offsetY);
@@ -141,6 +141,8 @@ var PlayfulPalette = (function(){
         var checkBubble = self.selectPaint(e.offsetX, e.offsetY);
         if(checkBubble != null){
           self.selectBubble = checkBubble;
+          self.toMoveBubbles();
+          self.onsetbubble(checkBubble);
         }else{
           self.selectBubble = null;
           self.toSelectPicker();
@@ -157,8 +159,8 @@ var PlayfulPalette = (function(){
       var checkBubble = self.selectPaint(e.offsetX, e.offsetY);
       if(checkBubble != null){
         self.toMoveBubbles();
-        self.onsetbubble(checkBubble);
         self.selectBubble = checkBubble;
+        self.onsetbubble(checkBubble);
       }else{
         self.onselectnewbubble({x: e.offsetX, y: e.offsetY});
       }
@@ -235,7 +237,7 @@ var PlayfulPalette = (function(){
   p.removePaint = function(k){
     this.paints.remove(k);
     this.update();
-    this.selectBubble = PP.paints.root[0];
+    this.selectBubble = this.paints.root[0];
     this.onselectbubble(this.selectBubble);
   }
 
@@ -243,7 +245,7 @@ var PlayfulPalette = (function(){
     return getFragColor(x, y, this.paints);
   }
 
-  p.selectPaint = function(x, y){
+  p.selectNearestBubble = function(x, y){
     var p = this.paints.root,
         k = [],
         dist = function(a, b, r){
@@ -262,9 +264,21 @@ var PlayfulPalette = (function(){
       var pt = {x: x, y: y};
       return dist(pt, a, a.r)-dist(pt, b, b.r);
     });
-  
-    if(dist({x: x, y: y}, p[k[0]], p[k[0]].r) <= 0.25){
-      return p[k[0]];
+
+    return p[k[0]];
+  }
+
+  p.selectPaint = function(x, y){
+    var p = this.selectNearestBubble(x, y),
+        dist = function(a, b, r){
+          var r = typeof r == "number" ? r : 50,
+              diff = function(a, b){if (a > b){return (a - b);}else{return (b - a);}},
+              dx = diff(a.x, b.x),
+              dy = diff(a.y, b.y);
+          return (dx * dx + dy * dy) / r / r;
+        };
+    if(dist({x: x, y: y}, p, p.r) <= 0.25){
+      return p;
     }
     return null;
   }

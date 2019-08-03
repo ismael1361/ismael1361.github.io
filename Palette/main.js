@@ -74,11 +74,12 @@
   }
   PP.toSelectPicker();
 
-  PP.onSelectBubble = function(s){
+  PP.onselectbubble = function(s){
+    if(s == null){selectPalette = 2;}
     update();
   }
 
-  PP.onSelectNewBubble = function(e){
+  PP.onselectnewbubble = function(e){
     selectNewbubble.x = e.x;
     selectNewbubble.y = e.y;
     selectPalette = 3;
