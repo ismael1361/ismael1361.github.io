@@ -110,11 +110,14 @@ var PlayfulPalette = (function(){
         e.offsetX = e.touches[0].pageX - r.x; 
         e.offsetY = e.touches[0].pageY - r.y;
       };
+      if(this.pos.x == e.offsetX && this.pos.y == e.offsetY){return;}
       this.pos = {x: e.offsetX, y: e.offsetY};
       if(self.isSelectPicker == true){
+
         self.movePickerIdentifier(true, e.offsetX, e.offsetY);
         var c = self.getPicker(e.offsetX, e.offsetY);
         self.onpicker(c, e.offsetX, e.offsetY);
+
       }else if(self.isMoveBubbles == true && this.objSelect != null){
         var d = dist(e.offsetX, e.offsetY, self.r, self.r);
         if(d > self.r){
@@ -123,8 +126,8 @@ var PlayfulPalette = (function(){
         }else{
           this.objSelect.move(e.offsetX, e.offsetY);
         }
-        self.update();
       }
+      self.update();
     }
 
     this.can.onmousemove = __eventMove;
@@ -149,6 +152,7 @@ var PlayfulPalette = (function(){
         }
         self.onselectbubble(self.selectBubble);
       }
+      self.update();
     }
   
     this.can.onmousedown = __eventStart;
@@ -164,6 +168,7 @@ var PlayfulPalette = (function(){
       }else{
         self.onselectnewbubble({x: e.offsetX, y: e.offsetY});
       }
+      self.update();
     }
 
     this.can.ondblclick = __doubleClick;
@@ -189,7 +194,9 @@ var PlayfulPalette = (function(){
     };
 
     var __eventOut = function(e){
-      if(self.isSelectPicker == true && this.isMove){
+      this.objSelect = null; 
+      this.isMove = false;
+      if(self.isSelectPicker == true){
         if(e.type.search("touch") >= 0){
           e.preventDefault();
           e.offsetX = this.pos.x; 
@@ -198,8 +205,6 @@ var PlayfulPalette = (function(){
         self.movePickerIdentifier(false, e.offsetX, e.offsetY);
         self.oneventout(e.offsetX, e.offsetY);
       }
-      this.objSelect = null; 
-      this.isMove = false;
     }
 
     this.can.onmouseup = __eventOut;
@@ -321,15 +326,6 @@ var PlayfulPalette = (function(){
 
         color = getFragColor(x, y, this.paints);
 
-        /*
-        if(this.focusedPaint != null){
-          var p = this.paints.root[this.focusedPaint];
-          alp = (dist(x, y, p.x, p.y)/(p.r/2))*100;
-          alp = (100-alp);
-          alp = alp <= maxT ? (alp/maxT) : 1;
-          alp = alp <= 0.7 ? 0.7 : alp > 1 ? 1 : alp;
-        }*/
-
         img2.data[i+0] = color[0];
         img2.data[i+1] = color[1];
         img2.data[i+2] = color[2];
@@ -341,8 +337,8 @@ var PlayfulPalette = (function(){
     this.bubblesCtx.putImageData(img2, 0, 0);
     this.ctx.drawImage(this.bubblesCan, 0, 0, this.w, this.h);
 
-    if(this.focusedPaint != null){
-      var p = this.paints.root[this.focusedPaint];
+    if(this.selectBubble != null){
+      var p = this.selectBubble;
       this.ctx.beginPath();
       this.ctx.lineWidth = 2;
       this.ctx.strokeStyle = "rgba(255, 255, 255 ,1)";

@@ -39,7 +39,7 @@
       can[0].style.display = "none"; can[1].style.display = "block";
     }
 
-    if(PP.selectBubble != null){PP.focusPaint(PP.selectBubble.key);}else{PP.focusPaint(null);}
+    //if(PP.selectBubble != null){PP.focusPaint(PP.selectBubble.key);}else{PP.focusPaint(null);}
 
     if(selectPalette == 1){
       bts[0].setAttribute("type", "paletteBubble");
