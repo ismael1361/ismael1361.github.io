@@ -33,6 +33,7 @@
 
   var update = function(){
     for(var i=0; i<bts.length; i++){bts[i].setAttribute("type", ""); bts[i].style.backgroundColor = "";}
+    can[1].style.cursor = "";
     if(selectPalette == 1 || selectPalette == 3){
       can[0].style.display = "block"; can[1].style.display = "none";
     }else{
@@ -57,7 +58,6 @@
           can[1].style.cursor = "move";
         }else{
           PP.toSelectPicker();
-          can[1].style.cursor = "";
         }
       }else{
         bts[2].setAttribute("type", "addBubble");
