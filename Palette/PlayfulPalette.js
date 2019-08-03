@@ -246,8 +246,9 @@ var PlayfulPalette = (function(){
   p.removePaint = function(k){
     this.paints.remove(k);
     this.update();
-    this.selectBubble = this.paints.root[0];
+    this.selectBubble = this.paints.root.length > 0 ? this.paints.root[0] : null;
     this.onselectbubble(this.selectBubble);
+    if(this.selectBubble == null){this.toSelectPicker();}
   }
 
   p.getPicker = function(x, y){
@@ -286,6 +287,9 @@ var PlayfulPalette = (function(){
               dy = diff(a.y, b.y);
           return (dx * dx + dy * dy) / r / r;
         };
+
+    if(p == null){return null;}
+
     if(dist({x: x, y: y}, p, p.r) <= 0.25){
       return p;
     }

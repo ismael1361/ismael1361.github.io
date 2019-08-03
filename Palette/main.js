@@ -55,6 +55,10 @@
       bts[2].setAttribute("type", "confirm");
       bts[3].setAttribute("type", "cancel");
     }else if(selectPalette == 4){
+      if(PP.selectBubble == null){
+        selectPalette == 2;
+        update();
+      }
       PP.toMoveBubbles();
       bts[0].setAttribute("type", "delete");
       bts[2].setAttribute("type", "confirm");
@@ -86,8 +90,8 @@
     update();
   };
 
-  PP.onsetbubble = function(){
-    selectPalette = 4;
+  PP.onsetbubble = function(s){
+    selectPalette = s == null ? 2 : 4;
     update();
   };
 
@@ -97,8 +101,8 @@
 
   bts[0].onmousedown = function(){
     if(selectPalette == 4){
-      PP.removePaint(PP.selectBubble.key);
       selectPalette = 4;
+      PP.removePaint(PP.selectBubble.key);
     }else{
       selectPalette = selectPalette == 1 ? 2 : 1;
     }
