@@ -46,11 +46,23 @@
       var c = memoryColorSelect;
       CW.setRGB(c[0], c[1], c[2]);
     }else if(selectPalette == 2){
-      PP.toSelectPicker();
       bts[0].setAttribute("type", "colorWheel");
-      bts[2].setAttribute("type", "settings");
-      //bts[3].setAttribute("type", "moveBubble");
-
+      if(PP.paints.root.length > 0){
+        bts[2].setAttribute("type", "settings");
+        bts[1].setAttribute("type", "clear");
+        bts[3].setAttribute("type", "moveBubble");
+        if(PP.isMoveAllBubbles == true){
+          PP.toMoveAllBubbles();
+          bts[3].style.backgroundColor = "#1565c0";
+          can[1].style.cursor = "move";
+        }else{
+          PP.toSelectPicker();
+          can[1].style.cursor = "";
+        }
+      }else{
+        bts[2].setAttribute("type", "addBubble");
+        PP.toSelectPicker();
+      }
     }else if(selectPalette == 3){
       bts[2].setAttribute("type", "confirm");
       bts[3].setAttribute("type", "cancel");
@@ -61,7 +73,7 @@
       }
       PP.toMoveBubbles();
       bts[0].setAttribute("type", "delete");
-      bts[2].setAttribute("type", "confirm");
+      bts[2].setAttribute("type", "picker");
       bts[3].setAttribute("type", "setColors");
       bts[3].style.backgroundColor = "rgb("+PP.selectBubble.color[0]+", "+PP.selectBubble.color[1]+", "+PP.selectBubble.color[2]+")";
       bts[4].setAttribute("type", "plusZoom");
@@ -109,7 +121,12 @@
     update();
   }
 
-  bts[1].onmousedown = function(){return;}
+  bts[1].onmousedown = function(){
+    if(selectPalette == 2){
+      PP.clearAllBubbles();
+    }
+    update();
+  }
 
   bts[2].onmousedown = function(){
     if(selectPalette == 2){
@@ -139,7 +156,13 @@
   }
 
   bts[3].onmousedown = function(){
-    if(selectPalette == 3){
+    if(selectPalette == 2){
+      if(PP.isMoveAllBubbles == false){
+        PP.toMoveAllBubbles();
+      }else{
+        PP.toSelectPicker();
+      }
+    }else if(selectPalette == 3){
       if(PP.selectBubble == null){
         selectPalette = 2;
       }else{

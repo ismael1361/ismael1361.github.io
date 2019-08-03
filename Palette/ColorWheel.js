@@ -21,8 +21,14 @@ var ColorWheel = (function(){
       var temp = deg-315, total = 360-315;
       x = 100; y = 100-(temp/total*50);
     }
+
+    var tp = Angle.findNewPoint(50, 50, 360-deg, dist(x, y, 50, 50)*rad);
+
+    tp.x = tp.x > 100 ? 100 : tp.x < 0 ? 0 : Math.abs(tp.x);
+    tp.y = tp.y > 100 ? 100 : tp.y < 0 ? 0 : Math.abs(tp.y);
+    return [tp.x, tp.y];
   
-    var p = (100-(100*rad))/2;
+    var p = ((1-rad)/2)*100;
     x = p+(x*rad);
     y = p+(y*rad);
   
@@ -34,13 +40,13 @@ var ColorWheel = (function(){
     x = typeof x == "number" ? x : 100;
     y = typeof y == "number" ? y : 100;
 
-    deg = (360-Angle.pointsToDeg(50, 50, x, y))%360;
+    deg = Math.floor((360-Angle.pointsToDeg(50, 50, x, y))%360);
 
     var p = deg2rec(deg, 100), 
         r1 = dist(p[0], p[1], 50, 50), 
         r2 = dist(x, y, 50, 50);
 
-    return [deg, (r2/r1)*100];
+    return [deg, Math.floor((r2/r1)*100)];
   }
 
   var fn = function(can){
@@ -247,7 +253,7 @@ var ColorWheel = (function(){
 
     if(mDisc){
       //pointCirclePos.x = pointCirclePos.x-2;
-      pointCirclePos.y = pointCirclePos.y-6;
+      pointCirclePos.y = pointCirclePos.y-10;
     }
 
     this.ctx.beginPath();

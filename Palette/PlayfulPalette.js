@@ -93,6 +93,7 @@ var PlayfulPalette = (function(){
 
     this.isSelectPicker = false;
     this.isMoveBubbles = false;
+    this.isMoveAllBubbles = false;
 
     this.selectBubble = null;
 
@@ -111,7 +112,6 @@ var PlayfulPalette = (function(){
         e.offsetY = e.touches[0].pageY - r.y;
       };
       if(this.pos.x == e.offsetX && this.pos.y == e.offsetY){return;}
-      this.pos = {x: e.offsetX, y: e.offsetY};
       if(self.isSelectPicker == true){
 
         self.movePickerIdentifier(true, e.offsetX, e.offsetY);
@@ -126,7 +126,11 @@ var PlayfulPalette = (function(){
         }else{
           this.objSelect.move(e.offsetX, e.offsetY);
         }
+      }else if(self.isMoveAllBubbles == true){
+        var pX = e.offsetX-this.pos.x, pY = e.offsetY-this.pos.y;
+        self.moveAllBubblesBy(pX, pY);
       }
+      this.pos = {x: e.offsetX, y: e.offsetY};
       self.update();
     }
 
@@ -226,6 +230,7 @@ var PlayfulPalette = (function(){
   p.toSelectPicker = function(){
     this.isSelectPicker = true;
     this.isMoveBubbles = false;
+    this.isMoveAllBubbles = false;
     this.selectBubble = null;
     this.update();
   }
@@ -233,7 +238,16 @@ var PlayfulPalette = (function(){
   p.toMoveBubbles = function(){
     this.isSelectPicker = false;
     this.isMoveBubbles = true;
+    this.isMoveAllBubbles = false;
     this.selectBubble = this.selectBubble == null ? this.paints.root[0] : this.selectBubble;
+    this.update();
+  }
+
+  p.toMoveAllBubbles = function(){
+    this.isSelectPicker = false;
+    this.isMoveBubbles = false;
+    this.isMoveAllBubbles = true;
+    this.selectBubble = null;
     this.update();
   }
 
@@ -249,6 +263,20 @@ var PlayfulPalette = (function(){
     this.selectBubble = this.paints.root.length > 0 ? this.paints.root[0] : null;
     this.onselectbubble(this.selectBubble);
     if(this.selectBubble == null){this.toSelectPicker();}
+  }
+
+  p.clearAllBubbles = function(){
+    if(this.paints.root.length <= 0){return;}
+    this.paints = new blend();
+    this.update();
+  }
+
+  p.moveAllBubblesBy = function(x, y){
+    if(this.paints.root.length <= 0){return;}
+    for(var i=0; i<this.paints.root.length; i++){
+      var b = this.paints.root[i];
+      b.move(b.x+x, b.y+y);
+    }
   }
 
   p.getPicker = function(x, y){
