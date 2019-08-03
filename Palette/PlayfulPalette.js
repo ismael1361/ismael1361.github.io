@@ -226,11 +226,15 @@ var PlayfulPalette = (function(){
   p.toSelectPicker = function(){
     this.isSelectPicker = true;
     this.isMoveBubbles = false;
+    this.selectBubble = null;
+    this.update();
   }
 
   p.toMoveBubbles = function(){
     this.isSelectPicker = false;
     this.isMoveBubbles = true;
+    this.selectBubble = this.selectBubble == null ? this.paints.root[0] : this.selectBubble;
+    this.update();
   }
 
   p.addPaint = function(c){

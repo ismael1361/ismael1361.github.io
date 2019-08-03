@@ -119,7 +119,6 @@
       }else{
         selectPalette = 4;
         PP.selectBubble.color = CW.value.rgb;
-        PP.update();
       }
     }else if(selectPalette == 4){
       selectPalette = 2;
@@ -146,7 +145,6 @@
   bts[4].onmousedown = function(){
     if(selectPalette == 4){
       PP.selectBubble.radius(PP.selectBubble.r+5);
-      PP.update();
     }
     update();
   }
@@ -154,7 +152,6 @@
   bts[5].onmousedown = function(){
     if(selectPalette == 4){
       PP.selectBubble.radius(PP.selectBubble.r-5);
-      PP.update();
     }
     update();
   }
