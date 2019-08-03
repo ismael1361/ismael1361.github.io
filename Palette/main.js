@@ -113,8 +113,15 @@
 
   bts[2].onmousedown = function(){
     if(selectPalette == 2){
-      PP.selectBubble = PP.paints.root[0];
-      selectPalette = 4;
+      if(PP.paints.root.length > 0){
+        PP.selectBubble = PP.paints.root[0];
+        selectPalette = 4;
+      }else{
+        var p = Angle.findNewPoint(PP.r, PP.r, Math.round(Math.random()*360), Math.round(Math.random()*PP.r-30));
+        selectNewbubble.x = p.x;
+        selectNewbubble.y = p.y;
+        selectPalette = 3;
+      }
     }else if(selectPalette == 3){
       if(PP.selectBubble == null){
         selectPalette = 4;
