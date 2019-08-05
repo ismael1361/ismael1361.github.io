@@ -81,6 +81,11 @@ var PlayfulPalette = (function(){
     this.h = can.height;
     this.r = this.w/2;
 
+    this.backgroundCan = document.createElement("canvas");
+    this.backgroundCtx = this.backgroundCan.getContext("2d");
+    this.backgroundCan.width = this.w;
+    this.backgroundCan.height = this.h;
+
     this.bubblesCan = document.createElement("canvas");
     this.bubblesCtx = this.bubblesCan.getContext("2d");
     this.bubblesCan.width = this.w;
@@ -222,6 +227,23 @@ var PlayfulPalette = (function(){
     this.onsetbubble = function(){return;};
     this.oneventout = function(){return;};
 
+    var img = this.backgroundCtx.createImageData(this.w, this.h);
+    for(var y = 0; y < this.h; y++){
+      for(var x = 0; x < this.w; x++){
+        var i = (y*this.w+x)*4, color = [255, 255, 255, 100], t = 0, maxT = 1.2, d;
+        d = (dist(x, y, this.r, this.r)/this.r)*100;
+        t = (100-d);
+        t = t <= maxT ? (t/maxT) : 1;
+        t = t < 0 ? 0 : t > 1 ? 1 : t;
+        img.data[i+0] = color[0];
+        img.data[i+1] = color[1];
+        img.data[i+2] = color[2];
+        img.data[i+3] = Math.round(color[3]*(t));
+      }
+    }
+    this.backgroundCtx.putImageData(img, 0, 0);
+
+    this.init = true;
     this.update();
   }
 
@@ -344,33 +366,30 @@ var PlayfulPalette = (function(){
 
   p.draw = function(){
     this.ctx.clearRect(0, 0, this.w, this.h);
-    this.bubblesCtx.clearRect(0, 0, this.w, this.h);
-    var img1 = this.ctx.createImageData(this.w, this.h), img2 = this.bubblesCtx.createImageData(this.w, this.h);
 
-    for(var y = 0; y < this.h; y++){
-      for(var x = 0; x < this.w; x++){
-        var i = (y*this.w+x)*4, color = [255, 255, 255, 100], t = 0, maxT = 1.2, d, alp = 1;
-        d = (dist(x, y, this.r, this.r)/this.r)*100;
-        t = (100-d);
-        t = t <= maxT ? (t/maxT) : 1;
-        t = t < 0 ? 0 : t > 1 ? 1 : t;
+    if(this.init || this.isSelectPicker != true){
+      this.bubblesCtx.clearRect(0, 0, this.w, this.h);
+      var img = this.bubblesCtx.createImageData(this.w, this.h);
+      for(var y = 0; y < this.h; y++){
+        for(var x = 0; x < this.w; x++){
+          var i = (y*this.w+x)*4, color = [255, 255, 255, 100], t = 0, maxT = 1.2, d, alp = 1;
+          d = (dist(x, y, this.r, this.r)/this.r)*100;
+          t = (100-d);
+          t = t <= maxT ? (t/maxT) : 1;
+          t = t < 0 ? 0 : t > 1 ? 1 : t;
 
-        img1.data[i+0] = color[0];
-        img1.data[i+1] = color[1];
-        img1.data[i+2] = color[2];
-        img1.data[i+3] = Math.round(color[3]*(t));
+          color = getFragColor(x, y, this.paints);
 
-        color = getFragColor(x, y, this.paints);
-
-        img2.data[i+0] = color[0];
-        img2.data[i+1] = color[1];
-        img2.data[i+2] = color[2];
-        img2.data[i+3] = Math.round(color[3]*(t)*alp);
+          img.data[i+0] = color[0];
+          img.data[i+1] = color[1];
+          img.data[i+2] = color[2];
+          img.data[i+3] = Math.round(color[3]*(t)*alp);
+        }
       }
+      this.bubblesCtx.putImageData(img, 0, 0);
     }
 
-    this.ctx.putImageData(img1, 0, 0);
-    this.bubblesCtx.putImageData(img2, 0, 0);
+    this.ctx.drawImage(this.backgroundCan, 0, 0, this.w, this.h);
     this.ctx.drawImage(this.bubblesCan, 0, 0, this.w, this.h);
 
     if(this.selectBubble != null){
@@ -399,6 +418,8 @@ var PlayfulPalette = (function(){
       this.ctx.stroke();
       this.ctx.fill();
     }
+
+    this.init = false;
   }
 
   return fn;
