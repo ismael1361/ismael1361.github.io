@@ -243,8 +243,7 @@ var PlayfulPalette = (function(){
     }
     this.backgroundCtx.putImageData(img, 0, 0);
 
-    this.init = true;
-    this.update();
+    this.update(true);
   }
 
   var p = fn.prototype = {};
@@ -275,13 +274,13 @@ var PlayfulPalette = (function(){
 
   p.addPaint = function(c){
     var a = this.paints.add(c);
-    this.update();
+    this.update(true);
     return a;
   }
 
   p.removePaint = function(k){
     this.paints.remove(k);
-    this.update();
+    this.update(true);
     this.selectBubble = this.paints.root.length > 0 ? this.paints.root[0] : null;
     this.onselectbubble(this.selectBubble);
     if(this.selectBubble == null){this.toSelectPicker();}
@@ -290,7 +289,7 @@ var PlayfulPalette = (function(){
   p.clearAllBubbles = function(){
     if(this.paints.root.length <= 0){return;}
     this.paints = new blend();
-    this.update();
+    this.update(true);
   }
 
   p.moveAllBubblesBy = function(x, y){
@@ -346,28 +345,28 @@ var PlayfulPalette = (function(){
     return null;
   }
 
-  p.update = function(){var self = this; window.requestAnimationFrame(function(){self.draw();});}
+  p.update = function(isDraw){var self = this; window.requestAnimationFrame(function(){self.draw(typeof isDraw == "boolean" ? isDraw : false);});}
 
   p.movePickerIdentifier = function(t, x, y){
     if(typeof t != "boolean" || t == false){
       this.pickerIdentifier = null;
-      this.update();
+      this.update(false);
       return;
     }
 
     this.pickerIdentifier = {x: x, y: y};
-    this.update();
+    this.update(false);
   }
 
   p.focusPaint = function(k){
     this.focusedPaint = typeof k == "number" ? k < 0 ? null : k >= this.paints.root.length ? null : k : null;
-    this.update();
+    this.update(false);
   }
 
-  p.draw = function(){
+  p.draw = function(isDraw){
     this.ctx.clearRect(0, 0, this.w, this.h);
 
-    if(this.init || this.isSelectPicker != true){
+    if(isDraw || this.isSelectPicker != true){
       this.bubblesCtx.clearRect(0, 0, this.w, this.h);
       var img = this.bubblesCtx.createImageData(this.w, this.h);
       for(var y = 0; y < this.h; y++){
@@ -418,8 +417,6 @@ var PlayfulPalette = (function(){
       this.ctx.stroke();
       this.ctx.fill();
     }
-
-    this.init = false;
   }
 
   return fn;
