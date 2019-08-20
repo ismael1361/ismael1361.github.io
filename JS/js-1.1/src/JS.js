@@ -788,6 +788,13 @@ limitações sob a licença.
     for(var d=0; d<c.length; d++){this.removeEventListener(c[d], b);} 
   }
 
+  jsRoot.triggerEvent = function(a){
+    var b;
+    if(document.createEvent){b = document.createEvent("HTMLEvents"); b.initEvent(a, false, true);}else{b = document.createEventObject(); b.eventType = a;}
+    b.eventName  = a;
+    if(document.createEvent){this.dispatchEvent(b);}else{this.fireEvent("on" + b.eventType, b);}
+  };
+
   jsRoot.offset = function(){
     var a = {left:0, top:0}, b = null; 
     for(var c=this; c.parentNode!=null; c=c.parentNode){

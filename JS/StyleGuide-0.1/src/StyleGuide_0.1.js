@@ -367,6 +367,7 @@ limitações sob a licença.
               self.dom.val(js(this).attr("data-value"));
               div.find('.selected > .value').html(s.html()); 
               validValue();
+              self.dom.triggerEvent("change");
             });
           });
         }
@@ -447,7 +448,9 @@ limitações sob a licença.
         div.append('<div class="input-checkbox'+(String(this.dom.attr('type')).toLocaleLowerCase() == "radio" ? ' box_circle' : '')+'"><span class="check"></span><span class="ripple"></span></div><label>'+label+'</label>');
 
         var self = this, a = self.dom[0];
-
+        div.on("mouseup", function(){
+          self.dom.triggerEvent("mouseup");
+        });
         div.on("mousedown", function(){
           if(a.disabled){return;}
           if(a.checked == true){
@@ -455,6 +458,11 @@ limitações sob a licença.
           }else{
             a.checked = true;
           }
+          
+          self.dom.triggerEvent("mousedown");
+          self.dom.triggerEvent("click");
+          self.dom.triggerEvent("blur");
+          self.dom.triggerEvent("focus");
 
           var c = div.find('.input-checkbox > .ripple');
           c.removeClass("animating");
@@ -506,6 +514,9 @@ limitações sob a licença.
         div.append('<label>'+label+'</label><div class="slider"><span class="check"><span class="ripple"></span></span></div>');
 
         var self = this, a = self.dom[0];
+        div.on("mouseup", function(){
+          self.dom.triggerEvent("mouseup");
+        });
         div.on("mousedown", function(){
           if(a.disabled){return;}
           if(a.checked == true){
@@ -513,6 +524,11 @@ limitações sob a licença.
           }else{
             a.checked = true;
           }
+
+          self.dom.triggerEvent("mousedown");
+          self.dom.triggerEvent("click");
+          self.dom.triggerEvent("blur");
+          self.dom.triggerEvent("focus");
 
           var c = div.find('.slider > .check > .ripple');
           c.removeClass("animating");
@@ -703,10 +719,15 @@ limitações sob a licença.
 
           var total = this.min < 0 ? Math.abs(this.min)+this.max : this.max-this.min;
 
-          var _self = this, toFixed = function(a, b){b = typeof b == "number" ? b : 1; a = a.toFixed(b); return Number(a.split('.')[1] == '0' ? a.split('.')[0] : a);},
+          var _self = this, toFixed = function(a, b){b = typeof b == "number" ? b : 1; a = a.toFixed(b); return Math.round(Number(a.split('.')[1] == '0' ? a.split('.')[0] : a));},
           toValue = function(a, b){a = total*(a/100); a = _self.min < 0 ? a - Math.abs(_self.min) : a + _self.min; return toFixed(a, b);}
 
           this.value(toValue(start), toValue(end));
+        }
+
+        var allEvent = function(){
+          self.dom.triggerEvent("input");
+          self.dom.triggerEvent("change");
         }
 
         div.find('.root')[0].mutation = function(e){
@@ -717,11 +738,12 @@ limitações sob a licença.
           this.percentToValue(0, Math.round((c/d.width)*100));
           var out = Math.round(e.pageY - b.top);
           if(out >= d.height || out < 0){this.ranged = false;}
+          allEvent();
         }
 
         var move = function(e){this.mutation(e);},
-            down = function(e){this.ranged = true; this.mutation(e); this.active(true);},
-            up = function(){this.ranged = false; this.active(false);};
+            down = function(e){this.ranged = true; this.mutation(e); this.active(true); allEvent();},
+            up = function(){this.ranged = false; this.active(false); allEvent();};
 
         div.find('.root').on("mousemove", move);
         div.find('.root').on("touchmove", move);

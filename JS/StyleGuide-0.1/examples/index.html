@@ -181,7 +181,7 @@
       </div>
       <div>
         <textarea name="" label="Message" rows="5"></textarea>
-        <select name="" label="Options">
+        <select name="" label="Options" onchange="console.log(this.value);">
           <option value=""></option>
           <option value="1">Option 1</option>
           <option value="2">Option 2</option>
@@ -205,7 +205,7 @@
       </div>
       <div>
         <h6 class="subheader">RADIO BUTTONS</h6>
-        <input type="radio" label="Radio button - 1" name="radioBtn"/>
+        <input type="radio" label="Radio button - 1" name="radioBtn" onblur="console.log(this.checked);"/>
         <input type="radio" label="Radio button - 2" name="radioBtn" checked/>
         <input type="radio" label="Radio button - 3" name="radioBtn" disabled checked/>
       </div>
@@ -214,7 +214,7 @@
       <h6>Slider</h6>
       <div>
         <h6 class="subheader">Sample Slider:</h6>
-        <input type="range" min="-5" max="10" value="2" valuelabeldisplay="auto">
+        <input type="range" min="-5" max="10" value="2" valuelabeldisplay="auto" onchange="console.log(this.value);">
         <h6 class="subheader">Steps Slider:</h6>
         <input type="range" min="0" max="100" value="20" step="10" valuelabeldisplay="auto">
         <h6 class="subheader">Custom marks:</h6>
