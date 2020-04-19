@@ -1,3 +1,15 @@
+var mtx = new Matrix2(5, 8);
+mtx.randomize();
+mtx.print();
+
+var mtx2 = Matrix2.add(mtx, 2);
+mtx2.print();
+
+mtx.add(mtx2);
+mtx.print();
+
+console.table(mtx.toArray());
+
 var nn = new NeuralNetwork.Brain(2, 4, 1);
 
 nn.setLearningRate(0.8);

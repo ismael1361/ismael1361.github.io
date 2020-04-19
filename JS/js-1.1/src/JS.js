@@ -130,13 +130,12 @@ limitações sob a licença.
     if(c[0] == ''){c.splice(0, 1);}
     c = c.join('\/');
     if(b[6] && b[6] != ''){
-      e = b[6].split("&");
-      for(var i=1; i<e.length; i++){
-        var f = e[i].split("=");
-        if(f[0] && f[0] != ""){d[f[0]] = f[1] || '';}
-      }
+      b[6].replace("?", "").split("&").forEach(function(e){
+        var f = e.split("=");
+        if(f[0] && f[0] != ""){d[f[0]] = decodeURIComponent(f[1]) || '';}
+      });
     }
-    return {href: a || '', protocol: b[1] || '', host: b[2] || '', hostname: b[3] || '', port: b[4] || '', pathname: c || '', search: d, hash: b[7] || '', vars: d}
+    return {href: a || '', protocol: b[1] || '', host: b[2] || '', hostname: b[3] || '', port: b[4] || '', pathname: c || '', search: d, hash: b[7] || '', vars: d, match: b}
   }
   lib.isJson = function(a){
     a = typeof a !== "string" ? JSON.stringify(a) : a;
@@ -611,6 +610,193 @@ limitações sob a licença.
     return this.querySelectorAll(selector)[0] || null;
   }
 
+  lib.CSSJSON = {};
+  lib.CSSJSON.toJSON = function(cssCode){
+    var commentX = /\/\*[\s\S]*?\*\//g, lineAttrX = /([^\:]+):([^\;]*);/, altX = /(\/\*[\s\S]*?\*\/)|([^\s\;\{\}][^\;\{\}]*(?=\{))|(\})|([^\;\{\}]+\;(?!\s*\*\/))/gmi, capComment = 1, capSelector = 2, capEnd = 3, capAttr = 4;
+    var isEmpty = function(x){return typeof x == 'undefined' || x.length == 0 || x == null;};
+    var toJson = function(cssString, args){
+      var node = {children: {}, attributes: {}}, match = null, count = 0;
+      if(typeof args == 'undefined'){
+        var args = {ordered: false, comments: false, stripComments: false, split: false};
+      }
+      if(args.stripComments){
+        args.comments = false;
+        cssString = cssString.replace(commentX, '');
+      }
+      while((match = altX.exec(cssString)) != null){
+        if(!isEmpty(match[capComment]) && args.comments){
+          var add = match[capComment].trim();
+          node[count++] = add;
+        }else if(!isEmpty(match[capSelector])){
+          var name = match[capSelector].trim();
+          var newNode = toJson(cssString, args);
+          if(args.ordered){
+            var obj = {};
+            obj['name'] = name; obj['value'] = newNode; obj['type'] = 'rule';
+            node[count++] = obj;
+          }else{
+            var bits = args.split ? name.split(',') : [name];
+            for(var i = 0; i < bits.length; i++){
+              var sel = bits[i].trim();
+              if(sel in node.children){
+                for(var att in newNode.attributes){
+                  node.children[sel].attributes[att] = newNode.attributes[att];
+                }
+              }else{
+                node.children[sel] = newNode;
+              }
+            }
+          }
+        }else if(!isEmpty(match[capEnd])){
+          return node;
+        }else if(!isEmpty(match[capAttr])){
+          var line = match[capAttr].trim(), attr = lineAttrX.exec(line);
+          if(attr){
+            var name = attr[1].trim(), value = attr[2].trim();
+            if(args.ordered){
+              var obj = {};
+              obj['name'] = name; obj['value'] = value; obj['type'] = 'attr';
+              node[count++] = obj;
+            }else{
+              if(name in node.attributes){
+                var currVal = node.attributes[name];
+                if(!(currVal instanceof Array)){
+                    node.attributes[name] = [currVal];
+                }
+                node.attributes[name].push(value);
+              }else{
+                node.attributes[name] = value;
+              }
+            }
+          }else{
+            node[count++] = line;
+          }
+        }
+      }
+      return node;
+    }
+    var getSelector = function(selec){return selec.search(",") >= 0 ? [selec] : selec.replace(/(\s+)?([\:\,])(\s+)?/gi, "$2").replace(/(\s+)?([\>\*])(\s+)?/gi, " $2 ").trim().split(" ");}
+    var joinJson = function(a, b){for(var i in b){if(js.isJson(b[i])){a[i] = joinJson(a[i] || {}, b[i]);}else{a[i] = b[i];}} return a;}
+    var getChildrens = function(json, key, value){
+      var keys = getSelector(key), children = {};
+      for(var k=keys.length-1; k>=0; k--){
+        if(k>=keys.length-1){
+          children[keys[k]] = value;
+        }else{
+          var temp = children; children = {}; children[keys[k]] = temp;
+        }
+      }
+      json = joinJson(json, children);
+      return json;
+    }
+    var json = {}, convert = toJson(cssCode).children;
+    for(var i in convert){
+      if(i.search("@") >= 0){
+        json[i] = {};
+        for(var j in convert[i].children){
+          json[i] = getChildrens(json[i], j, convert[i].children[j].attributes);
+        }
+      }else{
+        json = getChildrens(json, i, convert[i].attributes);
+      }
+    }
+    return json;
+  }
+  lib.CSSJSON.toCSS = function(node){
+    if(!js.isJson(node)){return ''}
+    var isHaveBlocks = function(node){
+      var isHave = false;
+      for(var i in node){
+        if(js.isJson(node[i]) && isHave === false){
+          isHave = true;
+          break;
+        }
+      }
+      return isHave;
+    }
+    var getAllBlocks = function(node){
+      var blocks = {};
+      for(var i in node){
+        if(js.isJson(node[i])){
+          if(i.search("@") >= 0){
+            blocks[i.trim()] = getAllBlocks(node[i]);
+          }else{
+            if(isHaveBlocks(node[i])){
+              var b = getAllBlocks(node[i], i);
+              for(var j in b){
+                if(j === "___attributes___"){
+                  blocks[i.trim()] = b[j];
+                }else{
+                  blocks[i.trim() + " " + j.trim()] = b[j];
+                }
+              }
+            }else{
+              blocks[i.trim()] = node[i];
+            }
+          }
+        }else{
+          if("___attributes___" in blocks === false){blocks["___attributes___"] = {};}
+          blocks["___attributes___"][i.trim()] = node[i];
+        }
+      }
+      return blocks;
+    }
+    var strAttr = function(attrs, depth){
+      var code = "";
+      for(var i in attrs){
+        code += ('\t'.repeat(depth)) + i + ': ' + attrs[i] + ';\n';
+      }
+      return code;
+    };
+    var allBlocks = getAllBlocks(node), codeCss = "";
+    for(var i in allBlocks){
+      if(i.search("@") >= 0){
+        codeCss += (i + ' {\n');
+        for(var j in allBlocks[i]){
+          codeCss += (('\t'.repeat(1)) + j + ' {\n' + strAttr(allBlocks[i][j], 2) + ('\t'.repeat(1)) + '}\n');
+        }
+        codeCss += ('}\n');
+      }else{
+        codeCss += (i + ' {\n' + strAttr(allBlocks[i], 1) + '}\n');
+      }
+    }
+    return codeCss;
+  }
+  lib.CSSJSON.toHEAD = function(data, id, replace){
+    var head = document.getElementsByTagName('head')[0], xnode = document.getElementById(id), _xnodeTest = (xnode !== null && xnode instanceof HTMLStyleElement);
+    var isEmpty = function(x){return typeof x == 'undefined' || x == null;};
+    var isValidStyleNode = function(node){return (node instanceof HTMLStyleElement) && node.sheet.cssRules.length > 0;}
+    var timestamp = function(){return Date.now() || +new Date();};
+    if(isEmpty(data) || !(head instanceof HTMLHeadElement)) return;
+    if(_xnodeTest){
+      if(replace === true || isEmpty(replace)){
+        xnode.removeAttribute('id');
+      }else return;
+    }
+    if(js.isJson(data)){data = lib.CSSJSON.toCSS(data);}
+    var node = document.createElement('style');
+    node.type = 'text/css';
+    if(!isEmpty(id)){node.id = id;}else{node.id = 'cssjson_' + timestamp();}
+    if(node.styleSheet){
+      node.styleSheet.cssText = "\n"+data;
+    }else{
+      node.appendChild(document.createTextNode("\n"+data));
+    }
+    head.appendChild(node);
+    if(isValidStyleNode(node)){
+      if(_xnodeTest){
+        xnode.parentNode.removeChild(xnode);
+      }
+    }else{
+      node.parentNode.removeChild(node);
+      if(_xnodeTest){
+        xnode.setAttribute('id', id);
+        node = xnode;
+      }else return;
+    }
+    return node;
+  };
+
   var js = function(selector, context){return new fn.init(selector, context);}
   
   var fn = js.prototype = {};
@@ -1014,7 +1200,8 @@ limitações sob a licença.
     getDom : function(a){return typeof a == "number" && this.length > a ? this[a] : this.length > 0 ? this[0] : null;},
     getItem : function(a){return js(typeof a == "number" && this.length > a ? this[a] : null);},
     first : function(){return js(this.length > 0 ? this[0] : null);},
-    last : function(){return js(this.length > 0 ? this[this.length - 1] : null);}
+    last : function(){return js(this.length > 0 ? this[this.length - 1] : null);},
+    isElementJS : true
   });
 
   fn.init = function(selector){
@@ -1072,6 +1259,8 @@ limitações sob a licença.
   js.querySelector = lib.querySelector;
   js.Base64 = lib.Base64;
   js.Utf8 = lib.Utf8;
+  js.CSSJSON = lib.CSSJSON;
+  js.library = lib;
 
   js.lib = function(k, f){
     js[k] = f;
@@ -1236,6 +1425,6 @@ limitações sob a licença.
     return js;
   };
 
-  if(!noGlobal){window.js = window._ = js;}
+  if(!noGlobal){window.js = window._ = js; window.isJS = true;}
   return js;
 }));

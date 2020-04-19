@@ -1,6 +1,7 @@
 window.NeuralNetwork = ("NeuralNetwork" in window == false) || typeof window.NeuralNetwork != "object" ? {} : window.NeuralNetwork;
 
 window.NeuralNetwork.Matrix = (function($root){
+  var Matrix;
   var fn = Matrix = function(r, c){
 
     this.rows = r;
@@ -213,7 +214,7 @@ window.NeuralNetwork.Matrix = (function($root){
 
   fn.deserialize = function(a){
     if (typeof a == 'string'){a = JSON.parse(a);}
-    let r = new Matrix(data.rows, data.cols);
+    var r = new Matrix(a.rows, a.cols);
     r.data = a.data;
     return r;
   }
