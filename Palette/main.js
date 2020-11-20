@@ -1,5 +1,5 @@
 (function(){
-  var bts = document.querySelectorAll('#Palette > .content > .btt'), selectPalette = 0, memoryColorSelect = [0, 196, 180];
+  var bts = document.querySelectorAll('#Palette > .content > .btt'), selectPalette = 1, memoryColorSelect = [0, 196, 180];
 
   var can = document.querySelectorAll('#Palette > .content > canvas');
 
