@@ -193,6 +193,23 @@ var ColorWheel = (function(){
 
     this.ctx.clearRect(0, 0, this.w, this.h);
 
+    var self = this;
+    var filter = [
+		[-2, -2], [-1, -2], [0, -2], [1, -2], [2, -2],
+		[-2, -1], [-1, -1], [0, -1], [1, -1], [2, -1],
+		[-2,  0], [-1,  0], [0,  0], [1,  0], [2,  0],
+		[-2,  1], [-1,  1], [0,  1], [1,  1], [2,  1],
+		[-2,  2], [-1,  2], [0,  2], [1,  2], [2,  2],
+	];
+
+    var getColorForPosition = function(x, y){
+    	var d = (dist(x, y, self.r, self.r)/self.r)*100;
+    	var angle = Angle.pointsToDeg(self.r, self.r, x, y);
+		var rec = deg2rec(angle, (d/sD)*100);
+		var color = hsvToRgb(self.discHue/360, rec[0]/100, rec[1]/100);
+		return color;
+    }
+
     if(dDisc){
       this.ctxPiker.clearRect(0, 0, this.w, this.h);
       var img = this.ctxPiker.createImageData(this.w, this.h);
@@ -208,23 +225,50 @@ var ColorWheel = (function(){
             t = (100-d);
             t = t <= maxT ? (t/maxT) : t >= ((100-sW)-maxT) ? 1-((t-((100-sW)-maxT))/maxT) : 1;
           }else if(d < sD){
-            angle = Angle.pointsToDeg(this.r, this.r, x, y);
-            rec = deg2rec(angle, (d/sD)*100);
-            color = hsvToRgb(this.discHue/360, rec[0]/100, rec[1]/100);
-            t = (100-((d/sD)*100));
-            t = t <= maxT ? (t/maxT) : 1;
+			color = getColorForPosition(x, y);
+			t = (100-((d/sD)*100));
+			t = t <= maxT ? (t/maxT) : 1;
           }
 
           t = t < 0 ? 0 : t > 1 ? 1 : t;
-    
+
           img.data[i+0] = color[0];
           img.data[i+1] = color[1];
           img.data[i+2] = color[2];
+
           img.data[i+3] = Math.round(255*(t));
         }
       }
     
       this.ctxPiker.putImageData(img, 0, 0);
+
+	    /*window.requestAnimationFrame(function(){
+	    	for(var y = 0; y < self.h; y++){
+		        for(var x = 0; x < self.w; x++){
+		        	var i = (y*self.w+x)*4, 
+		        		color = new Array(3).fill(0).map(function(c2, j){return img.data[i+j];});
+
+		        	var d = (dist(x, y, self.r, self.r)/self.r)*100;
+		        	if(d > sD){continue;}
+
+		        	var blur = 4;
+
+		        	for(var f = 0; f < filter.length; f++){
+						var pos = filter[f];
+						var x_ = (x+(pos[0]*blur)), y_ = (y+(pos[1]*blur));
+						var d2 = (dist(x_, y_, self.r, self.r)/self.r)*100;
+						if(d2 > sD){continue;}
+						var c = getColorForPosition(x_, y_);
+						color = color.map(function(c2, i){return Math.round((c2+c[i])/2);});
+					}
+
+					img.data[i+0] = color[0];
+					img.data[i+1] = color[1];
+					img.data[i+2] = color[2];
+		        }
+		    }
+		    self.ctxPiker.putImageData(img, 0, 0);
+		});*/
     }
 
     this.ctx.drawImage(this.canPiker, 0, 0, this.w, this.h);
