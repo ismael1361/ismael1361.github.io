@@ -1,0 +1,24 @@
+#[Mapeando um quadrado para um círculo](./?page=archive&id=202110171950)
+
+*17 - Out, 2021*
+
+Quando você trabalha com um controlador de jogo , espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangular. Eu estava pensando em como derivar uma maneira de mapear uma grade retangular para um espaço circular como este exemplo:
+
+![Grade retangular para um espaço circular](./pages/assets/images/202110171950_001.png)
+
+##Derivação
+
+Trabalhamos apenas em um círculo unitário, pois qualquer generalização é apenas uma escala da equação resultante posteriormente. Isso significa que um ponto \\((x, y)\in P\\) é definido por:
+
+\\[P = \\{(x, y) | x, y\in [-1, 1]\\}\\]
+
+<br>
+<br>
+<br>
+<br>
+<br>
+#####Fontes:
+######https://www.xarg.org/2017/07/how-to-map-a-square-to-a-circle/
+######https://github.com/verhovsky/squircle/blob/master/squircle.py
+######https://marc-b-reynolds.github.io/math/2017/01/08/SquareDisc.html
+######https://arxiv.org/pdf/1709.07875.pdf

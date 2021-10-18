@@ -1,0 +1,130 @@
+:root{
+  --accentColor: rgba(0, 0, 0, .5);
+}
+
+main{
+  width: 90%;
+  max-width: 800px;
+  margin: 100px auto;
+  text-align: left;
+  position: relative;
+}
+
+main > section{
+  position: relative;
+  border: 1px solid var(--accentColor);
+  border-width: 0 1px 1px 1px;
+  padding: 40px 30px 30px;
+}
+
+main > section:nth-child(1){
+  border-width: 1px 1px 1px 1px;
+}
+
+main > section > h6{
+  font: 500 16px/1.2 "Poppins", sans-serif;
+  text-transform: uppercase;
+  background-color: var(--accentColor);
+  color: #eceff1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 5px 10px;
+  margin: 0px;
+}
+
+main > section h6.subheader{
+  color: rgba(0, 0, 0, .5);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.colors{
+  text-align: center;
+}
+
+.colors .palette{
+  display: inline-table;
+  text-align: left;
+  width: 45%;
+  margin: 0px 2%;
+}
+
+.colors .palette > div{
+  display: grid;
+  grid: 80px 45px min-content/repeat(5, 20%);
+  margin-bottom: 16px;
+}
+
+.colors .palette div:nth-child(1){
+  grid-column: span 5;
+  border-radius: 5px 5px 0 0;
+}
+
+.colors .palette div:nth-child(2){
+  border-radius: 0 0 0 5px;
+}
+
+.colors .palette div:nth-child(6){
+  border-radius: 0 0 5px 0;
+}
+
+.typography .font-family{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.typography .font-family > div{
+  flex: 1;
+  padding: 30px 30px 0;
+  min-width: 10em;
+}
+
+.typography .font-example{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.typography .font-example > div{
+  flex: 1;
+  padding: 30px;
+  min-width: 16em;
+}
+
+.typography .font-example p{
+  margin-bottom: 15px;
+}
+
+.buttons-wrapper{
+  border-bottom: 1px solid var(--accentColor);
+}
+
+.buttons-wrapper .gridBtn{
+  width: 100%;
+}
+
+.buttons-wrapper .gridBtn > div{
+  display: inline-table;
+  text-align: left;
+  width: 45%;
+  margin: 0px 2%;
+}
+
+.links > p{
+  display: inline-table;
+}
+
+.inputs-selects > div{
+  display: inline-table;
+  text-align: left;
+  width: 45%;
+  margin: 0px 2%;
+}
+
+@media only screen and (max-width: 600px) {
+  .colors .palette, .buttons-wrapper .gridBtn > div, .inputs-selects > div{
+    width: 95%;
+  }
+}

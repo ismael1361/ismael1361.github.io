@@ -1,0 +1,130 @@
+body{
+  margin: 0px;
+  padding: 0px;
+  background: #ccc;
+}
+
+#Palette{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background: #263238;
+  padding: 10px;
+  user-select: none;
+}
+
+#Palette > .content{
+  position: relative;
+}
+
+#Palette > .content > canvas{
+  position: relative;
+}
+
+#Palette  > .content > .btt{
+  position: absolute;
+  background: rgba(0, 0, 0, .3);
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+}
+
+#Palette  > .content > .btt:hover{
+  opacity: .7;
+}
+
+#Palette  > .content > .btt.top{top: 0px; left: 0px;}
+#Palette  > .content > .btt.left{bottom: 0px; left: 0px;}
+#Palette  > .content > .btt.right{top: 0px; right: 0px;}
+#Palette  > .content > .btt.bottom{bottom: 0px; right: 0px;}
+
+#Palette  > .content > .btt::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 24px;
+  width: 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#Palette  > .content > .btt[type]{display: block;}
+#Palette  > .content > .btt[type=""]{display: none;}
+
+#Palette  > .content > .btt[type="colorWheel"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M8.11,1.75C9.3,1.25 10.62,1 12,1C18.08,1 23,5.92 23,12C23,18.08 18.08,23 12,23C5.92,23 1,18.08 1,12C1,10.62 1.25,9.3 1.72,8.08C2.24,8.61 2.83,8.96 3.45,9.18C3.16,10.07 3,11 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3C11,3 10.07,3.16 9.18,3.45C8.96,2.83 8.61,2.24 8.11,1.75M4.93,2.93C6.03,2.93 6.93,3.82 6.93,4.93A2,2 0 0,1 4.93,6.93C3.82,6.93 2.93,6.03 2.93,4.93C2.93,3.82 3.82,2.93 4.93,2.93M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="paletteBubble"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="picker"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M19.35,11.72L17.22,13.85L15.81,12.43L8.1,20.14L3.5,22L2,20.5L3.86,15.9L11.57,8.19L10.15,6.78L12.28,4.65L19.35,11.72M16.76,3C17.93,1.83 19.83,1.83 21,3C22.17,4.17 22.17,6.07 21,7.24L19.08,9.16L14.84,4.92L16.76,3M5.56,17.03L4.5,19.5L6.97,18.44L14.4,11L13,9.6L5.56,17.03Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="moveBubble"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M13,11H18L16.5,9.5L17.92,8.08L21.84,12L17.92,15.92L16.5,14.5L18,13H13V18L14.5,16.5L15.92,17.92L12,21.84L8.08,17.92L9.5,16.5L11,18V13H6L7.5,14.5L6.08,15.92L2.16,12L6.08,8.08L7.5,9.5L6,11H11V6L9.5,7.5L8.08,6.08L12,2.16L15.92,6.08L14.5,7.5L13,6V11Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="clear"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M13,9H18.5L13,3.5V9M10,14.59L7.88,12.46L6.46,13.88L8.59,16L6.46,18.12L7.88,19.54L10,17.41L12.12,19.54L13.54,18.12L11.41,16L13.54,13.88L12.12,12.46L10,14.59Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="addBubble"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="confirm"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="cancel"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg>');
+}
+
+
+#Palette  > .content > .btt[type="minusZoom"]{top: 8px; right: 34px; transform: scale(0.8) translate(50%, -50%);}
+#Palette  > .content > .btt[type="plusZoom"]{right: 10px; top: 30px; transform: scale(0.8) translate(50%, -50%);}
+
+#Palette  > .content > .btt[type="minusZoom"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7,13H17V11H7"/></svg>');
+}
+
+#Palette  > .content > .btt[type="plusZoom"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="delete"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="settings"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/></svg>');
+}
+
+#Palette  > .content > .btt[type="settings"]::after{
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" style="width:24px; height:24px" viewBox="0 0 24 24" fill="%23ffffff" ><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"/></svg>');
+}
+
+#Palette > #GetColor{
+  background: rgb(255, 0, 0);
+  height: auto;
+  width: 200px;
+  padding: 15px;
+  position: relative;
+  margin: 20px auto 10px auto;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 20px;
+  text-align: center;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  user-select: text;
+}

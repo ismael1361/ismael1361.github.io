@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Style Guide</title>
+  <script src="../../js-1.1/src/JS.js"></script>
+  <script src="../src/StyleGuide_0.1.js"></script>
+  <link rel="stylesheet" href="./main.css">
+  <script>
+    var globalSG = new SGuide();
+  </script>
+</head>
+<body>
+  <main>
+    <section class="colors">
+      <h6>Colors</h6>
+      <div class="palette">
+        <div>
+          <div style="background: var(--primaryColor);"></div>
+          <div style="background: var(--primaryShade100);"></div>
+          <div style="background: var(--primaryShade300);"></div>
+          <div style="background: var(--primaryShade600);"></div>
+          <div style="background: var(--primaryShade700);"></div>
+          <div style="background: var(--primaryShade900);"></div>
+        </div>
+        <h5>Primary</h5>
+      </div>
+      <div class="palette">
+        <div>
+          <div style="background: var(--secondaryColor);"></div>
+          <div style="background: var(--secondaryShade100);"></div>
+          <div style="background: var(--secondaryShade300);"></div>
+          <div style="background: var(--secondaryShade600);"></div>
+          <div style="background: var(--secondaryShade700);"></div>
+          <div style="background: var(--secondaryShade900);"></div>
+        </div>
+        <h5>Secondary</h5>
+      </div>
+      <div class="palette">
+        <div>
+          <div style="background: var(--accent1Color);"></div>
+          <div style="background: var(--accent1Shade100);"></div>
+          <div style="background: var(--accent1Shade300);"></div>
+          <div style="background: var(--accent1Shade600);"></div>
+          <div style="background: var(--accent1Shade700);"></div>
+          <div style="background: var(--accent1Shade900);"></div>
+        </div>
+        <h5>Accent #1</h5>
+      </div>
+      <div class="palette">
+        <div>
+          <div style="background: var(--accent2Color);"></div>
+          <div style="background: var(--accent2Shade100);"></div>
+          <div style="background: var(--accent2Shade300);"></div>
+          <div style="background: var(--accent2Shade600);"></div>
+          <div style="background: var(--accent2Shade700);"></div>
+          <div style="background: var(--accent2Shade900);"></div>
+        </div>
+        <h5>Accent #2</h5>
+      </div>
+      <div class="palette">
+        <div>
+          <div style="background: var(--accent3Color);"></div>
+          <div style="background: var(--accent3Shade100);"></div>
+          <div style="background: var(--accent3Shade300);"></div>
+          <div style="background: var(--accent3Shade600);"></div>
+          <div style="background: var(--accent3Shade700);"></div>
+          <div style="background: var(--accent3Shade900);"></div>
+        </div>
+        <h5>Accent #3</h5>
+      </div>
+      <div class="palette">
+        <div>
+          <div style="background: var(--neutralColor);"></div>
+          <div style="background: var(--neutralShade100);"></div>
+          <div style="background: var(--neutralShade300);"></div>
+          <div style="background: var(--neutralShade600);"></div>
+          <div style="background: var(--neutralShade700);"></div>
+          <div style="background: var(--neutralShade900);"></div>
+        </div>
+        <h5>Neutral</h5>
+      </div>
+    </section>
+    <section class="typography">
+      <h6>Typography</h6>
+      <div class="font-family">
+        <div class="font-family-bold">
+          <h1>Aa</h1>
+          <h4>Font Bold</h4>
+        </div>
+        <div class="font-family-medium">
+          <h1>Aa</h1>
+          <h4>Font Medium</h4>
+        </div>
+        <div class="font-family-light">
+          <h1>Aa</h1>
+          <h4>Font Light</h4>
+        </div>
+      </div>
+      <div class="font-example">
+        <div class="font-example__headline">
+          <h6 class="subheader">Headlines</h6>
+          <h1>h1 headline</h1>
+          <h2>h2 headline</h2>
+          <h3>h3 headline</h3>
+          <h4>h4 headline</h4>
+          <h5>h5 headline</h5>
+          <h6>h6 headline</h6>
+        </div>
+        <div class="font-example__bodytext">
+          <h6 class="subheader">Body Text</h6>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu elementum ipsum. Aenean quis est feugiat, ultrices libero quis, consectetur lectus.</p>
+          <p><strong>Aliquam tempus at diam sit amet tincidunt. Curabitur eget dictum lacus, vitae aliquam elit. Fusce sed rutrum nisi, at lacinia neque. Nulla quis sapien eleifend, sollicitudin nibh sit amet, dictum justo.</strong></p>
+          <p><em>Ut tincidunt quam urna, at viverra arcu bibendum eget. Donec eget nisl malesuada, consectetur nisi molestie, mattis mauris. Proin consectetur viverra magna at ultrices.</em></p>
+        </div>
+      </div>
+    </section>
+    <section class="buttons-wrapper">
+      <h6>Buttons</h6>
+      <div class="buttons">
+        <h6 class="subheader">Primary Buttons</h6>
+        <button class="primary">Button</button>
+        <button class="primary" disabled>Disabled Button</button><br/>
+        <button class="btn_radius primary">Radius Button</button>
+        <button class="btn_radius primary" disabled>Disabled Radius Button</button><br/>
+        <button class="btn_flat primary">Flat Button</button>
+        <button class="btn_flat primary" disabled>Disabled Flat Button</button>
+
+        <div class="gridBtn">
+          <div>
+            <h6 class="subheader">Secondary Buttons</h6>
+            <button class="secondary">Button</button>
+            <button class="btn_radius secondary">Radius Button</button>
+            <button class="btn_flat secondary">Flat Button</button>
+          </div>
+          <div>
+            <h6 class="subheader">Accent #1 Buttons</h6>
+            <button class="accent1">Button</button>
+            <button class="btn_radius accent1">Radius Button</button>
+            <button class="btn_flat accent1">Flat Button</button>
+          </div>
+          <div>
+            <h6 class="subheader">Accent #2 Buttons</h6>
+            <button class="accent2">Button</button>
+            <button class="btn_radius accent2">Radius Button</button>
+            <button class="btn_flat accent2">Flat Button</button>
+          </div>
+          <div>
+            <h6 class="subheader">Accent #3 Buttons</h6>
+            <button class="accent3">Button</button>
+            <button class="btn_radius accent3">Radius Button</button>
+            <button class="btn_flat accent3">Flat Button</button>
+          </div>
+        </div>
+
+        <h6 class="subheader">Buttons Fab</h6>
+        <button class="btn_fab primary">+</button>
+        <button class="btn_fab secondary">+</button>
+        <button class="btn_fab accent1">+</button>
+        <button class="btn_fab accent2">+</button>
+        <button class="btn_fab accent3">+</button>
+      </div>
+    </section>
+    <section class="links">
+      <h6>Links</h6>
+      <p><a>Sample Link</a></p>
+      <p><a class="primary">Primary Link</a></p>
+      <p><a class="secondary">Secondary Link</a></p>
+      <p><a class="accent1">Accent #1 Link</a></p>
+      <p><a class="accent2">Accent #2 Link</a></p>
+      <p><a class="accent3">Accent #3 Link</a></p>
+    </section>
+    <section class="inputs-selects">
+      <h6>Inputs & Selects</h6>
+      <div>
+        <input type="text" name="" label="Name"/>
+        <input type="email" name="" label="Email">
+        <input type="password" name="" label="Password" required>
+      </div>
+      <div>
+        <textarea name="" label="Message" rows="5"></textarea>
+        <select name="" label="Options" onchange="console.log(this.value);">
+          <option value=""></option>
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+          <option value="3">Option 3</option>
+          <option value="4">Option 4</option>
+        </select>
+      </div>
+      <div>
+        <h6 class="subheader">TOGGLE BUTTONS</h6>
+        <input type="switch" label="Toggle button - 1"/>
+        <input type="switch" label="Toggle button - 2" checked/>
+        <input type="switch" label="Toggle button - 3" disabled/>
+        <input type="switch" label="Toggle button - 4" disabled checked/>
+      </div>
+      <div>
+        <h6 class="subheader">CHECKBOXES</h6>
+        <input type="checkbox" label="Checkbox - 1"/>
+        <input type="checkbox" label="Checkbox - 2" checked/>
+        <input type="checkbox" label="Checkbox - 3" disabled/>
+        <input type="checkbox" label="Checkbox - 4" disabled checked/>
+      </div>
+      <div>
+        <h6 class="subheader">RADIO BUTTONS</h6>
+        <input type="radio" label="Radio button - 1" name="radioBtn" onblur="console.log(this.checked);"/>
+        <input type="radio" label="Radio button - 2" name="radioBtn" checked/>
+        <input type="radio" label="Radio button - 3" name="radioBtn" disabled checked/>
+      </div>
+    </section>
+    <section>
+      <h6>Slider</h6>
+      <div>
+        <h6 class="subheader">Sample Slider:</h6>
+        <input type="range" min="-5" max="10" value="2" valuelabeldisplay="auto" onchange="console.log(this.value);">
+        <h6 class="subheader">Steps Slider:</h6>
+        <input type="range" min="0" max="100" value="20" step="10" valuelabeldisplay="auto">
+        <h6 class="subheader">Custom marks:</h6>
+        <input type="range" min="0" max="100" value="20" step="10" valuelabeldisplay="auto" marks="0, 20, 33, 100" valuetext="{value}ºC">
+        <h6 class="subheader">Restricted values:</h6>
+        <input type="range" min="0" max="100" value="20" step="mark" valuelabeldisplay="auto" marks="0, 20, 33, 100" valuetext="{value}ºC">
+        <h6 class="subheader">Always visible:</h6>
+        <input type="range" min="0" max="100" value="80" step="10" valuelabeldisplay="on" marks="0, 20, 33, 100" valuetext="{value}ºC">
+      </div>
+    </section>
+    <section class="badges">
+      <h6>Badges</h6>
+      <span class="badge status-primary">Received</span>
+      <span class="badge status-secondary">Pending</span>
+      <span class="badge status-info">Pending</span>
+      <span class="badge status-success">Approved</span>
+      <span class="badge status-error">Rejected</span>
+    </section>
+  </main>
+</body>
+</html>
