@@ -1,54 +1,19 @@
-/* Pretty printing styles. Used with prettify.js. */
+.prettyprint .pln {color: #e6e9ed;}
 
-/* SPAN elements with the classes below are added by prettyprint. */
-.pln { color: #263238 }  /* plain text */
-
-@media screen {
-  .str { color: #558b2f }  /* string content */
-  .kwd { color: #0288d1 }  /* a keyword */
-  .com { color: #0097a7 }  /* a comment */
-  .typ { color: #9c27b0 }  /* a type name */
-  .lit { color: #006064 }  /* a literal value */
-  /* punctuation, lisp open bracket, lisp close bracket */
-  .pun, .opn, .clo { color: #1b5e20 }
-  .tag { color: #01579b }  /* a markup tag name */
-  .atn { color: #FF6D5E }  /* a markup attribute name */
-  .atv { color: #9C3BB7 }  /* a markup attribute value */
-  .dec, .var { color: #0097a7 }  /* a declaration; a variable name */
-  .fun { color: #f44336 }  /* a function name */
-}
-
-/* Use higher contrast and text-weight for printable form. */
-@media print, projection {
-  .str { color: #4caf50 }
-  .kwd { color: #0288d1; font-weight: bold }
-  .com { color: #0097a7; font-style: italic }
-  .typ { color: #9c27b0; font-weight: bold }
-  .lit { color: #006064 }
-  .pun, .opn, .clo { color: #33691e }
-  .tag { color: #01579b; font-weight: bold }
-  .atn { color: #FF6D5E }
-  .atv { color: #9C3BB7 }
-}
-
-.pln {color: #e6e9ed;}
-
-@media screen {
-  .str{color: #ffce54;}
-  .kwd{color: #4fc1e9;}
-  .com{color: #656d78;}
-  .typ{color: #4fc1e9;}
-  .lit{color: #ac92ec;}
-  .pun{color: #e6e9ed;}
-  .opn{color: #e6e9ed;}
-  .clo{color: #e6e9ed;}
-  .tag{color: #ed5565;}
-  .atn{color: #a0d468;}
-  .atv{color: #ffce54;}
-  .dec{color: #ac92ec;}
-  .var{color: #e6e9ed;}
-  .fun{color: #e6e9ed;}
-}
+.prettyprint .str{color: #ffce54;}
+.prettyprint .kwd{color: #4fc1e9;}
+.prettyprint .com{color: #656d78;}
+.prettyprint .typ{color: #4fc1e9;}
+.prettyprint .lit{color: #ac92ec;}
+.prettyprint .pun{color: #e6e9ed;}
+.prettyprint .opn{color: #e6e9ed;}
+.prettyprint .clo{color: #e6e9ed;}
+.prettyprint .tag{color: #ed5565;}
+.prettyprint .atn{color: #a0d468;}
+.prettyprint .atv{color: #ffce54;}
+.prettyprint .dec{color: #ac92ec;}
+.prettyprint .var{color: #e6e9ed;}
+.prettyprint .fun{color: #e6e9ed;}
 
 /* Put a border around prettyprinted code snippets. */
 .prettyprint {
@@ -68,10 +33,18 @@
 }
 
 /* Specify class=linenums on a pre to get line numbering */
-.prettyprint ol.linenums { margin-top: 0; margin-bottom: 0; color: #767676; background: transparent;} /* IE indents via margin-left */
+.prettyprint ol.linenums {
+  margin-top: 0; 
+  margin-bottom: 0; 
+  color: #767676; 
+  background: transparent;
+} /* IE indents via margin-left */
 .prettyprint li{
   padding: 2px 5px 2px 15px; 
   border-left: 1px solid #656565;
+}
+ol li::marker {
+  color: #e6e9ed;
 }
 .prettyprint li > *{display: flex; flex-flow: wrap;}
 .prettyprint li.L0,

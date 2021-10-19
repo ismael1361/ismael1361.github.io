@@ -37,6 +37,11 @@ window.readPage = function(url){
         mdConverter.setOption('tables', true);
         mdConverter.setOption('tasklists', true);
         element.innerHTML = mdConverter.makeHtml(page);
+        
+        element.querySelectorAll("p > img").forEach(p => {
+            p.parentNode.style.textAlign = "center";
+        });
+
         element.querySelectorAll("pre").forEach(p => {
             let is_prettyprint = 0;
 
