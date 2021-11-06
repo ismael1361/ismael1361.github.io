@@ -36,6 +36,7 @@ window.readPage = function(url){
         var mdConverter = new showdown.Converter();
         mdConverter.setOption('tables', true);
         mdConverter.setOption('tasklists', true);
+        mdConverter.setOption('rawHeaderId', true);
         element.innerHTML = mdConverter.makeHtml(page);
         
         element.querySelectorAll("p > img").forEach(p => {

@@ -1,19 +1,17 @@
 .prettyprint .pln {color: #e6e9ed;}
 
-.prettyprint .str{color: #ffce54;}
-.prettyprint .kwd{color: #4fc1e9;}
-.prettyprint .com{color: #656d78;}
-.prettyprint .typ{color: #4fc1e9;}
-.prettyprint .lit{color: #ac92ec;}
-.prettyprint .pun{color: #e6e9ed;}
-.prettyprint .opn{color: #e6e9ed;}
-.prettyprint .clo{color: #e6e9ed;}
-.prettyprint .tag{color: #ed5565;}
-.prettyprint .atn{color: #a0d468;}
-.prettyprint .atv{color: #ffce54;}
-.prettyprint .dec{color: #ac92ec;}
-.prettyprint .var{color: #e6e9ed;}
-.prettyprint .fun{color: #e6e9ed;}
+.prettyprint .str{color: #ffce54;} /* string content */
+.prettyprint .kwd{color: #4fc1e9;} /* a keyword */
+.prettyprint .com{color: #656d78;} /* a comment */
+.prettyprint .typ{color: #4fc1e9;} /* a type name */
+.prettyprint .lit{color: #ac92ec;} /* a literal value */
+.prettyprint .pun, .opn, .clo{color: #e6e9ed;} /* punctuation, lisp open bracket, lisp close bracket */
+.prettyprint .tag{color: #ed5565;} /* a markup tag name */
+.prettyprint .atn{color: #a0d468;} /* a markup attribute name */
+.prettyprint .atv{color: #ffce54;} /* a markup attribute value */
+.prettyprint .dec{color: #ac92ec;} /* a declaration*/
+.prettyprint .var{color: #e6e9ed;} /* a variable name */
+.prettyprint .fun{color: #e6e9ed;} /* a function name */
 
 /* Put a border around prettyprinted code snippets. */
 .prettyprint {
@@ -30,6 +28,8 @@
 
 .prettyprint span{
   white-space: pre-wrap;
+  line-height: 1.6;
+  font-size: 15px;
 }
 
 /* Specify class=linenums on a pre to get line numbering */
@@ -45,6 +45,7 @@
 }
 ol li::marker {
   color: #e6e9ed;
+  font-size: 15px;
 }
 .prettyprint li > *{display: flex; flex-flow: wrap;}
 .prettyprint li.L0,
