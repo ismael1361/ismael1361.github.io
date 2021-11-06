@@ -94,6 +94,8 @@ window.readPage = function(url){
             window.readPage("./pages/syntax");
         }else if(params.has("id")){
             window.readPage("./pages/"+params.get("id"));
+        }else if(params.get("page") === "archive"){
+            window.readPage("./pages/archive");
         }else{
             no_page();
         }

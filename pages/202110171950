@@ -2,23 +2,80 @@
 
 *17 - Out, 2021*
 
-Quando você trabalha com um controlador de jogo , espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangular. Eu estava pensando em como derivar uma maneira de mapear uma grade retangular para um espaço circular como este exemplo:
+Quando você trabalha com um controlador de jogo, espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangular. Vejamos então em como derivar uma maneira de mapear uma grade retangular para um espaço circular como este exemplo:
 
 ![Grade retangular para um espaço circular](./pages/assets/images/202110171950_001.png)
 
 ##Derivação
 
-Trabalhamos apenas em um círculo unitário, pois qualquer generalização é apenas uma escala da equação resultante posteriormente. Isso significa que um ponto \\((x, y)\in P\\) é definido por:
+Trabalhamos apenas em um círculo unitário, pois qualquer generalização é apenas uma escala da equação resultante posteriormente. Isso significa que um ponto \\((x, e)\in P\\) é definido por:
 
-\\[P = \\{(x, y) | x, y\in [-1, 1]\\}\\]
+\\[P = \\{(x, y) | x, e\in [-1, 1]\\}\\]
 
-<br>
-<br>
-<br>
-<br>
-<br>
-#####Fontes:
-######https://www.xarg.org/2017/07/how-to-map-a-square-to-a-circle/
-######https://github.com/verhovsky/squircle/blob/master/squircle.py
-######https://marc-b-reynolds.github.io/math/2017/01/08/SquareDisc.html
-######https://arxiv.org/pdf/1709.07875.pdf
+A forma como o mapeamento funciona é pensar em uma linha de constante \\(x\\) bem como uma linha de constante \\(e\\), que é mapeado para uma elipse. Isso significa que temos um requisito para ser verdadeiro, dado pela equação da elipse para uma constante \\(x\\):
+
+\\[1 = \dfrac{x'^2}{x^2} + \dfrac{x'^2}{c^2}\\]
+
+Para garantir que todos os pontos ao longo da curva no topo do círculo sejam atingidos, precisamos ter certeza de que para qualquer \\(x \in [−1,1]\\) a elipse passa pelo ponto
+
+\\[(x', y') = \left(\frac{x}{\sqrt{2}}, \sqrt{1-\frac{x^2}{2}}\right)\\]
+
+Conectar este ponto à primeira equação nos dá o coeficiente \\(c\\) para a elipse:
+
+\\[\begin{array}{rrl}&amp; 1 &amp; = \frac{\frac{x^2}{2}}{x^2} + \frac{1-\frac{x^2}{2}}{c^2}\\\ \Leftrightarrow &amp; \frac{c^2}{2} &amp; = 1 - \frac{x^2}{2}\\\ \Leftrightarrow &amp; c &amp; = \sqrt{2 -x^2}\end{array}\\]
+
+Para uma constante \\(x\\) a elipse é assim:
+
+\\[1 = \frac{x'^2}{x^2} + \frac{y'^2}{2-x^2}\\]
+
+Da mesma forma, podemos resolver para uma constante \\(e\\) e pegue a elipse:
+
+\\[1 = \frac{x'^2}{2-y^2} + \frac{y'^2}{y^2}\\]
+
+Resolvendo para \\(x'^2\\) nós temos:
+
+\\[\begin{array}{rrl}&amp; 1 - \frac{y'^2}{2-x^2} &amp; = \frac{x'^2}{x^2}\\\ \Leftrightarrow &amp; x'^2 &amp; = x^2 \left(1-\frac{y'^2}{2-x^2}\right)\end{array}\\]
+
+Conectar isso à segunda equação resulta em
+
+\\[\begin{array}{rrl}&amp; 1 &amp; = \frac{x^2\left(1-\frac{y'^2}{2-x^2}\right)}{2-y^2} + \frac{y'^2}{y^2}\\\ \Leftrightarrow &amp; y^2(2-y^2)(2-x^2) &amp; = x^2y^2(2-x^2-y'^2)+y'^2(2-y^2)(2-x^2)\\\ \Leftrightarrow &amp; y'^2 &amp; = y^2\frac{(2-x^2)(2-y^2-x^2)}{(2-x^2)(2-y^2)-x^2y^2}\\\ &amp; &amp; = y^2\frac{(2-x^2)(2-y^2-x^2)}{4-2x^2-2y^2}\\\ &amp; &amp; = y^2\left(1-\frac{x^2}{2}\right)\\\ \Leftrightarrow &amp; y' &amp; = y\sqrt{1-\frac{x^2}{2}}\end{array}\\]
+
+Usando simetria, obtemos o mapeamento de um quadrado no intervalo -1 a 1, para as coordenadas xey para um círculo unitário. Como dito antes, resolver o caso geral é simplesmente normalizar para um quadrado no tamanho certo e dimensionar o resultado novamente depois.
+
+\\[(x', y') = \left(x\sqrt{1-\frac{y^2}{2}}, y\sqrt{1-\frac{x^2}{2}}\right)\\]
+
+Uma função JavaScript que mapeia um ponto para um círculo unitário pode ser implementada assim:
+
+```js
+function square_to_disc(x, y){
+    return [
+        x * Math.sqrt(1 - y * y / 2), 
+        y * Math.sqrt(1 - x * x / 2)
+    ];
+}
+```
+
+Para inverter de um ponto do círculo para coordenadas retangular, pode ser implementada assim:
+
+```js
+function disc_to_square(u, v){
+    let u2 = u * u,
+        v2 = v * v,
+        r2 = u2 + v2;
+
+    if(r2 > 1){return;}  //caso se estiver fora do disco
+
+    let twosqrt2 = 2.0 * Math.sqrt(2.0),
+        subtermx = 2.0 + u2 - v2,
+        subtermy = 2.0 - u2 + v2,
+        termx1 = subtermx + u * twosqrt2,
+        termx2 = subtermx - u * twosqrt2,
+        termy1 = subtermy + v * twosqrt2,
+        termy2 = subtermy - v * twosqrt2;
+
+    return [
+        x = 0.5 * Math.sqrt(termx1) - 0.5 * Math.sqrt(termx2),
+        y = 0.5 * Math.sqrt(termy1) - 0.5 * Math.sqrt(termy2)
+    ];
+}
+```

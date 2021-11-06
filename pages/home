@@ -2,7 +2,7 @@
 
 *17 - Out, 2021*
 
-Quando você trabalha com um controlador de jogo , espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangular. Eu estava pensando em como derivar uma maneira de mapear uma grade retangular para um espaço circular...
+Quando você trabalha com um controlador de jogo, espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangular. Vejamos então em como derivar uma maneira de mapear uma grade retangular para um espaço circular...
 
 <br>
 
