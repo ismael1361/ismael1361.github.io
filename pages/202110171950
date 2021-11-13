@@ -2,13 +2,26 @@
 
 *17 - Out, 2021*
 
-Quando você trabalha com um controlador de jogo, espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangular. Vejamos então em como derivar uma maneira de mapear uma grade retangular para um espaço circular como este exemplo:
+Em um momento de curiosidade explorando pela plataforma de YouTube, me deparei com artes em ilustração e algo me chamou muita atenção em meio de tantos conteúdos (que aliás, todos que encontrei são incrivelmente encantadores), que foi a ferramenta de pigmento de cores HSV em um formato de disco num aplicativo para iOS chamado Procreate, como mostrado nesta imagem abaixo:
 
-![Grade retangular para um espaço circular](./pages/assets/images/202110171950_001.png)
+![Procreate - Paleta HSV em disco](./pages/assets/images/202110171950/002.jpg =350x350)
+
+Como programador, pensei em introduzir algo semelhante usando JavaScript, a primeira coisa que fiz foi procurar por algum projeto desse tipo no GitHub. Após muitas pesquisas, encontrei o projeto [color-disc](https://github.com/afternoon2/color-disc) de [Jakub Antolak](https://github.com/afternoon2) com as mesmas intenções, mas, não atendeu as expectativas, pois havia uma falha bem notável ao brincar um pouco com a demonstração no [codepen.io](https://codepen.io/jakub_antolak/pen/LKxzpJ). O erro surgiu quando tive a necessidade de chegar até a cor absoluta da tonalidade (hue), o branco ou até mesmo o preto. Analisando o código fonte, percebi que a perspectiva estava como uma grade retangular e não em um espaço circular, como deveria ser.
+
+![Grade retangular para um espaço circular](./pages/assets/images/202110171950/005.png)
+
+Logo procurei corrigir esse erro, comecei a pensar de uma forma que introduzisse o mesmo efeito como a do Procreate (já que este é o nosso objetivo) e pensei em um tipo de cálculo de mapeamento que convertesse uma grade retangular para um espaço circular.
+
+Imagine uma situação trabalhando com um controlador de jogo, você espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangulares, então, você precisa analisar em como derivar uma maneira de mapear uma grade retangular para um espaço circular como este exemplo:
+
+![Grade retangular para um espaço circular](./pages/assets/images/202110171950/001.png)
+
+Mas na verdade, por trás desse esquema existe uma equação matemática que será bem útil para o nosso objetivo. Essas equações podem ser encontradas neste [link](https://marc-b-reynolds.github.io/math/2017/01/08/SquareDisc.html) e nesse [artigo em PDF](https://arxiv.org/pdf/1709.07875.pdf). Mas iremos focar em apenas uma equação, que observando bem, seria algo semelhante ao do Procreate.
 
 ##Derivação
+####Explicando a equação
 
-Trabalhamos apenas em um círculo unitário, pois qualquer generalização é apenas uma escala da equação resultante posteriormente. Isso significa que um ponto \\((x, e)\in P\\) é definido por:
+Pense em apenas um círculo unitário, pois qualquer generalização é apenas uma escala da equação resultante posteriormente. Isso significa que um ponto \\((x, e)\in P\\) é definido por:
 
 \\[P = \\{(x, y) | x, e\in [-1, 1]\\}\\]
 
@@ -40,11 +53,13 @@ Conectar isso à segunda equação resulta em
 
 \\[\begin{array}{rrl}&amp; 1 &amp; = \frac{x^2\left(1-\frac{y'^2}{2-x^2}\right)}{2-y^2} + \frac{y'^2}{y^2}\\\ \Leftrightarrow &amp; y^2(2-y^2)(2-x^2) &amp; = x^2y^2(2-x^2-y'^2)+y'^2(2-y^2)(2-x^2)\\\ \Leftrightarrow &amp; y'^2 &amp; = y^2\frac{(2-x^2)(2-y^2-x^2)}{(2-x^2)(2-y^2)-x^2y^2}\\\ &amp; &amp; = y^2\frac{(2-x^2)(2-y^2-x^2)}{4-2x^2-2y^2}\\\ &amp; &amp; = y^2\left(1-\frac{x^2}{2}\right)\\\ \Leftrightarrow &amp; y' &amp; = y\sqrt{1-\frac{x^2}{2}}\end{array}\\]
 
-Usando simetria, obtemos o mapeamento de um quadrado no intervalo -1 a 1, para as coordenadas xey para um círculo unitário. Como dito antes, resolver o caso geral é simplesmente normalizar para um quadrado no tamanho certo e dimensionar o resultado novamente depois.
+Usando simetria, obtemos o mapeamento de um quadrado no intervalo -1 a 1, para as coordenadas \\(x\\) e \\(y\\) para um círculo unitário. Como dito antes, resolver o caso geral é simplesmente normalizar para um quadrado no tamanho certo e dimensionar o resultado novamente depois.
 
 \\[(x', y') = \left(x\sqrt{1-\frac{y^2}{2}}, y\sqrt{1-\frac{x^2}{2}}\right)\\]
 
-Uma função JavaScript que mapeia um ponto para um círculo unitário pode ser implementada assim:
+##Código JavaScript
+
+Uma função JavaScript que mapeia um ponto retangular para um espaço circular unitário pode ser implementada assim:
 
 ```js
 function square_to_disc(x, y){
@@ -55,7 +70,7 @@ function square_to_disc(x, y){
 }
 ```
 
-Para inverter de um ponto do círculo para coordenadas retangular, pode ser implementada assim:
+Para inverter de um espaço círculo para coordenadas retangular, pode ser implementada assim:
 
 ```js
 function disc_to_square(u, v){
@@ -79,3 +94,114 @@ function disc_to_square(u, v){
     ];
 }
 ```
+
+Os valores devem ser passados entre ou igual a -1 e 1. Quanto mais próximo de -1; mais próximo do canto inferior esquerdo e quanto mais próximo de 1; mais próximo do canto superior direito, da mesma forma serve para um espaço circular. Agora, seguindo numa lógica HSV (tonalidade, saturação e valor), podemos dizer que quanto mais próximo de -1; menor é a saturação e valor e quanto mais próximo de 1; maior é a saturação e valor.
+
+Agora, vamos aplicar esses conceitos realizando um exemplo de rasterização utilizando o Canvas:
+
+```html
+<canvas id="main-canvas" width="400" height="400"/>
+```
+
+De princípio iremos utilizar as dimensões de um quadrado de 400x400. No JavaScript vamos rasterizar por toda área do Canvas, pixel por pixel: 
+
+```js
+let c = document.getElementById("main-canvas"),
+    ctx = c.getContext("2d");
+
+let image_data = ctx.getImageData(0, 0, c.width, c.height);
+
+for(let i = 0; i < image_data.data.length; i += 4){
+    let y = Math.floor((i/4)/c.width),
+        x = (i/4)-(y*c.width);
+
+    let color = HSVtoRGB(0, (x/c.width), ((c.height - y)/c.height));
+
+    image_data.data[i + 0] = color[0];
+    image_data.data[i + 1] = color[1];
+    image_data.data[i + 2] = color[2];
+    image_data.data[i + 3] = 255;
+}
+
+ctx.putImageData(image_data, 0, 0);
+```
+
+Para a conversão de HSV para RGB, utilize:
+
+```js
+function HSVtoRGB(h, s, v){
+    var r, g, b, i, f, p, q, t;
+    if(arguments.length === 1){
+        s = h.s, v = h.v, h = h.h;
+    }
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch(i % 6){
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+    return [
+        Math.round(r * 255),
+        Math.round(g * 255),
+        Math.round(b * 255)
+    ];
+}
+```
+
+Assim, teremos esse resultado:
+
+![Exemplo 1](./pages/assets/images/202110171950/003.png =350x350)
+
+Agora, para adquirir as coordenadas de mapeamento retangular para circular, primeiro devemos recapturar a lógica, já que temos que ter em mãos apenas os valores entre ou iguais a -1 e 1. Mas como fazer isso com uma coordenada de \\(x\\) e \\(y\\) assim como no código que fizemos para rasterizar toda a área do Canvas? 🧐
+
+Na verdade, existem várias soluções, vejamos um exemplo de uma coordenada \\(x\\). Subtraia \\(x\\) pela largura da área dividida por 2 e com o resultado, divida por esta mesma largura. Faça o mesmo com o \\(y\\), só que ao invés de ser com a largura, será com a altura. Assim teremos resultados que precisamos para o mapeamento.
+
+\\[(x, y) = \left(\frac{x-\frac{width}{2}}{\frac{width}{2}}, \frac{y-\frac{height}{2}}{\frac{height}{2}}\right)\\]
+
+Agora, para converter de -1 a 1 para 0 a 1, some o valor por mais 1 e divida por 2:
+
+\\[(u, v) = \left(\frac{u+1}{2}, \frac{v+1}{2}\right)\\]
+
+Seguindo nesse conceito, o código ficaria desta forma:
+
+```js
+...
+
+    let color = [255, 255, 255]; //cor padrão de fora do disco
+
+    let mapping = disc_to_square((x - (c.width/2))/(c.width/2), (y - (c.height/2))/(c.height/2));
+
+    if(Array.isArray(mapping)){ //para caso se estiver dentro do disco
+        let u = mapping[0],
+            v = mapping[1];
+
+        color = HSVtoRGB(0, (u + 1)/2, 1 - ((v + 1)/2));
+    }
+
+...
+```
+
+Assim, teremos esse resultado:
+
+![Exemplo 1](./pages/assets/images/202110171950/004.png =350x350)
+
+Com esse esquema, podemos afirmar que temos agora algo mais parecido com a do Procreate. Pois olhe bem, agora temos acesso a cor absoluta da tonalidade (hue), o branco e até mesmo o preto. Problema resolvido então, não concorda?
+
+####Exemplo:
+
+* [square2disc - contrariwise](https://codepen.io/ismaelexperiments/pen/dyzGgBV)
+* [Color Wheel](https://codepen.io/ismaelexperiments/full/BMydKo)
+
+####Referências e fontes:
+
+* ["color-disc", Jakub Antolak, 13/11/2021](https://github.com/afternoon2/color-disc)
+* [Jakub Antolak, 13/11/2021](https://github.com/afternoon2)
+* ["Square/Disc mappings", Marc B. Reynolds, 08/01/2017](https://marc-b-reynolds.github.io/math/2017/01/08/SquareDisc.html)
+* ["Elliptification of Rectangular Imagery", Joint Mathematics Meetings 2019, SIGMAA-ARTS](https://arxiv.org/pdf/1709.07875.pdf)

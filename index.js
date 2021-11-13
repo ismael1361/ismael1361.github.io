@@ -58,7 +58,7 @@ window.readPage = function(url){
 
             if(!is_prettyprint){return;}
 
-            p.setAttribute("class", "prettyprint linenums");
+            p.setAttribute("class", "prettyprint");
         });
         prettyPrint({}, element);
         renderMathInElement(element);

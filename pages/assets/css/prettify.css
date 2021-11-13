@@ -2,7 +2,7 @@
 
 .prettyprint .str{color: #ffce54;} /* string content */
 .prettyprint .kwd{color: #4fc1e9;} /* a keyword */
-.prettyprint .com{color: #656d78;} /* a comment */
+.prettyprint .com{color: #656d78; font-style: italic;} /* a comment */
 .prettyprint .typ{color: #4fc1e9;} /* a type name */
 .prettyprint .lit{color: #ac92ec;} /* a literal value */
 .prettyprint .pun, .opn, .clo{color: #e6e9ed;} /* punctuation, lisp open bracket, lisp close bracket */
@@ -24,6 +24,10 @@
   font-size: 15px;
   border-collapse: separate;
   border-spacing: 2px;
+}
+
+.prettyprint:not(.linenums){
+  padding-left: 15px !important;
 }
 
 .prettyprint span{
