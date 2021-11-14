@@ -1,8 +1,18 @@
+#[Rede Neural Artificial](./?page=archive&id=202111141717)
+
+*14 - Nov, 2021*
+
+O neurônio artificial é um modelo simplificado e simulado do neurônio real e suas características básicas são a adaptação e a representação de conhecimentos baseada em conexões. Esquema do neurônio biológico...
+
+<br>
+
+--------
+
 #[Mapeando um quadrado para um círculo](./?page=archive&id=202110171950)
 
 *17 - Out, 2021*
 
-Quando você trabalha com um controlador de jogo, espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangular. Vejamos então em como derivar uma maneira de mapear uma grade retangular para um espaço circular...
+Em um momento de curiosidade explorando pela plataforma do YouTube, me deparei com artes em ilustração e algo me chamou muita atenção em meio de tantos conteúdos, que foi a ferramenta de pigmento de cores HSV em um formato de disco num aplicativo para iOS chamado Procreate...
 
 <br>
 

@@ -37,6 +37,7 @@ window.readPage = function(url){
         mdConverter.setOption('tables', true);
         mdConverter.setOption('tasklists', true);
         mdConverter.setOption('rawHeaderId', true);
+        mdConverter.setOption('markdown', '1');
         element.innerHTML = mdConverter.makeHtml(page);
         
         element.querySelectorAll("p > img").forEach(p => {

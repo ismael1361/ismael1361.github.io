@@ -1,4 +1,6 @@
+<div markdown="1" class="capa" style="background-image: url(./pages/assets/images/202110171950/006.png);">
 #[Mapeando um quadrado para um círculo](./?page=archive&id=202110171950)
+</div>
 
 *17 - Out, 2021*
 
@@ -8,7 +10,7 @@ Em um momento de curiosidade explorando pela plataforma do YouTube, me deparei c
 
 Como programador, pensei em introduzir algo semelhante usando JavaScript, a primeira coisa que fiz foi procurar por algum projeto desse tipo no GitHub. Após muitas pesquisas, encontrei o projeto [color-disc](https://github.com/afternoon2/color-disc) de [Jakub Antolak](https://github.com/afternoon2) com as mesmas intenções, mas, não atendeu as expectativas, pois havia uma falha bem notável ao brincar um pouco com a demonstração no [codepen.io](https://codepen.io/jakub_antolak/pen/LKxzpJ). O erro surgiu quando tive a necessidade de chegar até a cor absoluta da tonalidade (hue), o branco ou até mesmo o preto. Analisando o código fonte, percebi que a perspectiva estava como uma grade retangular e não em um espaço circular, como deveria ser.
 
-![Grade retangular para um espaço circular](./pages/assets/images/202110171950/005.png)
+![Exemplo de Jakub Antolak](./pages/assets/images/202110171950/005.png)
 
 Logo procurei corrigir esse erro, comecei a pensar de uma forma que introduzisse o mesmo efeito como a do Procreate (já que este é o nosso objetivo) e pensei em um tipo de cálculo de mapeamento que convertesse uma grade retangular para um espaço circular.
 
@@ -16,7 +18,9 @@ Imagine uma situação trabalhando com um controlador de jogo, você espera que 
 
 ![Grade retangular para um espaço circular](./pages/assets/images/202110171950/001.png)
 
-Mas na verdade, por trás desse esquema existe uma equação matemática que será bem útil para o nosso objetivo. Essas equações podem ser encontradas neste [link](https://marc-b-reynolds.github.io/math/2017/01/08/SquareDisc.html) e nesse [artigo em PDF](https://arxiv.org/pdf/1709.07875.pdf). Mas iremos focar em apenas uma equação, que observando bem, seria algo semelhante ao do Procreate.
+Mas na verdade, por trás desse esquema existe uma equação matemática que será bem útil para o nosso objetivo. Essas equações podem ser encontradas neste [link](https://marc-b-reynolds.github.io/math/2017/01/08/SquareDisc.html) e nesse [artigo em PDF](https://arxiv.org/pdf/1709.07875.pdf). Mas iremos focar em apenas uma equação, a do Elliptical, que observando bem, seria perfeitamente semelhante ao do Procreate.
+
+![Tipos de equações de mapeamento](./pages/assets/images/202110171950/007.png)
 
 ##Derivação
 ####Explicando a equação
@@ -97,13 +101,13 @@ function disc_to_square(u, v){
 
 Os valores devem ser passados entre ou igual a -1 e 1. Quanto mais próximo de -1; mais próximo do canto inferior esquerdo e quanto mais próximo de 1; mais próximo do canto superior direito, da mesma forma serve para um espaço circular. Agora, seguindo numa lógica HSV (tonalidade, saturação e valor), podemos dizer que quanto mais próximo de -1; menor é a saturação e valor e quanto mais próximo de 1; maior é a saturação e valor.
 
-Agora, vamos aplicar esses conceitos realizando um exemplo de rasterização utilizando o Canvas:
+Agora, vamos aplicar esses conceitos realizando um exemplo de rasterização com o Canvas:
 
 ```html
 <canvas id="main-canvas" width="400" height="400"/>
 ```
 
-De princípio iremos utilizar as dimensões de um quadrado de 400x400. No JavaScript vamos rasterizar por toda área do Canvas, pixel por pixel: 
+A princípio, iremos utilizar as dimensões de um quadrado de 400X400. No JavaScript vamos rasterizar por toda área do Canvas, pixel por pixel: 
 
 ```js
 let c = document.getElementById("main-canvas"),
@@ -115,7 +119,7 @@ for(let i = 0; i < image_data.data.length; i += 4){
     let y = Math.floor((i/4)/c.width),
         x = (i/4)-(y*c.width);
 
-    let color = HSVtoRGB(0, (x/c.width), ((c.height - y)/c.height));
+    let color = HSVtoRGB(0, (x/c.width), 1 - (y/c.height));
 
     image_data.data[i + 0] = color[0];
     image_data.data[i + 1] = color[1];
@@ -190,7 +194,7 @@ Seguindo nesse conceito, o código ficaria desta forma:
 
 Assim, teremos esse resultado:
 
-![Exemplo 1](./pages/assets/images/202110171950/004.png =350x350)
+![Exemplo 2](./pages/assets/images/202110171950/004.png =350x350)
 
 Com esse esquema, podemos afirmar que temos agora algo mais parecido com a do Procreate. Pois olhe bem, agora temos acesso a cor absoluta da tonalidade (hue), o branco e até mesmo o preto. Problema resolvido então, não concorda?
 
