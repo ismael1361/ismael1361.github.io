@@ -1,0 +1,25 @@
+<div markdown="1" class="capa" style="background-image: url(./pages/assets/images/202111151625/001.jpg);">
+#[Rede Neural Artificial - Parte 1](./?page=archive&id=202111151625)
+</div>
+
+*15 - Nov, 2021*
+
+Agora vamos entender melhor o conceito de RNAs na prática, como foi dito antes, iremos introduzir isso usando o JavaScript. Você pode estar se perguntando se isso realmente seria possível realizar com JavaScript ao se tratar de cálculos complexos envolvendo matrizes, e você tem razão em fazer esta pergunta, mas se surpreenderia com o que é possível fazer com essa linguagem de programação, a biblioteca de TensorFlow para JavaScript é um bom exemplo disso.
+
+<br/>
+<br/>
+<br/>
+
+##Trabalhando nisso ainda 👨🏽‍💻
+
+<br/>
+<br/>
+<br/>
+
+<div class="btn-page">
+    <div class="btn-page-prev"><a href="./?page=archive&id=202111141717">
+        <div class="btn-page-sublabel">Voltar</div>
+        <div class="btn-page-label">« Rede Neural Artificial - Introdução</div>
+    </a></div>
+    <div class="btn-page-next"></div>
+</div>
