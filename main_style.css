@@ -108,6 +108,8 @@ a:hover {
 .main > #content > .capa *{
   z-index: 2;
   font-size: 30px;
+  text-shadow: 1px 1px 15px #eceff1, -1px 1px 15px #eceff1, 1px -1px 15px #eceff1, -1px -1px 15px #eceff1;
+  text-decoration: none;
 }
 .main > #content > .capa::before{
   content: "";
@@ -123,6 +125,7 @@ a:hover {
 .main > #content > .btn-page{
   display: flex;
   flex-flow: wrap;
+  padding: 50px 0px 15px 0px;
 }
 .main > #content > .btn-page > div{
   display: flex;
@@ -258,7 +261,6 @@ form h3 {
   text-align: justify;
 }
 .main img {
-  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: auto;
