@@ -6,9 +6,11 @@
 
 Neste artigo iremos trabalhar um pouco com RNA (Rede Neural Artificial) utilizando JavaScript. Mas antes disso, você sabe o que é ou para quê serve uma RNA?
 
-As RNAs são utilizadas para Inteligência Artificial que se torna cada vez mais presente no nosso dia a dia, você mesmo em algum momento já a utilizou para traduzir algo pelo Google Tradutor ou até mesmo brincou um pouco com as assistentes virtuais como “Ok Google”, Microsoft Cortana, Siri do iOS ou até mesmo a Alexa da Amazon.
+As RNAs são muitas das vezes utilizadas para Inteligência Artificial, uma tecnologia que se torna cada vez mais presente no dia cotidiano. Você mesmo em algum momento já a utilizou para traduzir algo pelo Google Tradutor ou até mesmo brincou um pouco com as assistentes virtuais como “Ok Google”, Cortana da Microsoft, Siri do iOS ou até mesmo a Alexa da Amazon.
 
-As possibilidades que uma Inteligência Artificial nos fornece são quase que infinitas, podem até realizar serviços repetitivos, cansativos, indesejáveis ou até perigosos, substituindo mão humana, fazendo talvez até melhor, exemplo disso são os avanços industriais que melhoram a cada ano aumentando sua produtividade.
+As possibilidades que uma Inteligência Artificial nos fornece são quase que infinitas, podendo até realizar serviços repetitivos, cansativos, indesejáveis ou até mesmo aqueles considerados perigosos, assim, substituindo mão humana fazendo o serviço talvez até melhor do que nós, exemplo disso são os avanços industriais que melhoram a cada ano, aumentando sua produtividade e qualidade de serviço.
+
+![Inteligencia Artificial nas Industrias](./pages/assets/images/202111141717/003.jpeg)
 
 O sonho esperado pela IA muitas das vezes é introduzido em filmes e séries de ficção científica que contém uma equipe de super-heróis ou cientistas que estão em busca de uma solução para a salvação da humanidade, já deve ter notado que quase sempre essas equipes são auxiliadas por uma inteligência artificial super sofisticada. Como exemplo disso, temos o Tony Stark, da franquia Marvel, que depende grande parte do tempo dos diagnósticos e cálculos de seu programa J.A.R.V.I.S. para construção de suas armaduras.
 
