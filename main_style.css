@@ -90,6 +90,10 @@ a:hover {
   padding: 20px 25px;
   padding-bottom: 150px !important;
 }
+.main > #content{
+  max-width: 800px;
+  margin: 0 auto;
+}
 .main > #content > .capa{
   position: relative;
   width: 100%;
@@ -354,6 +358,35 @@ form h3 {
     padding: 20px 100px;
   }
 }
+
+@media print {
+  body {
+    background-color: #fff;
+  }
+  .aside {
+    padding: 20px 0px 0px 0px;
+    text-align: center;
+    background: #fff;
+    color: #323330;
+    top: 0;
+    left: 0;
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+  }
+  .main > .nav{
+    display: none;
+  }
+  .main > #content > .capa *{
+    text-shadow: 1px 1px 15px #fff, -1px 1px 15px #fff, 1px -1px 15px #fff, -1px -1px 15px #fff;
+  }
+  .main > #content > .capa::before{
+    background-image: linear-gradient(transparent, #fff);
+  }
+}
+
 .unicode {
   font-family: "Code2000", "Sun-ExtA", "Arial Unicode MS", "NSimSun", sans-serif;
 }
