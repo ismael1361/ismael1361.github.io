@@ -8,7 +8,7 @@ Em um momento de curiosidade explorando pela plataforma do YouTube, me deparei c
 
 ![Procreate - Paleta HSV em disco](./pages/assets/images/202110171950/002.jpg)
 
-Como programador, pensei em introduzir algo semelhante usando JavaScript, a primeira coisa que fiz foi procurar por algum projeto desse tipo no GitHub. Após muitas pesquisas, encontrei o projeto [color-disc](https://github.com/afternoon2/color-disc) de [Jakub Antolak](https://github.com/afternoon2) com as mesmas intenções, mas, não atendeu as expectativas, pois havia uma falha bem notável ao brincar um pouco com a demonstração no [codepen.io](https://codepen.io/jakub_antolak/pen/LKxzpJ). O erro surgiu quando tive a necessidade de chegar até a cor absoluta da tonalidade (hue), o branco ou até mesmo o preto. Analisando o código fonte, percebi que a perspectiva estava como uma grade retangular e não em um espaço circular, como deveria ser.
+Como programador, pensei em introduzir algo semelhante usando [JavaScript](./?page=archive&id=202110150947), a primeira coisa que fiz foi procurar por algum projeto desse tipo no GitHub. Após muitas pesquisas, encontrei o projeto [color-disc](https://github.com/afternoon2/color-disc) de [Jakub Antolak](https://github.com/afternoon2) com as mesmas intenções, mas, não atendeu as expectativas, pois havia uma falha bem notável ao brincar um pouco com a demonstração no [codepen.io](https://codepen.io/jakub_antolak/pen/LKxzpJ). O erro surgiu quando tive a necessidade de chegar até a cor absoluta da tonalidade (hue), o branco ou até mesmo o preto. Analisando o código fonte, percebi que a perspectiva estava como uma grade retangular e não em um espaço circular, como deveria ser.
 
 ![Exemplo de Jakub Antolak](./pages/assets/images/202110171950/005.png)
 
