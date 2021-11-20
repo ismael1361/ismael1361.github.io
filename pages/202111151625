@@ -29,13 +29,13 @@ A operação de uma unidade de processamento, proposta por McCullock e Pitts em 
 
 ![Modelo de um Neurônio Artificial](./pages/assets/images/202111151625/004.png)
 
-Suponha que tenhamos `m` sinais de entrada \\(X\_1, X\_2, ..., X\_m\\) e pesos \\(W\_{j1}, W\_{j2}, ..., W\_{jm}\\) e limitador `t`; com sinais assumindo valores booleanos (0 ou 1) e pesos valores reais.
+Suponha que tenhamos \\(m\\) sinais de entrada \\(X\_1, X\_2, ..., X\_m\\) e pesos \\(W\_{j1}, W\_{j2}, ..., W\_{jm}\\) e limitador \\(t\\); com sinais assumindo valores booleanos (0 ou 1) e pesos valores reais.
 
 Neste modelo, o nível de atividade a é dado por:
 
-\\[Vj = \displaystyle\sum_1^m W\_{jm} \centerdot X\_m\\]
+\\[x = \displaystyle\sum_1^m W\_{jm} \centerdot X\_m\\]
 
-A saída `y` é resultante da função de ativação (limitador), no caso, iremos usar o exemplo de Binary step:
+A saída \\(y\\) é resultante da função de ativação (limitador), no caso, iremos usar o exemplo de Binary step:
 
 ![Função de Ativação - Binary step](./pages/assets/images/202111151625/005.png)
 
