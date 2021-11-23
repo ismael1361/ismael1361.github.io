@@ -1,4 +1,4 @@
-<div markdown="1" class="capa" style="background-image: url(./pages/assets/images/202111141717/001.jpg);">
+<div markdown="1" class="capa" style="background-image: url(%PUBLIC_URL%/assets/images/001.jpg);">
 #[Rede Neural Artificial - Introdução](./?page=archive&id=202111141717)
 </div>
 
@@ -10,7 +10,7 @@ As RNAs são muitas das vezes utilizadas para Inteligência Artificial, uma tecn
 
 As possibilidades que uma Inteligência Artificial nos fornece são quase que infinitas, podendo até realizar serviços repetitivos, cansativos, indesejáveis ou até mesmo aqueles considerados perigosos, assim, substituindo mão humana fazendo o serviço talvez até melhor do que nós, exemplo disso são os avanços industriais que melhoram a cada ano, aumentando sua produtividade e qualidade de serviço.
 
-![Inteligencia Artificial nas Industrias](./pages/assets/images/202111141717/003.jpeg)
+![Inteligencia Artificial nas Industrias](%PUBLIC_URL%/assets/images/003.jpeg)
 
 O sonho esperado pela IA muitas das vezes é introduzido em filmes e séries de ficção científica que contém uma equipe de super-heróis ou cientistas que estão em busca de uma solução para a salvação da humanidade, já deve ter notado que quase sempre essas equipes são auxiliadas por uma inteligência artificial super sofisticada. Como exemplo disso, temos o Tony Stark, da franquia Marvel, que depende grande parte do tempo dos diagnósticos e cálculos de seu programa J.A.R.V.I.S. para construção de suas armaduras.
 
@@ -20,7 +20,7 @@ As redes neurais são classificadas como métodos supervisionados do aprendizado
 
 Resumidamente, um neurônio é uma célula nervosa que é responsável por transmitir as informações elétricas ao longo de todo o corpo. Por exemplo, mandando um sinal elétrico para a movimentação de um músculo específico. De modo análogo, na programação, a arquitetura de redes neurais conecta cada função de ativação (neurônio artificial), a várias outras de forma a ser capaz de transmitir uma informação de maneira precisa após um processo de treinamento.
 
-![Neurônio Artificial](./pages/assets/images/202111141717/002.png)
+![Neurônio Artificial](%PUBLIC_URL%/assets/images/002.png)
 
 A princípio, damos uma informação ao nosso sistema e verificamos se a mensagem interpretada pela rede está correta. Caso incorreto, os parâmetros são atualizados automaticamente e o processo é repetido até que todas as informações interpretadas estejam dentro de uma precisão esperada e aceitável.
 

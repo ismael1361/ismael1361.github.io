@@ -1,4 +1,4 @@
-<div markdown="1" class="capa" style="background-image: url(./pages/assets/images/202110171950/006.png);">
+<div markdown="1" class="capa" style="background-image: url(%PUBLIC_URL%/assets/images/006.png);">
 #[Mapeando um quadrado para um círculo](./?page=archive&id=202110171950)
 </div>
 
@@ -6,21 +6,21 @@
 
 Em um momento de curiosidade explorando pela plataforma do YouTube, me deparei com artes em ilustração e algo me chamou muita atenção em meio de tantos conteúdos, que foi a ferramenta de pigmento de cores HSV em um formato de disco num aplicativo para iOS chamado Procreate, como mostrado nesta imagem abaixo:
 
-![Procreate - Paleta HSV em disco](./pages/assets/images/202110171950/002.jpg)
+![Procreate - Paleta HSV em disco](%PUBLIC_URL%/assets/images/002.jpg)
 
 Como programador, pensei em introduzir algo semelhante usando [JavaScript](./?page=archive&id=202110150947), a primeira coisa que fiz foi procurar por algum projeto desse tipo no GitHub. Após muitas pesquisas, encontrei o projeto [color-disc](https://github.com/afternoon2/color-disc) de [Jakub Antolak](https://github.com/afternoon2) com as mesmas intenções, mas, não atendeu as expectativas, pois havia uma falha bem notável ao brincar um pouco com a demonstração no [codepen.io](https://codepen.io/jakub_antolak/pen/LKxzpJ). O erro surgiu quando tive a necessidade de chegar até a cor absoluta da tonalidade (hue), o branco ou até mesmo o preto. Analisando o código fonte, percebi que a perspectiva estava como uma grade retangular e não em um espaço circular, como deveria ser.
 
-![Exemplo de Jakub Antolak](./pages/assets/images/202110171950/005.png)
+![Exemplo de Jakub Antolak](%PUBLIC_URL%/assets/images/005.png)
 
 Logo procurei corrigir esse erro, comecei a pensar de uma forma que introduzisse o mesmo efeito como a do Procreate (já que este é o nosso objetivo) e pensei em um tipo de cálculo de mapeamento que convertesse uma grade retangular para um espaço circular.
 
 Imagine uma situação trabalhando com um controlador de jogo, você espera que as coordenadas do joystick sejam circulares. Na realidade, você obtém as informações de dois eixos separados, que se estendem por um quadro de coordenadas retangulares, então, você precisa analisar em como derivar uma maneira de mapear uma grade retangular para um espaço circular como este exemplo:
 
-![Grade retangular para um espaço circular](./pages/assets/images/202110171950/001.png)
+![Grade retangular para um espaço circular](%PUBLIC_URL%/assets/images/001.png)
 
 Mas na verdade, por trás desse esquema existe uma equação matemática que será bem útil para o nosso objetivo. Essas equações podem ser encontradas neste [link](https://marc-b-reynolds.github.io/math/2017/01/08/SquareDisc.html) e nesse [artigo em PDF](https://arxiv.org/pdf/1709.07875.pdf). Mas iremos focar em apenas uma equação, a do Elliptical, que observando bem, seria perfeitamente semelhante ao do Procreate.
 
-![Tipos de equações de mapeamento](./pages/assets/images/202110171950/007.png)
+![Tipos de equações de mapeamento](%PUBLIC_URL%/assets/images/007.png)
 
 ##Derivação
 ####Explicando a equação
@@ -161,7 +161,7 @@ function HSVtoRGB(h, s, v){
 
 Assim, teremos esse resultado:
 
-![Exemplo 1](./pages/assets/images/202110171950/003.png)
+![Exemplo 1](%PUBLIC_URL%/assets/images/003.png)
 
 Agora, para adquirir as coordenadas de mapeamento retangular para circular, primeiro devemos recapturar a lógica, já que temos que ter em mãos apenas os valores entre ou iguais a -1 e 1. Mas como fazer isso com uma coordenada de \\(x\\) e \\(y\\) assim como no código que fizemos para rasterizar toda a área do Canvas? 🧐
 
@@ -194,7 +194,7 @@ Seguindo nesse conceito, o código ficaria desta forma:
 
 Assim, teremos esse resultado:
 
-![Exemplo 2](./pages/assets/images/202110171950/004.png)
+![Exemplo 2](%PUBLIC_URL%/assets/images/004.png)
 
 Com esse esquema, podemos afirmar que temos agora algo mais parecido com a do Procreate. Pois olhe bem, agora temos acesso a cor absoluta da tonalidade (hue), o branco e até mesmo o preto. Problema resolvido então, não concorda?
 

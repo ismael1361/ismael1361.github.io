@@ -1,4 +1,4 @@
-<div markdown="1" class="capa" style="background-image: url(./pages/assets/images/202111211452/001.jpeg);">
+<div markdown="1" class="capa" style="background-image: url(%PUBLIC_URL%/assets/images/001.jpeg);">
 #[Matrizes](./?page=archive&id=202111211452)
 </div>
 
@@ -10,7 +10,7 @@ O primeiro uso implícito da noção de matriz ocorreu com Lagrange que reduziu 
 
 Matrizes são normalmente escritas em colchetes ou parênteses:
 
-![Notação de Matrizes](./pages/assets/images/202111211452/002.svg)
+![Notação de Matrizes](%PUBLIC_URL%/assets/images/002.svg)
 
 Mas no nosso caso, a interpretação de álgebra não será muito relevante, por isso, vamos focar apenas nas partes que facilitem a nossa compreensão ao introduzir algoritmos para a nossa biblioteca de Matrizes em [JavaScript](./?page=archive&id=202110150947).
 

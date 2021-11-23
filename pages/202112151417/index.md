@@ -1,4 +1,4 @@
-<div markdown="1" class="capa" style="background-image: url(./pages/assets/images/202112151417/001.jpg);">
+<div markdown="1" class="capa" style="background-image: url(%PUBLIC_URL%/assets/images/001.jpg);">
 #[Manipulando arquivo PNG - Portable Network Graphics](./?page=archive&id=202112151417)
 </div>
 

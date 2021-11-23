@@ -1,10 +1,10 @@
-<div markdown="1" class="capa" style="background-image: url(./pages/assets/images/202111151625/001.jpg);">
+<div markdown="1" class="capa" style="background-image: url(%PUBLIC_URL%/assets/images/001.jpg);">
 #[Rede Neural Artificial - Conceito](./?page=archive&id=202111151625)
 </div>
 
 *15 - Nov, 2021*
 
-Agora vamos entender melhor o conceito de RNAs na prática, como foi dito antes, iremos introduzir isso usando o [JavaScript](./?page=archive&id=202110150947). Você pode estar se perguntando se isso realmente seria possível realizar com JavaScript ao se tratar de cálculos complexos envolvendo matrizes, e você tem razão em fazer esta pergunta, mas se surpreenderia com o que é possível fazer com essa linguagem de programação, a biblioteca de TensorFlow para JavaScript é um bom exemplo disso.
+Agora vamos entender melhor o conceito de RNAs na prática, como foi dito antes, iremos introduzir isso usando o [JavaScript](./?page=archive&id=202110150947). Você pode estar se perguntando se isso realmente seria possível realizar com JavaScript ao se tratar de cálculos complexos envolvendo [matrizes](./?page=archive&id=202111211452), e você tem razão em fazer esta pergunta, mas se surpreenderia com o que é possível fazer com essa linguagem de programação, a biblioteca de TensorFlow para JavaScript é um bom exemplo disso.
 
 ###Entendendo o conceito básico
 
@@ -12,11 +12,11 @@ Redes Neurais Artificiais são técnicas computacionais que apresentam um modelo
 
 O sistema nervoso é formado por um conjunto extremamente complexo de células, os neurônios. Eles têm um papel essencial na determinação do funcionamento e comportamento do corpo humano e do raciocínio. Os neurônios são formados pelos dendritos, que são um conjunto de terminais de entrada, pelo corpo central, e pelos axônios que são longos terminais de saída.
 
-![Neuronio Biológico](./pages/assets/images/202111151625/002.jpg)
+![Neuronio Biológico](%PUBLIC_URL%/assets/images/002.jpg)
 
 Os neurônios se comunicam através de sinapses. Sinapse é a região onde dois neurônios entram em contato e através da qual os impulsos nervosos são transmitidos entre eles. Os impulsos recebidos por um neurônio A, em um determinado momento, são processados, e atingindo um dado limiar de ação, o neurônio A dispara, produzindo uma substância neurotransmissora que flui do corpo celular para o axônio, que pode estar conectado a um dendrito de um outro neurônio B. O neurotransmissor pode diminuir ou aumentar a polaridade da membrana pós-sináptica, inibindo ou excitando a geração dos pulsos no neurônio B. Este processo depende de vários fatores, como a geometria da sinapse e o tipo de neurotransmissor.
 
-![Neuronio Biológico - Sinapse](./pages/assets/images/202111151625/003.gif)
+![Neuronio Biológico - Sinapse](%PUBLIC_URL%/assets/images/003.gif)
 
 Uma rede neural artificial é composta por várias unidades de processamento, cujo funcionamento é bastante simples. Essas unidades, geralmente são conectadas por canais de comunicação que estão associados a determinado peso. As unidades fazem operações apenas sobre seus dados locais, que são entradas recebidas pelas suas conexões. O comportamento inteligente de uma Rede Neural Artificial vem das interações entre as unidades de processamento da rede.
 
@@ -27,7 +27,7 @@ A operação de uma unidade de processamento, proposta por McCullock e Pitts em 
 * É feita a soma ponderada dos sinais que produz um nível de atividade;
 * Se este nível de atividade exceder um certo limite (threshold) a unidade produz uma determinada resposta de saída.
 
-![Modelo de um Neurônio Artificial](./pages/assets/images/202111151625/004.png)
+![Modelo de um Neurônio Artificial](%PUBLIC_URL%/assets/images/004.png)
 
 Suponha que tenhamos \\(m\\) sinais de entrada \\(X\_1, X\_2, ..., X\_m\\) e pesos \\(W\_{j1}, W\_{j2}, ..., W\_{jm}\\) e limitador \\(t\\); com sinais assumindo valores booleanos (0 ou 1) e pesos valores reais.
 
@@ -37,7 +37,7 @@ Neste modelo, o nível de atividade a é dado por:
 
 A saída \\(y\\) é resultante da função de ativação (limitador), no caso, iremos usar o exemplo de Binary step:
 
-![Função de Ativação - Binary step](./pages/assets/images/202111151625/005.png)
+![Função de Ativação - Binary step](%PUBLIC_URL%/assets/images/005.png)
 
 \\[y = \begin{dcases} 0, &\text{if } x < 0 \\\\ 1, &\text{if } x \geq 0 \end{dcases} \\]
 
@@ -45,7 +45,7 @@ A maioria dos modelos de redes neurais possui alguma regra de treinamento, onde 
 
 Arquiteturas neurais são tipicamente organizadas em camadas, com unidades que podem estar conectadas às unidades da camada posterior.
 
-![Modelo de uma Rede Neural Artificial](./pages/assets/images/202111151625/006.gif)
+![Modelo de uma Rede Neural Artificial](%PUBLIC_URL%/assets/images/006.gif)
 
 Usualmente as camadas são classificadas em três grupos:
 

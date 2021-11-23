@@ -28,11 +28,29 @@ function no_page(){
     </div>`;
 }
 
+function fileNameFromUrl(url){
+   var matches = url.match(/\/([^\/?#]+)[^\/]*$/);
+   //return url ? url.split('/').pop().split('#').shift().split('?').shift() : null
+
+   if (matches.length > 1) {
+     return matches[1];
+   }
+   return null;
+}
+
+function dirNameFromUrl(url){
+    var fileName = fileNameFromUrl(url);
+    return (url.search(fileName) > 0 ? url.substr(0, url.search(fileName)) : url).replace(/\/$/gi, "");
+}
+
 window.readPage = function(url){
     const element = document.querySelector(".main > #content");
     fetch(url).then(r => {
         return (r.status !== 200) ? Promise.reject() : r.text();
     }).then((page)=>{
+        var dirName = dirNameFromUrl(url);
+        page = page.replace(/%PUBLIC_URL%/gi, dirName)
+
         var mdConverter = new showdown.Converter();
         mdConverter.setOption('tables', true);
         mdConverter.setOption('tasklists', true);
@@ -92,15 +110,15 @@ window.readPage = function(url){
 
     if(params.has("page")){
         if(params.get("page") === "syntax"){
-            window.readPage("./pages/syntax");
+            window.readPage("./pages/syntax.md");
         }else if(params.has("id")){
-            window.readPage("./pages/"+params.get("id"));
+            window.readPage("./pages/"+params.get("id")+"/index.md");
         }else if(params.get("page") === "archive"){
-            window.readPage("./pages/archive");
+            window.readPage("./pages/archive.md");
         }else{
             no_page();
         }
     }else{
-        window.readPage("./pages/home");
+        window.readPage("./pages/home.md");
     }
 })();
