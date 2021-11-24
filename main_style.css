@@ -108,6 +108,8 @@ a:hover {
   justify-content: flex-end;
   padding: 15px 10px 0 10px;
   border-radius: 10px 10px 0 0;
+  border: solid 1px #cfd8dc;
+  border-bottom-width: 0px;
 }
 .main > #content > .capa *{
   z-index: 2;

@@ -81,7 +81,7 @@ Denomina-se ciclo uma apresentação de todos os N pares (entrada e saída) do c
 <div class="btn-page">
     <div class="btn-page-prev"><a href="./?page=archive&id=202111141717">
         <div class="btn-page-sublabel">Voltar</div>
-        <div class="btn-page-label">« Rede Neural Artificial - Introdução</div>
+        <div class="btn-page-label">« Introdução</div>
     </a></div>
     <div class="btn-page-next"></div>
 </div>

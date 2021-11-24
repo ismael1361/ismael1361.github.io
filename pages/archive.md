@@ -9,7 +9,8 @@
 * [Rede Neural Artificial - Introdução](./?page=archive&id=202111141717)
 * [Rede Neural Artificial - Conceito](./?page=archive&id=202111151625)
 * [Projeção de mapa ortográfico](./?page=archive&id=202111170924)
-* [Matrizes](./?page=archive&id=202111211452)
+* [Matrizes - Introdução](./?page=archive&id=202111211452)
+* [Matrizes - Determinante](./?page=archive&id=202111242037)
 
 ####Outubro de 2021
 

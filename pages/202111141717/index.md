@@ -34,7 +34,7 @@ Além disso, em outra situação, as redes neurais podem ser destinadas ao merca
     <div class="btn-page-prev"></div>
     <div class="btn-page-next"><a href="./?page=archive&id=202111151625">
         <div class="btn-page-sublabel">Próximo</div>
-        <div class="btn-page-label">Rede Neural Artificial - Conceito »</div>
+        <div class="btn-page-label">Conceito »</div>
     </a></div>
 </div>
 

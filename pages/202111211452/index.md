@@ -1,5 +1,5 @@
 <div markdown="1" class="capa" style="background-image: url(%PUBLIC_URL%/assets/images/001.jpeg);">
-#[Matrizes](./?page=archive&id=202111211452)
+#[Matrizes - Introdução](./?page=archive&id=202111211452)
 </div>
 
 *21 - Nov, 2021*
@@ -159,15 +159,100 @@ console.log(Matriz.valido([
 */
 ```
 
-<br/>
-<br/>
-<br/>
+Repare que, além de validar apenas uma matriz bidimensional, ele acaba validando uma matriz com a quantidade de colunas diferente entre as linhas. Mas vamos parar um pouco para analisar, digamos que você acidentalmente esqueceu de preencher um campo de uma certa coluna em uma linha, seguindo a lógica, esse campo específico não teria tal relevância para você, e desta forma, o seu valor seria equivalente a `0`. Com isso, devemos adaptar então a nossa biblioteca para entender que tais linhas com colunas a menos devem ser preenchidas por valor `0`.
 
-##Trabalhando nisso ainda 👨🏽‍💻
+Continuando com o código então, teríamos algo parecido como:
 
-<br/>
-<br/>
-<br/>
+```js
+//conteúdo...
+    parse(...props){
+        //conteúdo...
+
+        //para pegar o tamanho máximo de colunas
+        this.col = Math.max.apply(null, matriz.map(a => a.length));
+        //para pegar o tamanho total do vetor, representando a quantidade de linhas
+        this.row = matriz.length;
+
+        //criando uma matriz vazia
+        this.data = new Array(this.row).fill(new Array()).map(()=>new Array(this.col).fill(0));
+
+        //rasterizando a matriz
+        //i -> identificação da linha
+        //j -> identificação da coluna
+        matriz.forEach((colunas, i) => {
+            //rasterizando as colunas da linha
+            colunas.forEach((valor, j)=>{
+                //pegando cada valor da linha e jogando para matriz vazia se caso o valor for numérico
+                this.data[i][j] = typeof valor === "number" ? valor : 0;
+            });
+        });
+    }
+//conteúdo...
+```
+
+Até o momento, o código ficaria assim:
+
+```js
+class Matriz{
+    constructor(...props){
+        this.parse.apply(this, props);
+    }
+
+    parse(...props){
+        let matriz = props[0];
+
+        if(props.length === 2 && props.every(a => typeof a === "number")){
+            matriz = new Array(props[0]).fill(0).map(()=>new Array(props[1]).fill(0));
+        }else if(props[0] instanceof Matriz){
+            matriz = props[0].data;
+        }
+
+        if(Matriz.valido(matriz) !== true){
+            throw new Error("O parâmetro passado não é de natureza de matriz!");
+        }
+
+        this.col = Math.max.apply(null, matriz.map(a => a.length));
+        this.row = matriz.length;
+
+        this.data = new Array(this.row).fill(new Array()).map(()=>new Array(this.col).fill(0));
+
+        matriz.forEach((colunas, i) => {
+            colunas.forEach((valor, j)=>{
+                this.data[i][j] = typeof valor === "number" ? valor : 0;
+            });
+        });
+    }
+
+    static valido(matriz){
+        return (Array.isArray(matriz) && 
+            matriz.length > 0 && matriz.every(linha => {
+                return Array.isArray(linha) && 
+                linha.every(coluna => typeof coluna === "number")
+            })) || matriz instanceof Matriz;
+    }
+}
+```
+
+Testando ficaria assim:
+
+```js
+console.log(new Matriz([
+    [0, 1, 2],
+    [3, 4, 5]
+]));
+
+/*Console resultado:
+    Matriz {col: 3, row: 2, data: Array(2)}
+*/
+```
+
+<div class="btn-page">
+    <div class="btn-page-prev"></div>
+    <div class="btn-page-next"><a href="./?page=archive&id=202111242037">
+        <div class="btn-page-sublabel">Próximo</div>
+        <div class="btn-page-label">Determinante »</div>
+    </a></div>
+</div>
 
 ####Referências e fontes:
 
