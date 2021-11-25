@@ -17,6 +17,41 @@ function parse_query_string(query){
     return query_string;
 };
 
+function copyTextToClipboard(text) {
+    const fallbackCopyTextToClipboard = (text)=>{
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            let successful = document.execCommand('copy');
+            let msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Fallback: Copying text command was ' + msg);
+        }catch(err){
+            console.error('Fallback: Oops, unable to copy', err);
+        }
+        document.body.removeChild(textArea);
+    }
+
+    if(!navigator.clipboard){
+        fallbackCopyTextToClipboard(text);
+        return;
+    }
+
+    navigator.clipboard.writeText(text).then(function() {
+        console.log('Async: Copying to clipboard was successful!');
+    }, function(err){
+        fallbackCopyTextToClipboard(text);
+    });
+}
+
 function no_page(){
     const element = document.querySelector(".main > #content");
 
@@ -67,9 +102,12 @@ window.readPage = function(url){
 
             let codes = p.querySelectorAll("code");
 
+            let code = "";
+
             codes.forEach(c => {
                 if((/(language-([a-z]+))/gi).test(c.className)){
                     is_prettyprint += 1;
+                    code += c.innerText;
                 }
             });
 
@@ -78,6 +116,40 @@ window.readPage = function(url){
             if(!is_prettyprint){return;}
 
             p.setAttribute("class", "prettyprint");
+
+            let clipboard = document.createElement("div");
+            clipboard.setAttribute("class", "clipboard-container");
+            clipboard.setAttribute("value", code);
+
+            let copy_path = "M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z";
+
+            let success_path = "M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z";
+
+            clipboard.onclick = function(){
+                this.classList.add("success");
+                this.querySelector("svg > path").setAttributeNS(null, "d", success_path);
+                copyTextToClipboard(this.getAttribute("value"));
+
+                setTimeout(()=>{
+                    this.classList.remove("success");
+                    this.querySelector("svg > path").setAttributeNS(null, "d", copy_path);
+                }, 2000);
+            }
+
+            let ns_svg = "http://www.w3.org/2000/svg";
+
+            let clipboard_svg = document.createElementNS(ns_svg, "svg");
+            clipboard_svg.setAttributeNS(null, "height", "16");
+            clipboard_svg.setAttributeNS(null, "width", "16");
+            clipboard_svg.setAttributeNS(null, "viewBox", "0 0 16 16");
+            clipboard_svg.setAttributeNS(null, "version", "1.1");
+
+            let clipboard_path = document.createElementNS(ns_svg, "path");
+            clipboard_path.setAttributeNS(null, "d", copy_path);
+
+            clipboard_svg.appendChild(clipboard_path);
+            clipboard.appendChild(clipboard_svg);
+            p.appendChild(clipboard);
         });
         prettyPrint({}, element);
         renderMathInElement(element);

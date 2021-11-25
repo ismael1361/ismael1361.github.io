@@ -51,11 +51,11 @@ Da mesma forma, podemos resolver para uma constante \\(e\\) e pegue a elipse:
 
 Resolvendo para \\(x'^2\\) nós temos:
 
-\\[\begin{array}{rrl}&amp; 1 - \frac{y'^2}{2-x^2} &amp; = \frac{x'^2}{x^2}\\\ \Leftrightarrow &amp; x'^2 &amp; = x^2 \left(1-\frac{y'^2}{2-x^2}\right)\end{array}\\]
+\\[\def\arraystretch{1.5} \begin{array}{rrl}&amp; 1 - \frac{y'^2}{2-x^2} &amp; = \frac{x'^2}{x^2}\\\ \Leftrightarrow &amp; x'^2 &amp; = x^2 \left(1-\frac{y'^2}{2-x^2}\right)\end{array}\\]
 
 Conectar isso à segunda equação resulta em
 
-\\[\begin{array}{rrl}&amp; 1 &amp; = \frac{x^2\left(1-\frac{y'^2}{2-x^2}\right)}{2-y^2} + \frac{y'^2}{y^2}\\\ \Leftrightarrow &amp; y^2(2-y^2)(2-x^2) &amp; = x^2y^2(2-x^2-y'^2)+y'^2(2-y^2)(2-x^2)\\\ \Leftrightarrow &amp; y'^2 &amp; = y^2\frac{(2-x^2)(2-y^2-x^2)}{(2-x^2)(2-y^2)-x^2y^2}\\\ &amp; &amp; = y^2\frac{(2-x^2)(2-y^2-x^2)}{4-2x^2-2y^2}\\\ &amp; &amp; = y^2\left(1-\frac{x^2}{2}\right)\\\ \Leftrightarrow &amp; y' &amp; = y\sqrt{1-\frac{x^2}{2}}\end{array}\\]
+\\[\def\arraystretch{1.5} \begin{array}{rrl}&amp; 1 &amp; = \frac{x^2\left(1-\frac{y'^2}{2-x^2}\right)}{2-y^2} + \frac{y'^2}{y^2}\\\ \Leftrightarrow &amp; y^2(2-y^2)(2-x^2) &amp; = x^2y^2(2-x^2-y'^2)+y'^2(2-y^2)(2-x^2)\\\ \Leftrightarrow &amp; y'^2 &amp; = y^2\frac{(2-x^2)(2-y^2-x^2)}{(2-x^2)(2-y^2)-x^2y^2}\\\ &amp; &amp; = y^2\frac{(2-x^2)(2-y^2-x^2)}{4-2x^2-2y^2}\\\ &amp; &amp; = y^2\left(1-\frac{x^2}{2}\right)\\\ \Leftrightarrow &amp; y' &amp; = y\sqrt{1-\frac{x^2}{2}}\end{array}\\]
 
 Usando simetria, obtemos o mapeamento de um quadrado no intervalo -1 a 1, para as coordenadas \\(x\\) e \\(y\\) para um círculo unitário. Como dito antes, resolver o caso geral é simplesmente normalizar para um quadrado no tamanho certo e dimensionar o resultado novamente depois.
 

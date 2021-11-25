@@ -15,6 +15,7 @@
 
 /* Put a border around prettyprinted code snippets. */
 .prettyprint {
+  position: relative;
   width: 100%;
   padding: 0px;
   background: #2f3640;
@@ -24,6 +25,69 @@
   font-size: 15px;
   border-collapse: separate;
   border-spacing: 2px;
+}
+
+.prettyprint .clipboard-container{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 8px;
+  box-sizing: border-box;
+  line-height: 0px;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  border: 1px solid;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  color: #c9d1d9;
+  background-color: #21262d;
+  border-color: rgba(240, 246, 252, 0.1);
+  transition: .2s cubic-bezier(0.3, 0, 0.5, 1);
+  transition-property: color,background-color,border-color;
+
+  display: none;
+  animation: fade-out 200ms both;
+}
+
+.prettyprint:hover .clipboard-container{
+  display: block;
+  animation: fade-in 200ms both;
+}
+
+@keyframes fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.prettyprint .clipboard-container:hover{
+  background-color: #30363d;
+  border-color: #8b949e;
+  transition-duration: .1s;
+}
+
+.prettyprint .clipboard-container > svg{
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.prettyprint .clipboard-container.success{
+  border-color: #238636;
+  color: #238636;
+  display: block;
+  animation: fade-in 200ms both;
 }
 
 .prettyprint:not(.linenums){

@@ -12,7 +12,7 @@ Matrizes são normalmente escritas em colchetes ou parênteses:
 
 ![Notação de Matrizes](%PUBLIC_URL%/assets/images/002.svg)
 
-No entanto, até esse momento, o que nos interessa são apenas essas especificações ilustradas na imagem anterior. Porém, não iremos aprofundar muito na interpretação de álgebra de matrizes, pois não é o nosso principal foco no momento. Vamos focar apenas nas partes na qual nos facilitam na compreensão ao introduzir algoritmos para a nossa biblioteca de Matrizes em [JavaScript](./?page=archive&id=202110150947).
+No entanto, até esse momento, o que nos interessa são apenas essas especificações ilustradas na imagem anterior. Porém, não iremos aprofundar muito em denotações álgebra de matrizes, pois não é o nosso principal foco no momento. Vamos focar apenas nas partes na qual nos facilitam na compreensão ao introduzir algoritmos para a nossa biblioteca de Matrizes em [JavaScript](./?page=archive&id=202110150947).
 
 Temos que ter em mente os principais conceitos da matriz. Dois números \\(m\\) e \\(n\\), naturais e não nulos, chama-se de matriz \\(m \times n\\), toda tabela \\(A\\), formada por números reais distribuídos em \\(m\\) linhas e \\(n\\) colunas.
 
