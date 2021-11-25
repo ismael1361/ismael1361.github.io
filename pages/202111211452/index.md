@@ -65,19 +65,19 @@ Vejamos na prática:
 //conteúdo...
     parse(...props){
         //armazenando o primeiro atributo para a validação se caso for um vetor
-        let matriz = props[0];
+        this.data = props[0];
 
         //verificando se são dois atributos com ambos numéricos
         if(props.length === 2 && props.every(a => typeof a === "number")){
             //criando uma matriz vazia com linhas e colunas predefinidas
-            matriz = new Array(props[0]).fill(0).map(()=>new Array(props[1]).fill(0));
+            this.data = new Array(props[0]).fill(0).map(()=>new Array(props[1]).fill(0));
         //verificando se o valor é uma instância do objeto Matriz
         }else if(props[0] instanceof Matriz){
             //pegando os dados da matriz recebida
-            matriz = props[0].data;
+            this.data = props[0].data;
         }
 
-        if(Matriz.valido(matriz) !== true){
+        if(Matriz.valido(this.data) !== true){
             throw new Error("O parâmetro passado não é de natureza de matriz!");
         }
 
@@ -86,7 +86,7 @@ Vejamos na prática:
 //conteúdo...
 ```
 
-A primeira coisa que fizemos foi armazenar na variável `matriz` o primeiro atributo, para caso seja um vetor. Depois, fizemos a primeira verificação se caso esteja criando do zero uma nova matriz ou não, mas, se for o caso, criamos então uma nova matriz da seguinte forma: 
+A primeira coisa que fizemos foi armazenar na propriedade `data` o primeiro atributo, para caso seja um vetor. Depois, fizemos a primeira verificação se caso esteja criando do zero uma nova matriz ou não, mas, se for o caso, criamos então uma nova matriz da seguinte forma: 
 
 * Monte um vetor com `n` valores vazias que representaria as linhas;
 * Como esse vetor é um vetor vazio e que está aguardando receber algum valor, a preenche com qualquer valor para poder trabalhar com ela;
@@ -109,7 +109,7 @@ console.log(new Array(linhas).fill(0).map(()=>new Array(colunas).fill(0)));
 */
 ```
 
-Ainda no código anterior, o próximo passo foi verificar se caso o que foi recebido foi uma [instância do próprio objeto](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Working_with_Objects) Matriz, se for o caso, pegamos então os dados de sua matriz armazenada na propriedade data. Em seguida, validamos então se até o momento o que foi passado a variável `matriz` é realmente de natureza matriz, caso contrário, emitimos um erro.
+Ainda no código anterior, o próximo passo foi verificar se caso o que foi recebido foi uma [instância do próprio objeto](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Working_with_Objects) Matriz, se for o caso, pegamos então os dados de sua matriz armazenada na propriedade data. Em seguida, validamos então se até o momento o que foi passado a propriedade `data` é realmente de natureza matriz, caso contrário, emitimos um erro.
 
 Agora, vamos criar a [função estática](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Classes/static) de `valido` em nossa **Classe**. Pois iremos precisar, futuramente, de convocá-lo sem precisar de criar ou recriar uma instância da **Classe**:
 
@@ -169,28 +169,30 @@ Continuando com o código então, teríamos algo parecido como:
         //conteúdo...
 
         //para pegar o tamanho máximo de colunas
-        this.col = Math.max.apply(null, matriz.map(a => a.length));
+        this.col = Math.max.apply(null, this.data.map(a => a.length));
         //para pegar o tamanho total do vetor, representando a quantidade de linhas
-        this.row = matriz.length;
+        this.row = this.data.length;
 
-        //criando uma matriz vazia
-        this.data = new Array(this.row).fill(new Array()).map(()=>new Array(this.col).fill(0));
-
-        //rasterizando a matriz
-        //i -> identificação da linha
-        //j -> identificação da coluna
-        matriz.forEach((colunas, i) => {
-            //rasterizando as colunas da linha
-            colunas.forEach((valor, j)=>{
-                //pegando cada valor da linha e jogando para matriz vazia se caso o valor for numérico
-                this.data[i][j] = typeof valor === "number" ? valor : 0;
-            });
-        });
+        //verificar se existe alguma linha com colunas a menos, para evitar rasterização atoa
+        if(this.data.every(a => a.length === this.col) !== true){
+            //rasterizando a matriz para preencher células vazias ou inválidas
+            //i -> identificação da linha
+            //j -> identificação da coluna
+            for(let i=0; i<this.row; i++){
+                //rasterizando as colunas da linha
+                for(let j=0; j<this.col; j++){
+                    //pegando cada célula da linha e jogando para matriz vazia se caso a célula for numérico
+                    this.data[i][j] = typeof this.data[i][j] === "number" ? this.data[i][j] : 0;
+                }
+            }
+        }
     }
 //conteúdo...
 ```
 
-Até o momento, o código ficaria assim:
+Podemos dizer que a parte de preparação do ambiente de matriz está feito, uma vez que já estamos preparados e nos prevenindo de quaisquer falhas ou erros que provavelmente possam ocorrer ao utilizar a nossa **Classe**. Desta forma, já podemos prosseguir com os cálculos que uma matriz nos proporciona, como determinante, subtração, soma, divisão, multiplicação, etc...
+
+Até o momento, o código fica assim:
 
 ```js
 class Matriz{
@@ -199,28 +201,28 @@ class Matriz{
     }
 
     parse(...props){
-        let matriz = props[0];
+        this.data = props[0];
 
         if(props.length === 2 && props.every(a => typeof a === "number")){
-            matriz = new Array(props[0]).fill(0).map(()=>new Array(props[1]).fill(0));
+            this.data = new Array(props[0]).fill(0).map(()=>new Array(props[1]).fill(0));
         }else if(props[0] instanceof Matriz){
-            matriz = props[0].data;
+            this.data = props[0].data;
         }
 
-        if(Matriz.valido(matriz) !== true){
+        if(Matriz.valido(this.data) !== true){
             throw new Error("O parâmetro passado não é de natureza de matriz!");
         }
 
-        this.col = Math.max.apply(null, matriz.map(a => a.length));
-        this.row = matriz.length;
+        this.col = Math.max.apply(null, this.data.map(a => a.length));
+        this.row = this.data.length;
 
-        this.data = new Array(this.row).fill(new Array()).map(()=>new Array(this.col).fill(0));
-
-        matriz.forEach((colunas, i) => {
-            colunas.forEach((valor, j)=>{
-                this.data[i][j] = typeof valor === "number" ? valor : 0;
-            });
-        });
+        if(this.data.every(a => a.length === this.col) !== true){
+            for(let i=0; i<this.row; i++){
+                for(let j=0; j<this.col; j++){
+                    this.data[i][j] = typeof this.data[i][j] === "number" ? this.data[i][j] : 0;
+                }
+            }
+        }
     }
 
     static valido(matriz){
@@ -243,6 +245,12 @@ console.log(new Matriz([
 
 /*Console resultado:
     Matriz {col: 3, row: 2, data: Array(2)}
+*/
+
+console.log(new Matriz(3, 4));
+
+/*Console resultado:
+    Matriz {col: 4, row: 3, data: Array(3)}
 */
 ```
 

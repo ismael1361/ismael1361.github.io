@@ -376,7 +376,7 @@ form h3 {
     border-right-width: 0px;
     border-bottom-width: 1px;
   }
-  .main > .nav{
+  .main > .nav, .main > #content > .btn-page{
     display: none;
   }
   .main > #content > .capa *{
