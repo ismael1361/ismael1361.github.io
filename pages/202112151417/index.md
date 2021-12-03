@@ -16,6 +16,7 @@
 
 ####Referências e fontes:
 
+* ["Decoding A PNG Image with JavaScript Step by Step", vivaxyblog, 28 Nov 2021, Github.io](https://vivaxyblog.github.io/2019/11/07/decode-a-png-image-with-javascript.html)
 * ["Portable Network Graphics (PNG) Specification (Second Edition)", David Duce, Oxford Brookes University, 10 Nov 2003, W3C](https://www.w3.org/TR/2003/REC-PNG-20031110/)
 * ["Portable Network Graphics", 21 Nov 2021, Wikipedia](https://en.wikipedia.org/wiki/Portable_Network_Graphics)
 * ["PNG (Portable Network Graphics) Specification, Version 1.2", 21 Nov 2021, libpng.org](http://www.libpng.org/pub/png/spec/1.2/PNG-Contents.html)
