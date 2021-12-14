@@ -4,6 +4,10 @@
 
 *17 - Nov, 2021*
 
+Pense no seguinte, você está mexendo com mapeamento geográfico e pretende projetar em um ambiente esférico, mas, você não tem habilidades com WebGL para modelagem 3D e pretende trabalhar em um ambiente 2D dando um resultado ilusório 3D. Será que isso seria possível fazer? E a resposta é SIM, com ajuda de [cálculos matemáticos](https://en.wikipedia.org/wiki/List_of_map_projections) que lidam com mapeamento geográfico em um ambiente 2D, como a própria Google faz no [Maps](https://www.google.com/maps):
+
+![Orthographic map projection](%PUBLIC_URL%/assets/images/003.gif)
+
 <br/>
 <br/>
 <br/>

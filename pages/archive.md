@@ -11,6 +11,7 @@
 * [Projeção de mapa ortográfico](./?page=archive&id=202111170924)
 * [Matrizes - Introdução](./?page=archive&id=202111211452)
 * [Matrizes - Determinante](./?page=archive&id=202111242037)
+* [Matrizes - Transposta](./?page=archive&id=202111281430)
 
 ####Outubro de 2021
 
