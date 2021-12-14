@@ -140,12 +140,13 @@ Com tudo, podemos simplificar o código chegando nesse resultado para a nossa **
         	matriz = new Matriz([[]]);
         }
 
-        if((matriz.row * matriz.col) === 1){
+        if(matriz.row !== matriz.col){
+        	throw new Error("A matriz fornecida não é uma matriz quadrada, é necessária que o número de linhas seja igual ao número de colunas!");
+            return;
+        }else if((matriz.row * matriz.col) === 1){
             return matriz.data[0][0];
         }else if(matriz.row * matriz.col === 4){
             return (matriz.data[0][0] * matriz.data[1][1]) - (matriz.data[0][1] * matriz.data[1][0]);
-        }else if(matriz.row !== matriz.col){
-        	throw new Error("A matriz fornecida não é uma matriz quadrada, é necessária que o número de linhas seja igual ao número de colunas!");
         }
 
         return matriz.data[0].reduce((r, e, i) => {
