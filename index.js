@@ -91,7 +91,7 @@ window.readPage = function(url){
         mdConverter.setOption('tasklists', true);
         mdConverter.setOption('rawHeaderId', true);
         mdConverter.setOption('markdown', '1');
-        element.innerHTML = mdConverter.makeHtml(page);
+        element.innerHTML = "<div>"+mdConverter.makeHtml(page)+"</div>";
         
         element.querySelectorAll("p > img").forEach(p => {
             p.parentNode.style.textAlign = "center";
