@@ -24,3 +24,4 @@ Pense no seguinte, você está mexendo com mapeamento geográfico e pretende pro
 * ["Orthographic map projection", Wikipedia](https://en.wikipedia.org/wiki/Orthographic_map_projection)
 * ["Orthographic Projection", Manifold Software Limited - 01 Set 2017](https://manifold.net/doc/radian/orthographic_projection.htm)
 * ["Orthographic Projection", at kartoweb@itc.nl, 2021](https://kartoweb.itc.nl/geometrics/Map%20projections/body.htm)
+* ["How to convert latitude and longitude coordinates into pixel offsets", Dmitriy Suverov, 24 Abr 2020](https://medium.com/@suverov.dmitriy/how-to-convert-latitude-and-longitude-coordinates-into-pixel-offsets-8461093cb9f5)
