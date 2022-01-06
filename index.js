@@ -156,6 +156,19 @@ window.readPage = function(url){
         });
         prettyPrint({}, element);
         renderMathInElement(element);
+        if(params.has("page") && params.get("page") === "archive" && params.has("id")){
+            let links = document.querySelectorAll("a");
+            links.forEach((a)=>{
+                if(a.href !== window.location.href && (a.parentNode.classList.contains("btn-page-prev") || a.parentNode.classList.contains("btn-page-next")) !== true){
+                    a.setAttribute("target", "_blank");
+                }else if(a.href === window.location.href){
+                    a.addEventListener("click", function(e){
+                        e.preventDefault();
+                        return true;
+                    }, false);
+                }
+            });
+        }
     }).catch(()=>{
         no_page();
     });
