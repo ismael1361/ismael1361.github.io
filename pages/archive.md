@@ -1,5 +1,9 @@
 #Arquivo de Artigo
 
+####Janeiro de 2022
+
+* [Algoritmos para calcular as funções integradas](./?page=archive&id=202201061155)
+
 ####Dezembro de 2021
 
 * [Manipulando arquivo PNG - Portable Network Graphics](./?page=archive&id=202112151417)

@@ -52,6 +52,8 @@ function copyTextToClipboard(text) {
     });
 }
 
+let params = new URLSearchParams(window.location.search);
+
 function no_page(){
     const element = document.querySelector(".main > #content");
 
@@ -84,7 +86,8 @@ window.readPage = function(url){
         return (r.status !== 200) ? Promise.reject() : r.text();
     }).then((page)=>{
         var dirName = dirNameFromUrl(url);
-        page = page.replace(/%PUBLIC_URL%/gi, dirName)
+        page = page.replace(/%PUBLIC_URL%/gi, dirName);
+        page = page.replace(/%PAGE_ID%/gi, params.get("id"));
 
         var mdConverter = new showdown.Converter();
         mdConverter.setOption('tables', true);
@@ -159,8 +162,6 @@ window.readPage = function(url){
 };
 
 (function(){
-    let params = new URLSearchParams(window.location.search);
-
     let nav = document.querySelectorAll(".main > .nav li > a");
 
     nav.forEach((link)=>{
