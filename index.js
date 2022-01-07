@@ -157,7 +157,7 @@ window.readPage = function(url){
         prettyPrint({}, element);
         renderMathInElement(element);
         if(params.has("page") && params.get("page") === "archive" && params.has("id")){
-            let links = document.querySelectorAll("a");
+            let links = element.querySelectorAll("a");
             links.forEach((a)=>{
                 if(a.href !== window.location.href && (a.parentNode.classList.contains("btn-page-prev") || a.parentNode.classList.contains("btn-page-next")) !== true){
                     a.setAttribute("target", "_blank");
