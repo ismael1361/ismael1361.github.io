@@ -211,8 +211,8 @@ a:hover {
   line-height: 1.75;
   font-size: 19px;
 }
-.aside {
-  padding: 20px 0px 0px 0px;
+.aside{
+  padding: 15px 0px 0px 0px;
   text-align: center;
   background: #F0DB4F;
   color: #323330;
@@ -221,18 +221,31 @@ a:hover {
   justify-content: center;
   border: 0px solid rgba(0, 0, 0, .3);
   border-bottom-width: 1px;
+  background-image: url(./pages/assets/images/background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left;
+}
+.aside::before{
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent -55%, #F0DB4F 50%, transparent 155%);
+  z-index: 0;
 }
 #sidebar {
-  padding-bottom: 15px;
+  padding-bottom: 10px;
+  z-index: 1;
 }
 #sidebar p {
   font-weight: 700;
   margin: 0;
-  font-size: 11px;
-  margin-bottom: 5px;
+  font-size: 7px;
+  margin-bottom: 2px;
 }
 #sidebar a {
-  font-size: 31px;
+  font-size: 20px;
   color: #323330;
   text-decoration: none;
 }
@@ -336,11 +349,20 @@ form h3 {
   .aside {
     top: 0;
     left: 0;
+    padding: 20px 0px 0px 0px;
     position: fixed;
     width: 17em;
     height: 100%;
     border-right-width: 1px;
     border-bottom-width: 0px;
+  }
+  .aside::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 75%;
+    background: linear-gradient(transparent, #F0DB4F);
+    z-index: 0;
   }
   .nav{
     padding: 0px 10px 5px 10px;
@@ -348,9 +370,17 @@ form h3 {
   .main {
     margin-left: 17em;
   }
-  #sidebar {
+  #sidebar {  
+    padding-bottom: 15px;
     position: absolute;
     bottom: 30px;
+  }
+  #sidebar p {
+    font-size: 11px;
+    margin-bottom: 5px;
+  }
+  #sidebar a {
+    font-size: 31px;
   }
   .main > #content .capa{
     height: 300px;
@@ -398,6 +428,9 @@ form h3 {
     height: auto;
     border-right-width: 0px;
     border-bottom-width: 1px;
+  }
+  .aside::before{
+    display: none;
   }
   .main {
     display: block;
