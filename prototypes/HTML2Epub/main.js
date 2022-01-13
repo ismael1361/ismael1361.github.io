@@ -25,11 +25,12 @@ const loadPageUrl = function(url){
         let reader = new FileReader();
         reader.onload = function(){
             if(input.files[0].type === "multipart/related"){
-                dom = mhtml2html.convert(reader.result)?.window.document.body;
+                dom = mhtml2html.convert(reader.result)?.window.document.body.children;
             }else{
                 let parser = (function(){return new window.DOMParser()}());
-                dom = parser.parseFromString(reader.result, "text/html").body;
+                dom = parser.parseFromString(reader.result, "text/html").body.children;
             }
+            new EPub({title: "Auto", content: dom});
             console.log(dom);
         };
         reader.readAsText(input.files[0]);
