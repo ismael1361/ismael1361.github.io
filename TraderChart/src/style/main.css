@@ -1,0 +1,15 @@
+body{
+   margin: 0;
+   background-color: #ededed;
+}
+
+.grid-chart{
+   display: flex;
+   flex-direction: column;
+   padding: 15px;
+   box-sizing: border-box;
+}
+
+.grid-chart > div{
+   margin: 10px 0;
+}
