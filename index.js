@@ -159,7 +159,13 @@ window.readPage = function(url){
         if(params.has("page") && params.get("page") === "archive" && params.has("id")){
             let links = element.querySelectorAll("a");
             links.forEach((a)=>{
-                if(a.href !== window.location.href && (a.parentNode.classList.contains("btn-page-prev") || a.parentNode.classList.contains("btn-page-next")) !== true){
+                let purLink = (a)=>{
+                    a = a.split("#");
+                    if(a.length > 1){a.pop();}
+                    return a.join("#");
+                }
+
+                if(purLink(a.href) !== purLink(window.location.href) && (a.parentNode.classList.contains("btn-page-prev") || a.parentNode.classList.contains("btn-page-next")) !== true){
                     a.setAttribute("target", "_blank");
                 }else if(a.href === window.location.href){
                     a.addEventListener("click", function(e){
