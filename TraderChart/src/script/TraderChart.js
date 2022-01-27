@@ -18,11 +18,13 @@ class TraderChart extends React.Component {
         this.theme = {
             light: {
                 background: "#e0e0e0",
-                timeline_color: "#546e7a"
+                timeline_color: "#546e7a",
+                line_hover: "#1976d2"
             },
             dark: {
                 background: "#263238",
-                timeline_color: "#b0bec5"
+                timeline_color: "#b0bec5",
+                line_hover: "#1976d2"
             }
         }
 
@@ -141,6 +143,24 @@ class TraderChart extends React.Component {
                         this.observeResize();
                     }, 100);
                     return;
+                }
+
+                let RectAreaClip_event = element.querySelector("#RectAreaClip_"+this.id);
+
+                if(RectAreaClip_event.is_event !== true){
+                    element.addEventListener("mousemove", ({clientX, clientY, layerX, layerY, offsetX, offsetY, screenX, screenY, x, y})=>{
+                        let reg = RectAreaClip_event.getBoundingClientRect();
+
+                        x = clientX;
+                        y = clientY;
+
+                        if(x >= reg.left && y >= reg.top && x <= reg.bottom && y <= reg.right){
+                            this.mouseMoveRectAreaClip(x-reg.left, y-reg.top, x, y);
+                        }else{
+                            console.log(reg);
+                        }
+                    });
+                    RectAreaClip_event.is_event = true;
                 }
             }
             
@@ -543,6 +563,30 @@ class TraderChart extends React.Component {
         </g>
     }
 
+    mouseMoveRectAreaClip = (x, y, offX, offY)=>{
+        const element = this.divMain.current;
+
+        element.querySelector(".boxplot_gridlinesMouse_area > .boxplot_gridlinesMouse_area_path").setAttributeNS("", "d", this.getBasicSettingGridlinesMouse(offX, offY));
+    }
+
+    getBasicSettingGridlinesMouse = (x, y)=>{
+        const { width_area, height_area, start, end, maxValue, minValue, deficit_width, d_area, width_signal, dateStart, dateEnd } = this.getBasicSetting();
+
+        return `M 0,${y || 0} L${width_area},${y || 0} Z`;
+    }
+
+    getGridlinesMouse = ()=>{
+        if(this.data.isDataValid !== true){return null;}
+
+        const { path } = this.getBasicSettingGridlinesMouse();
+
+        const { line_hover } = this.getTheme();
+
+        return <g ref={this.svg_gridlines_area_ref} className="boxplot_gridlinesMouse_area">
+            <path className="boxplot_gridlinesMouse_area_path" d={path} stroke={line_hover} stroke-dasharray="0" stroke-linecap="butt" stroke-width="1" stroke-opacity="0.8"/>
+        </g>
+    }
+
     update_currencyLabel = ()=>{
         try{
             const { labels } = this.getBasicSettingGridlines();
@@ -802,9 +846,10 @@ class TraderChart extends React.Component {
                 <g clip-path={`url(#${"RectPanelClip_"+this.id})`}>
                     <rect x="0" y="0" width={boundingClientRect.width} height={boundingClientRect.height} fill={background} stroke="none"/>
 
-                    <g clip-path={`url(#${"RectAreaClip_"+this.id})`}>
+                    <g id={"RectAreaClip_event_"+this.id} clip-path={`url(#${"RectAreaClip_"+this.id})`}>
                         {this.getGridlinesArea()}
                         {this.getArea()}
+                        {this.getGridlinesMouse()}
                     </g>
                     <g ref={this.svg_currency_label_ref} className="boxplot_currency_label"></g>
                     {this.getTimeline()}
