@@ -1,71 +1,60 @@
-/*
-https://help.openstreetmap.org/questions/75611/transform-xy-pixel-values-into-lat-and-long
+//https://help.openstreetmap.org/questions/75611/transform-xy-pixel-values-into-lat-and-long
 
-def LatLontoXY(lat_center,lon_center,zoom):
-    C =(256/(2*pi) )* 2**zoom
+class Mercator{
+    constructor(mapWidth, mapHeight){
+        this.mapWidth = typeof mapWidth === "number" ? mapWidth : 256;
+        this.mapHeight = typeof mapHeight === "number" ? mapHeight : 256;
 
-    x=C*(Math.radians(lon_center)+pi)
-    y=C*(pi-Math.log( Math.tan(  (pi/4) + Math.radians(lat_center)/2    )  ))
+        this.TILE_SIZE = 256;
+        this._pixelOrigin = {x: (TILE_SIZE/2.0), y: (TILE_SIZE/2.0)};
+        this._pixelsPerLonDegree = TILE_SIZE / 360.0;
+        this._pixelsPerLonRadian = TILE_SIZE / (2 * Math.PI);
+    }
 
-    return x,y
+    static bound(val, valMin, valMax){
+        return Math.min(Math.max(val, valMin), valMax);
+    }
 
-def xy2LatLon(lat_center,lon_center,zoom,width_internal,height_internal,pxX_internal,pxY_internal):
+    static degreesToRadians(deg){
+        return deg * (Math.PI / 180);
+    }
 
-    xcenter,ycenter=LatLontoXY(lat_center,lon_center,zoom)
+    static radiansToDegrees(rad){
+        return rad / (Math.PI / 180);
+    }
 
-    xPoint=xcenter- (width_internal/2-pxX_internal)
-    ypoint=ycenter -(height_internal/2-pxY_internal)
+    fromLatLngToPoint(lat, lng){
+        var point = {x: 0, y: 0};
+        point.x = this._pixelOrigin.x + lng * this._pixelsPerLonDegree;
 
+        var siny = Mercator.bound(Math.sin(Mercator.degreesToRadians(lat)), -0.9999,0.9999);
 
-    C = (256 / (2 * pi)) * 2 ** zoom
-    M = (xPoint/C)-pi
-    N =-(ypoint/C) + pi
+        point.y = this._pixelOrigin.y + 0.5 * Math.log((1 + siny) / (1 - siny)) *- this._pixelsPerLonRadian;
 
-    lon_Point =Math.degrees(M)
-    lat_Point =Math.degrees( (Math.atan( Math.e**N)-(pi/4))*2 )
+        point.x = (point.x / this.TILE_SIZE) * this.mapWidth;
+        point.y = (point.y / this.TILE_SIZE) * this.mapHeight;
 
-    return lat_Point,lon_Point*/
+        return [point.x, point.y];
+    }
 
-Math.radians = function(degrees) {
-	return degrees * Math.PI / 180;
+    fromPointToLatLng(x, y){
+        x = ((x % this.mapWidth) / this.mapWidth) * this.TILE_SIZE;
+        y = ((y % this.mapHeight) / this.mapHeight) * this.TILE_SIZE;
+
+        var lng = (x - this._pixelOrigin.x) / this._pixelsPerLonDegree;
+
+        var latRadians = (y - this._pixelOrigin.y) / - this._pixelsPerLonRadian;
+
+        var lat = Mercator.radiansToDegrees(2 * Math.atan(Math.exp(latRadians)) - Math.PI / 2);
+
+        return [lat, lng];
+    }
 }
 
-Math.degrees = function(radians) {
-	return radians * 180 / Math.PI;
-}
+var m = new Mercator();
 
-var LatLontoXY = (lat_center, lon_center, zoom)=>{
-    zoom = typeof zoom !== "number" ? 0 : zoom;
-    let C = (256/(2*Math.pi))* 2**zoom;
-
-    let x = C*(Math.radians(lon_center)+Math.pi);
-    let y = C*(Math.pi-Math.log(Math.tan((Math.pi/4) + Math.radians(lat_center)/2)));
-
-    return [x, y];
-}
-
-var xy2LatLon = (pxX_internal, pxY_internal, width_internal, height_internal, zoom, lat_center, lon_center)=>{
-    zoom = typeof zoom !== "number" ? 0 : zoom;
-    lat_center = typeof lat_center !== "number" ? 0 : lat_center;
-    lon_center = typeof lon_center !== "number" ? 0 : lon_center;
-
-    let [xcenter, ycenter] = LatLontoXY(lat_center, lon_center, zoom);
-
-    let xPoint = xcenter - (width_internal/2-pxX_internal),
-        ypoint = ycenter - (height_internal/2-pxY_internal);
-
-    let C = (256 / (2 * Math.pi)) * 2 ** zoom,
-        M = (xPoint/C)-Math.pi,
-        N = -(ypoint/C) + Math.pi;
-
-    let lon_Point = Math.degrees(M);
-    let lat_Point = Math.degrees( (Math.atan( Math.e**N)-(Math.pi/4))*2 );
-
-    return [lat_Point, lon_Point];
-}
-
-var [x, y] = LatLontoXY(41.145556, -73.995);
+var [x, y] = m.fromLatLngToPoint(41.145556, -73.995);
 console.log(x, y);
 
-var [lat, lon] = xy2LatLon();
+var [lat, lon] = m.fromPointToLatLng();
 console.log(lat, lon);

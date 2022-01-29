@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="./Mercator.js"></script>
+    <script src="./RandomRender.js"></script>
+
+    <style>
+        *{
+            user-select: none;
+        }
+
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #e0e0e0;
+            width: 100%;
+            min-height: 100vh;
+            padding: 25px 0px;
+            margin: 0px;
+        }
+
+        canvas{
+            border: solid 1px #212121;
+            background: #fff;
+            margin-bottom: 15px;
+        }
+
+        p, h4{
+            color: #212121;
+            margin: 5px 0px;
+            width: 80%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="user-select: none;">
+    <canvas id="main-canvas"></canvas>
+
+    <p id="fps"></p>
+    <p id="resolution-value"></p>
+    
+    <script>
+        var latitude = -19.831367,
+            longitude = -43.944710;
+
+        var can = document.getElementById("main-canvas"),
+            ctx = can.getContext("2d");
+
+        can.width = 400;
+        can.height = 400;
+
+        var image_data = ctx.getImageData(0, 0, can.width, can.height);
+
+        var _mercator, move_lat = 0, move_lon = 0;
+
+        var c = new Mercator();
+        c.mapWidth = can.width;
+        c.mapHeight = can.height;
+
+        var render = new RandomRender(can.width, can.height);
+
+        render.onPixel = function(x, y, i){
+            var [lat, lon] = c.fromPointToLatLng(x, y);
+            var [r, g, b, a] = _mercator.getPicker(lat + move_lat, lon + move_lon);
+
+            image_data.data[i + 0] = r;
+            image_data.data[i + 1] = g;
+            image_data.data[i + 2] = b;
+            image_data.data[i + 3] = a;
+        }
+
+        render.onRender = function(fps){
+            ctx.putImageData(image_data, 0, 0);
+
+            document.getElementById("fps").innerHTML = "FPS: "+Math.round(fps)+"/sec";
+            
+            document.getElementById("resolution-value").innerHTML = "Resolution: "+(100*render.resolution).toFixed(1)+"%";
+        }
+
+        var isMove = false, prev_x;
+
+        can.addEventListener("mousedown", function(e){
+            isMove = true;
+            prev_x = e.x || e.offsetX;
+        });
+
+        document.addEventListener("mouseup", function(e){
+            isMove = false;
+        });
+
+        can.addEventListener("mousemove", function(e){
+            if(!isMove){return;}
+
+            var delt_x = (e.x || e.offsetX) - prev_x;
+
+            move_lon -= delt_x;
+            move_lon = move_lon%(180*2);
+
+            prev_x = (e.x || e.offsetX);
+        });
+
+        new Mercator("./map-mercator.jpg", (m)=>{
+            var [x, y] = m.fromLatLngToPoint(latitude, longitude);
+            console.log(x, y);
+
+            var [lat, lon] = m.fromPointToLatLng(x, y);
+            console.log(lat, lon);
+
+            var picker = m.getPicker(latitude, longitude);
+            console.log(picker);
+
+            _mercator = m;
+
+            render.init();
+        });
+    </script>
+</body>
+</html>
