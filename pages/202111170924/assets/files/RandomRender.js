@@ -1,5 +1,5 @@
 class RandomRender{
-    constructor(width, height, resolution){
+    constructor(width, height){
         this.width = 256;
         this.height = 256;
 
@@ -9,6 +9,7 @@ class RandomRender{
 
         this._lastCalledTime = Date.now();
         this.fps = 0;
+
         this.averageFps = 20;
 
         this.resolution = 0.4;
@@ -16,17 +17,15 @@ class RandomRender{
         this.onPixel = function(){return;};
         this.onRender = function(){return;};
 
-        this.update_resolution(resolution);
-
         //this.init();
     }
 
     update_fps(){
-        let delta = (Date.now() - this.lastCalledTime)/1000;
-        this.lastCalledTime = Date.now();
+        let time = Date.now();
+        let delta = (time - this.lastCalledTime)/1000;
         this.fps = 1/delta;
 
-        let _resolution = this.resolution * 0.05;
+        let _resolution = (this.resolution * 0.05);
 
         if(this.fps > this.averageFps){
             this.resolution += _resolution;
@@ -35,6 +34,8 @@ class RandomRender{
         }
 
         this.update_resolution(this.resolution);
+
+        this.lastCalledTime = Date.now();
 
         return this.fps;
     }

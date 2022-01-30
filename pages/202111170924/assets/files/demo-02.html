@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,35 +39,94 @@
         }
     </style>
 </head>
-<body style="user-select: none;">
+<body>
     <canvas id="main-canvas"></canvas>
 
     <p id="fps"></p>
     <p id="resolution-value"></p>
-    
+
     <script>
         var latitude = -19.831367,
             longitude = -43.944710;
 
+        latitude = 0;
+        longitude = 0;
+
         var can = document.getElementById("main-canvas"),
             ctx = can.getContext("2d");
 
-        can.width = 400;
-        can.height = 400;
+        can.width = 500;
+        can.height = 500;
 
         var image_data = ctx.getImageData(0, 0, can.width, can.height);
 
-        var _mercator, move_lat = 0, move_lon = 0;
+        var dist = (x1, y1, x2, y2) => Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
 
-        var c = new Mercator();
-        c.mapWidth = can.width;
-        c.mapHeight = can.height;
+        var raio = dist(can.width/2, 0, can.width/2, can.height/2);
+
+        function updateSize(){
+            var size = Math.round(Math.min(window.innerWidth*0.8, window.innerHeight*0.8));
+
+            if(size === can.width){return;}
+
+            can.width = size;
+            can.height = size;
+            raio = dist(can.width/2, 0, can.width/2, can.height/2);
+
+            image_data = ctx.getImageData(0, 0, can.width, can.height);
+        }
+
+        function getPos(lat, lon, lat_0, lon_0, R){
+            let x, y;
+            x = R * Math.cos(lat) * Math.sin(lon - lon_0);
+            y = R * (((Math.cos(lat_0) * Math.sin(lat)) - (Math.sin(lat_0) * Math.cos(lat))) * Math.cos(lon - lon_0));
+            return [x, y];
+        }
+
+        function normalizePos(lat, lon){
+            lat = lat < -90 ? 90 + (lat % 90) : lat > 90 ? -90 + (lat % 90) : lat;
+            lon = lon < -180 ? 180 + (lon % 180) : lon > 180 ? -180 + (lon % 180) : lon;
+            return [lat, lon];
+        }
+
+        function getProjection(x, y, lat_0, lon_0, R){
+            let lat, lon;
+
+            [lat_0, lon_0] = normalizePos(lat_0, lon_0);
+
+            let p = Math.sqrt(x**2 + y**2);
+            let c = Math.asin(p/R);
+
+            lat = Math.asin(Math.cos(c) * Math.sin(lat_0) + ((y * Math.sin(c) * Math.cos(lat_0))/p));
+
+            lon = lon_0 + Math.atan((x*Math.sin(c))/(p * Math.cos(c) * Math.cos(lat_0) - y * Math.sin(c) * Math.sin(lat_0)));
+
+            return [lat, lon];
+        }
+
+        var _mercator;
+
+        let move_lat = 0, move_lon = 0;
 
         var render = new RandomRender(can.width, can.height);
 
+        render.averageFps = 15;
+
         render.onPixel = function(x, y, i){
-            var [lat, lon] = c.fromPointToLatLng(x, y);
-            var [r, g, b, a] = _mercator.getPicker(lat + move_lat, lon + move_lon);
+            var lat, lon;
+
+            lat = latitude+(move_lat/raio);
+            lon = longitude+(move_lon/raio);
+
+            [lat, lon] = getProjection(x - (can.width/2), y - (can.height/2), lat, lon, raio);
+            if(!lat || !lon){
+                return;
+            }
+
+            //[lat, lon_] = normalizePos((lat*60)-180, lon*50);
+
+            var [r, g, b, a] = _mercator.getPicker((lat*60)-180, lon*50);
+            var i = (Math.floor(y) * can.width + Math.floor(x)) * 4;
 
             image_data.data[i + 0] = r;
             image_data.data[i + 1] = g;
@@ -78,16 +137,22 @@
         render.onRender = function(fps){
             ctx.putImageData(image_data, 0, 0);
 
+            updateSize();
+
+            render.width = can.width;
+            render.height = can.height;
+
             document.getElementById("fps").innerHTML = "FPS: "+Math.round(fps)+"/sec";
             
             document.getElementById("resolution-value").innerHTML = "Resolution: "+(100*render.resolution).toFixed(1)+"%";
         }
 
-        var isMove = false, prev_x;
+        var isMove = false, prev_x, prev_y;
 
         function handleStart(x, y){
             isMove = true;
             prev_x = x;
+            prev_y = y;
         }
 
         function handleEnd(){
@@ -98,11 +163,18 @@
             if(!isMove){return;}
 
             var delt_x = x - prev_x;
+            var delt_y = y - prev_y;
+
+            var ver = (move_lat - delt_y)/raio;
+
+            if(ver < 1 && ver > -1){
+                move_lat -= delt_y;
+            }
 
             move_lon -= delt_x;
-            move_lon = move_lon%(180*2);
 
             prev_x = x;
+            prev_y = y;
         }
 
         can.addEventListener("touchstart", function(e){
@@ -134,17 +206,7 @@
         });
 
         new Mercator("./map-mercator.jpg", (m)=>{
-            var [x, y] = m.fromLatLngToPoint(latitude, longitude);
-            console.log(x, y);
-
-            var [lat, lon] = m.fromPointToLatLng(x, y);
-            console.log(lat, lon);
-
-            var picker = m.getPicker(latitude, longitude);
-            console.log(picker);
-
             _mercator = m;
-
             render.init();
         });
     </script>
