@@ -1,70 +1,119 @@
 (()=>{
-    categories.forEach(category => {
-        let title = document.createElement("h1");
-        title.appendChild(document.createTextNode(category));
-        document.body.appendChild(title);
+    const update = ()=>{
+        const root = document.getElementById("root");
+        root.innerHTML = "";
 
-        let p = document.createElement("p");
-        p.style["font-size"] = "3.5em";
+        categories.forEach(category => {
+            let title = document.createElement("h1");
+            title.appendChild(document.createTextNode(category));
+            root.appendChild(title);
 
-        summary(category).forEach(v => {
-            p.innerHTML += " " + v.html;
+            let p = document.createElement("p");
+            p.style["font-size"] = "3.5em";
+
+            summary(category).forEach(v => {
+                p.innerHTML += " " + v.html;
+            });
+
+            root.appendChild(p);
+        });
+    }
+
+    update();
+
+    fetch("./emoji-list.txt").then(t => t.text()).then(text => {
+        let blocks = text.split(/\r\n\r\n/).map(v => v.replace(/(\s+){1,}[\;\#](\s+)/g, " | ").split(/\r\n/));
+        let category = "";
+        let categories = [];
+        let emojis = [];
+
+        const getFormatEmoji = (c, s, e)=>{
+            e = e.split(" | ");
+            if(["fully-qualified"].includes(e[1]) !== true){return;}
+
+            let details = e.pop().split(" "), emoji, version, description, skin, code;
+
+            code = "U+" + e[0].split(" ").join(" U+");
+            html = "&#" + e[0].split(" ").map(h => parseInt(h, 16)).join(";&#") + ";";
+            emoji = details.shift();
+            version = details.shift();
+            description = details.join(" ");
+
+            skin = description.indexOf(": ") > 1 ? description.split(": ")[0] : null;
+
+            if(skin && description.split(": ")[1].indexOf(", ") > 1){
+                skin += ": "+description.split(": ")[1].split(", ")[0];
+            }
+
+            let result = {
+                code, html,
+                emoji, version, description,
+                subgroup: s, category: c
+            }
+
+            if(skin){ result.skin = skin; }
+            
+            return result;
+        }
+
+        blocks.forEach((block)=>{
+            if(block.length === 1 && block[0].indexOf("# group: ") === 0){
+                category = block[0].replace(/^\#\sgroup\:(\s+)?/gi, "");
+                categories.push(category);
+                emojis.push({
+                    category: category,
+                    subgroups: [],
+                    emojis: []
+                });
+            }else if(block[0].indexOf("# subgroup: ") === 0){
+                let categoryIndex = emojis.length-1;
+                let subgroup = block[0].replace(/^\#\ssubgroup\:(\s+)?/gi, "");
+                emojis[categoryIndex].subgroups.push(subgroup);
+
+                block.forEach((e, i)=>{
+                    if(i < 1){return;}
+                    let emoji = getFormatEmoji(category, subgroup, e);
+
+                    if(!emoji){return;}
+
+                    if(emoji.skin){
+                        let indexSkins = emojis[categoryIndex].emojis.findIndex(e => e.description == emoji.skin);
+
+                        if(indexSkins < 0){
+                            indexSkins = emojis[categoryIndex].emojis.findIndex(e => {
+                                let t = Array.isArray(e.skins) ? e.skins.findIndex(e => e.description == emoji.skin) : -1;
+                                return t >= 0;
+                            });
+
+                            if(indexSkins >= 0){
+
+                            let skins = emojis[categoryIndex].emojis[indexSkins].skins || null;
+
+                            if(!Array.isArray(skins)){emojis[categoryIndex].emojis[indexSkins].skins = [];}
+                                emojis[categoryIndex].emojis[indexSkins].skins.push(emoji);
+                            }
+
+                        }
+                        
+                        if(indexSkins >= 0){
+                            let skins = emojis[categoryIndex].emojis[indexSkins].skins || null;
+
+                            if(!Array.isArray(skins)){emojis[categoryIndex].emojis[indexSkins].skins = [];}
+                            emojis[categoryIndex].emojis[indexSkins].skins.push(emoji);
+                            return;
+                        }
+                    }
+
+                    emojis[categoryIndex].emojis.push(emoji);
+                });
+            }
         });
 
-        document.body.appendChild(p);
-    });
+        emojis = emojis.filter((a) => a.emojis.length > 0);
+
+        console.log(JSON.stringify(emojis));
+
+        /*emoji = emojis;
+        update();*/
+    }).catch(console.error);
 })();
-
-var getSkin = async (name, callback)=>{
-    let t = await fetch("https://emojipedia.org/"+name).then(t => t.text()).catch(console.error);
-
-    let title = t.match(/name\: ([\'\"])(.*?)\1/)[2].split(":")[0];
-
-    callback = typeof callback === "function" ? callback : ()=>{return;};
-    
-    const createElementFromHTML = (htmlString)=>{
-        var div = document.createElement('div');
-        div.innerHTML = htmlString.trim();
-        return div.firstChild;
-    }
-    
-    let r = [];
-    
-    t = t.replace(/<\/?(ul)\/?>?/gi, "<<UL>>").split("<<UL>>").filter(e => e.indexOf(" class=\"emoji-list\">") == 0 && e.indexOf(title+":") >= 0).map(m => "<ul" + m + "</ul>").join("");
-    t = createElementFromHTML(t);
-
-    if(!t){return callback([]);}
-    
-    let list = t.querySelectorAll("li > a");
-    for(let i=0; i<list.length; i++){
-        let text = list[i].textContent;
-        if(text.indexOf(title+":") < 0){continue;}
-        r.push(text);
-    }
-    
-    return callback(r);
-}
-
-String.prototype.toUnicode = function(){
-    var hex, i;
-    var result = [];
-    for (i=0; i<this.length; i++) {
-        hex = this.charCodeAt(i).toString(18);
-        result.push("U+"+hex);
-    }
-
-    return result.join(" ");
-};
-
-[...document.querySelectorAll(".content > .emoji-list > li")].map(i => {
-    let text = i.textContent.split(" ");
-    let emoji = text.shift();
-    let hex = emoji.codePointAt(0).toString(16)
-    
-    return {
-        name: i.querySelector("a").href.replace(/(\/+)$/gi, "").split("/").pop(), 
-        code: "U+"+hex,
-        emoji: emoji,
-        description: text.join(" ").toUpperCase()
-    }
-});
