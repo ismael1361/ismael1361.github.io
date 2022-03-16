@@ -23,7 +23,7 @@
     update();
 
     fetch("./emoji-list.txt").then(t => t.text()).then(text => {
-        let blocks = text.split(/\r\n\r\n/).map(v => v.replace(/(\s+){1,}[\;\#](\s+)/g, " | ").split(/\r\n/));
+        let blocks = text.split(/\r?\n\r?\n/).map(v => v.replace(/(\s+){1,}[\;\#](\s+)/g, " | ").split(/\r?\n/));
         let category = "";
         let categories = [];
         let emojis = [];
@@ -43,12 +43,11 @@
             skin = description.indexOf(": ") > 1 ? description.split(": ")[0] : null;
 
             if(skin && description.split(": ")[1].indexOf(", ") > 1){
-                skin += ": "+description.split(": ")[1].split(", ")[0];
+                //skin += ": "+description.split(": ")[1].split(", ")[0];
             }
 
             let result = {
-                code, html,
-                emoji, version, description,
+                emoji, description, code, html, version,
                 subgroup: s, category: c
             }
 
@@ -114,7 +113,7 @@
 
         console.log(JSON.stringify(emojis));
 
-        /*emoji = emojis;
-        update();*/
+        //emoji = emojis;
+        //update();
     }).catch(console.error);
 })();
