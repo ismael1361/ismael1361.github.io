@@ -6,10 +6,11 @@
         categories.forEach(category => {
             let title = document.createElement("h1");
             title.appendChild(document.createTextNode(category));
+            title.style["font-size"] = "30px";
             root.appendChild(title);
 
             let p = document.createElement("p");
-            p.style["font-size"] = "3.5em";
+            p.style["font-size"] = "30px";
 
             summary(category).forEach(v => {
                 p.innerHTML += " " + v.html;
