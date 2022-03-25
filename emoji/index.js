@@ -117,3 +117,7 @@
         //update();
     }).catch(console.error);
 })();
+
+//document.body.innerHTML = document.body.innerHTML.replace(/(\u{1F636}\u{200D}\u{1F32B}\u{FE0F})/ug, '<span>$&</span>');
+//"U+0037 U+FE0F U+20E3".replace(/U\+/gi, "").split(" ").join("-").toLocaleLowerCase()
+//https://github.com/twitter/twemoji
