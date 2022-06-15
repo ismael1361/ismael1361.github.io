@@ -34459,5 +34459,5 @@ const categories = emoji
 const summary = (category) =>
   Array.prototype.concat.apply(
     [],
-    emoji.filter((a) => a.category === category).map((r) => r.emojis)
+    emoji.filter((a) => typeof category === "string" ? a.category === category : Array.isArray(category) && category.every(e => typeof e === "string") ? category.includes(a.category) : false).map((r) => r.emojis)
   );
